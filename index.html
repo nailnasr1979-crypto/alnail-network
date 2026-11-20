@@ -463,6 +463,25 @@ if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('cont
 }
 function resetItem(){$('itemId').value='';$('itemCode').value='';$('itemName').value='';$('itemCost').value='';$('itemPrice').value='';$('itemStock').value=0;$('itemStock').disabled=false}
 $('resetItem').onclick=resetItem;
+$('saveItem').onclick=()=>{
+ const id=$('itemId').value,code=$('itemCode').value.trim(),name=$('itemName').value.trim();
+ const cost=Number($('itemCost').value),price=Number($('itemPrice').value),qty=Number($('itemStock').value)||0;
+ if(!code||!name){alert('أدخل كود الصنف واسم الصنف');return}
+ if($('itemCost').value===''||$('itemPrice').value===''||!Number.isFinite(cost)||!Number.isFinite(price)||cost<0||price<0){alert('أدخل التكلفة وسعر البيع بشكل صحيح');return}
+ if(!Number.isFinite(qty)||qty<0){alert('أدخل كمية صحيحة');return}
+ const duplicate=db.items.find(v=>v.code===code&&v.id!==id);
+ if(duplicate){alert('كود الصنف مستخدم لصنف آخر، أدخل كودًا مختلفًا');return}
+ if(id){
+  const item=db.items.find(v=>v.id===id);if(!item){alert('لم يتم العثور على الصنف');return}
+  item.code=code;item.name=name;item.cost=cost;item.price=price;
+  if(qty>0){const before=Number(item.stock)||0;item.stock=before+qty;db.stockMovements.unshift({id:'ST'+Date.now(),itemId:item.id,itemName:item.name,itemCode:item.code,qty,before,after:item.stock,date:today(),note:'كمية مضافة أثناء تعديل الصنف',createdAt:new Date().toISOString()})}
+ }else{
+  const item={id:'IT'+Date.now(),code,name,cost,price,stock:qty};
+  db.items.push(item);
+  if(qty>0)db.stockMovements.unshift({id:'ST'+Date.now(),itemId:item.id,itemName:name,itemCode:code,qty,before:0,after:qty,date:today(),note:'رصيد افتتاحي عند إضافة الصنف',createdAt:new Date().toISOString()});
+ }
+ saveDB();resetItem();alert(id?'تم تحديث الصنف بنجاح':'تمت إضافة الصنف بنجاح');
+};
 function viewItem(id){
  const x=db.items.find(v=>v.id===id);if(!x)return;
  const sold=db.invoices.reduce((a,inv)=>a+(inv.rows||[]).filter(r=>r.itemId===x.id).reduce((b,r)=>b+(+r.qty||0),0),0);
