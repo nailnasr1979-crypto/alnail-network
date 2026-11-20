@@ -199,6 +199,7 @@ th{background:#e7f4f2;color:#155b58}td,th{border-bottom-color:#e5edef}.tablewrap
 </div>
 <div class="panel recentPanel" style="margin-top:14px"><h2>آخر الفواتير وحالة التحصيل</h2><p class="muted" style="margin-top:-5px">يمكنك معاينة تفاصيل أي فاتورة أو حذفها مباشرة من هنا.</p><div id="recent"></div></div>
 <div id="homeInvoiceModal" class="modalShade" style="display:none" onclick="if(event.target===this)closeHomeInvoice()"><div class="modalBox"><div class="modalTop"><h2 style="margin:0">تفاصيل الفاتورة</h2><button class="btn secondary small" onclick="closeHomeInvoice()">إغلاق ✕</button></div><div id="homeInvoiceDetails"></div></div></div>
+<div id="grocerViewModal" class="modalShade" style="display:none" onclick="if(event.target===this)closeGrocerView()"><div class="modalBox"><div class="modalTop"><h2 style="margin:0">تفاصيل البقالة</h2><button class="btn secondary small" onclick="closeGrocerView()">إغلاق ✕</button></div><div id="grocerViewDetails"></div></div></div>
 <div id="itemViewModal" class="modalShade" style="display:none" onclick="if(event.target===this)closeItemView()"><div class="modalBox"><div class="modalTop"><h2 style="margin:0">تفاصيل الصنف</h2><button class="btn secondary small" onclick="closeItemView()">إغلاق ✕</button></div><div id="itemViewDetails"></div></div></div>
 <div class="panel"><h2>معلومة محاسبية</h2><p class="muted">الربح المحقّق هنا مؤشر على أساس التحصيل، وليس الربح المحاسبي على أساس الاستحقاق. التحصيل المقدم غير الموزع لا يُحسب مبيعات أو أرباحاً. بياناتك محفوظة داخل المتصفح؛ احفظ نسخة احتياطية دورياً.</p></div>
 </section>
@@ -247,7 +248,7 @@ th{background:#e7f4f2;color:#155b58}td,th{border-bottom-color:#e5edef}.tablewrap
 <div class="field"><label>سعر التكلفة</label><input id="itemCost" type="number" min="0"></div>
 <div class="field"><label>سعر البيع</label><input id="itemPrice" type="number" min="0"></div>
 <div class="field"><label>كمية لإضافتها للمخزون</label><input id="itemStock" type="number" min="0" step="any" value="0"></div>
-</div><div class="actions"><button class="btn green" id="saveItem">حفظ الصنف</button><button class="btn secondary" id="resetItem">تفريغ</button></div></div>
+</div><div class="actions"><button type="button" class="btn green" id="saveItem" onclick="saveItemRecord()">حفظ الصنف</button><button class="btn secondary" id="resetItem">تفريغ</button></div></div>
 <div class="panel">
 <h2>إضافة كمية إلى المخزون الموجود</h2>
 <div class="notice">هذه الحركة تزيد الكمية فوق الرصيد الحالي ولا تستبدله. مثال: إذا كان رصيد الصنف 20 وأضفت 10 يصبح الرصيد 30.</div>
@@ -392,7 +393,7 @@ saveDB();alert(old?'تم تحديث الفاتورة والمخزون وإعاد
 };
 function editInvoice(id){let x=db.invoices.find(v=>v.id===id);if(!x)return;editingId=id;go('invoice');$('invoiceTitle').textContent='تعديل الفاتورة رقم '+x.no;$('invNo').value=x.no;$('invDate').value=x.date;$('invCustomer').value=x.customer;$('invPay').value=x.pay;$('invRateMode').value=x.rateMode||'auto';$('invCustomRate').value=x.ratePercent??0;$('customRateWrap').style.display=$('invRateMode').value==='custom'?'block':'none';$('invDiscount').value=x.discount;$('invNotes').value=x.notes||'';$('lines').innerHTML='';x.rows.forEach(addLine);$('supportLines').innerHTML='';(x.supportRows||[]).forEach(addSupportLine);$('cancelEdit').classList.remove('hidden');calcInvoice()}
 function deleteInvoice(id){let x=db.invoices.find(v=>v.id===id);if(!x||!confirm('هل تريد حذف الفاتورة '+x.no+'؟'))return;db.changes.push({date:new Date().toLocaleString('ar'),no:x.no,oldTotal:x.total,newTotal:0,description:'حذف الفاتورة'});if(x.stockApplied){x.rows.forEach(r=>{let it=db.items.find(i=>i.id===r.itemId);if(it)it.stock=(+it.stock||0)+(+r.qty||0)});(x.supportRows||[]).forEach(r=>{let it=db.items.find(i=>i.id===r.itemId);if(it)it.stock=(+it.stock||0)+(+r.qty||0)})}db.invoices=db.invoices.filter(v=>v.id!==id);saveDB()}
-function renderInvoices(){let q=($('searchInvoice').value||'').toLowerCase();let arr=db.invoices.filter(x=>x.no.toLowerCase().includes(q)||(x.customer||'').toLowerCase().includes(q));$('invoiceList').innerHTML=arr.length?`<div class="tablewrap"><table><thead><tr><th>رقم</th><th>التاريخ</th><th>العميل</th><th>الأصناف</th><th>الدفع</th><th>الإجمالي</th><th>حالة الحساب</th><th>إجراءات</th></tr></thead><tbody>${arr.map(x=>`<tr><td>${esc(x.no)}</td><td>${esc(x.date)}</td><td>${esc(x.customer)}</td><td>${x.rows.length} بيع + ${(x.supportRows||[]).length} دعم</td><td>${x.pay==='cash'?'نقدي':'آجل'}</td><td>${money(x.total)}</td><td>${x.pay==='credit'?(()=>{let l=customerLedger(x.customer||'').invoices.find(z=>z.invoice.id===x.id);return l?(l.due<=0.001?'<span class="status">مسددة</span>':l.paid>0?'<span class="status partial">مسدد جزئياً</span>':'<span class="status due">آجل / مستحق</span>'):'<span class="status due">آجل</span>'})():'<span class="status">نقدي</span>'}</td><td><button class="btn green small" title="عرض تفاصيل الفاتورة دون تعديل" onclick="viewHomeInvoice('${x.id}')">عرض</button> <button class="btn secondary small" onclick="editInvoice('${x.id}')">تعديل</button> <button class="btn secondary small" onclick="printInvoice('${x.id}')">طباعة</button> <button class="btn red small" onclick="deleteInvoice('${x.id}')">حذف</button></td></tr>`).join('')}</tbody></table></div>`:'<div class="empty">لا توجد فواتير حتى الآن</div>'}
+function renderInvoices(){let q=($('searchInvoice').value||'').toLowerCase();let arr=db.invoices.filter(x=>x.no.toLowerCase().includes(q)||(x.customer||'').toLowerCase().includes(q));$('invoiceList').innerHTML=arr.length?`<div class="tablewrap"><table><thead><tr><th>رقم</th><th>التاريخ</th><th>العميل</th><th>الأصناف</th><th>الدفع</th><th>الإجمالي</th><th>حالة الحساب</th><th>إجراءات</th></tr></thead><tbody>${arr.map(x=>`<tr><td>${esc(x.no)}</td><td>${esc(x.date)}</td><td>${esc(x.customer)}</td><td>${x.rows.length} بيع + ${(x.supportRows||[]).length} دعم</td><td>${x.pay==='cash'?'نقدي':'آجل'}</td><td>${money(x.total)}</td><td>${x.pay==='credit'?(()=>{let l=customerLedger(x.customer||'').invoices.find(z=>z.invoice.id===x.id);return l?(l.due<=0.001?'<span class="status">مسددة</span>':l.paid>0?'<span class="status partial">مسدد جزئياً</span>':'<span class="status due">آجل / مستحق</span>'):'<span class="status due">آجل</span>'})():'<span class="status">نقدي</span>'}</td><td><div style="display:flex;gap:5px;flex-wrap:wrap"><button class="btn green small" title="عرض تفاصيل الفاتورة دون تعديل" onclick="viewHomeInvoice('${x.id}')">عرض</button><button class="btn secondary small" onclick="editInvoice('${x.id}')">تعديل</button><button class="btn secondary small" onclick="printInvoice('${x.id}')">طباعة</button><button class="btn red small" onclick="deleteInvoice('${x.id}')">حذف</button></div></td></tr>`).join('')}</tbody></table></div>`:'<div class="empty">لا توجد فواتير حتى الآن</div>'}
 $('searchInvoice').oninput=renderInvoices;
 function printInvoice(id){
  let x=db.invoices.find(v=>v.id===id);if(!x)return;
@@ -458,12 +459,17 @@ function showPwaUpdate(registration) {
 }
 if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('controllerchange',()=>location.reload());
 <\/script>
+
+
+
 </body></html>`);
  w.document.close()
 }
 function resetItem(){$('itemId').value='';$('itemCode').value='';$('itemName').value='';$('itemCost').value='';$('itemPrice').value='';$('itemStock').value=0;$('itemStock').disabled=false}
 $('resetItem').onclick=resetItem;
-$('saveItem').onclick=()=>{
+function saveItemRecord(){
+ try{
+
  const id=$('itemId').value,code=$('itemCode').value.trim(),name=$('itemName').value.trim();
  const cost=Number($('itemCost').value),price=Number($('itemPrice').value),qty=Number($('itemStock').value)||0;
  if(!code||!name){alert('أدخل كود الصنف واسم الصنف');return}
@@ -481,7 +487,11 @@ $('saveItem').onclick=()=>{
   if(qty>0)db.stockMovements.unshift({id:'ST'+Date.now(),itemId:item.id,itemName:name,itemCode:code,qty,before:0,after:qty,date:today(),note:'رصيد افتتاحي عند إضافة الصنف',createdAt:new Date().toISOString()});
  }
  saveDB();resetItem();alert(id?'تم تحديث الصنف بنجاح':'تمت إضافة الصنف بنجاح');
-};
+
+ }catch(error){console.error('saveItemRecord error:',error);alert('تعذر حفظ الصنف: '+(error.message||error));}
+}
+window.saveItemRecord=saveItemRecord;
+
 function viewItem(id){
  const x=db.items.find(v=>v.id===id);if(!x)return;
  const sold=db.invoices.reduce((a,inv)=>a+(inv.rows||[]).filter(r=>r.itemId===x.id).reduce((b,r)=>b+(+r.qty||0),0),0);
@@ -499,7 +509,7 @@ $('stockAddDate').value=today();
 $('addStockEntry').onclick=()=>{let itemId=$('stockItem').value,qty=+$('stockAddQty').value||0,it=db.items.find(x=>x.id===itemId);if(!it){alert('اختر الصنف أولاً');return}if(qty<=0){alert('أدخل كمية أكبر من صفر');return}let before=+it.stock||0;it.stock=before+qty;db.stockMovements.unshift({id:'ST'+Date.now(),itemId,itemName:it.name,itemCode:it.code,qty,before,after:it.stock,date:$('stockAddDate').value||today(),note:$('stockAddNote').value.trim(),createdAt:new Date().toISOString()});saveDB();$('stockAddQty').value='';$('stockAddNote').value='';$('stockCurrent').value=it.stock;alert('تمت إضافة الكمية فوق الرصيد السابق بنجاح')};
 function deleteStockMovement(id){let m=db.stockMovements.find(x=>x.id===id);if(!m||!confirm('حذف حركة الإضافة وعكس كميتها من المخزون؟'))return;let it=db.items.find(x=>x.id===m.itemId);if(it){let next=(+it.stock||0)-(+m.qty||0);if(next<0&&!confirm('عكس هذه الحركة سيجعل رصيد الصنف بالسالب بسبب صرف كميات سابقة. هل تريد المتابعة؟'))return;it.stock=next}db.stockMovements=db.stockMovements.filter(x=>x.id!==id);saveDB()}
 function renderStockMovements(){$('stockMovementList').innerHTML=db.stockMovements.length?`<div class="tablewrap"><table><tr><th>التاريخ</th><th>الصنف</th><th>الكمية المضافة</th><th>الرصيد قبل</th><th>الرصيد بعد</th><th>ملاحظات</th><th>إجراء</th></tr>${db.stockMovements.map(m=>`<tr><td>${esc(m.date||'-')}</td><td>${esc(m.itemName||db.items.find(i=>i.id===m.itemId)?.name||'صنف محذوف')}</td><td>${+m.qty||0}</td><td>${m.before??'-'}</td><td>${m.after??'-'}</td><td>${esc(m.note||'-')}</td><td><button class="btn red small" onclick="deleteStockMovement('${m.id}')">حذف وعكس</button></td></tr>`).join('')}</table></div>`:'<div class="empty">لا توجد إضافات مخزون مسجلة بعد</div>'}
-function renderItems(){$('itemList').innerHTML=db.items.length?`<div class="tablewrap"><table><tr><th>الكود</th><th>الصنف</th><th>التكلفة</th><th>سعر البيع</th><th>المخزون المتبقي</th><th>الكمية المباعة</th><th>إجراءات</th></tr>${db.items.map(x=>{let qty=db.invoices.reduce((a,inv)=>a+inv.rows.filter(r=>r.itemId===x.id).reduce((b,r)=>b+r.qty,0),0);return `<tr><td>${esc(x.code)}</td><td>${esc(x.name)}</td><td>${money(x.cost)}</td><td>${money(x.price)}</td><td><b>${+x.stock||0}</b></td><td>${qty}</td><td><button class="btn green small" onclick="viewItem('${x.id}')">عرض</button> <button class="btn small" onclick="editItem('${x.id}')">تعديل</button> <button class="btn red small" onclick="deleteItem('${x.id}')">حذف</button></td></tr>`}).join('')}</table></div>`:'<div class="empty">أضف الأصناف أولاً</div>';refreshStockSelector();renderStockMovements()}
+function renderItems(){$('itemList').innerHTML=db.items.length?`<div class="tablewrap"><table><tr><th>الكود</th><th>الصنف</th><th>التكلفة</th><th>سعر البيع</th><th>المخزون المتبقي</th><th>الكمية المباعة</th><th>إجراءات</th></tr>${db.items.map(x=>{let qty=db.invoices.reduce((a,inv)=>a+inv.rows.filter(r=>r.itemId===x.id).reduce((b,r)=>b+r.qty,0),0);return `<tr><td>${esc(x.code)}</td><td>${esc(x.name)}</td><td>${money(x.cost)}</td><td>${money(x.price)}</td><td><b>${+x.stock||0}</b></td><td>${qty}</td><td><div style="display:flex;gap:5px;flex-wrap:wrap"><button class="btn green small" onclick="viewItem('${x.id}')">عرض</button><button class="btn small" onclick="editItem('${x.id}')">تعديل</button><button class="btn red small" onclick="deleteItem('${x.id}')">حذف</button></div></td></tr>`}).join('')}</table></div>`:'<div class="empty">أضف الأصناف أولاً</div>';refreshStockSelector();renderStockMovements()}
 function customerInvoices(name){return db.invoices.filter(x=>(x.customer||'').trim()===name)}
 function customerLedger(name){let invoices=customerInvoices(name).filter(x=>x.pay==='credit').slice().sort((a,b)=>(a.date||'').localeCompare(b.date||'')||String(a.no).localeCompare(String(b.no),undefined,{numeric:true}));let payments=db.payments.filter(x=>x.customer===name).slice().sort((a,b)=>(a.date||'').localeCompare(b.date||''));let remaining=new Map(invoices.map(x=>[x.id,Math.max(0,+x.total||0)])),paidBy=new Map(invoices.map(x=>[x.id,0]));let allocations=[];payments.forEach(pay=>{let left=+pay.amount||0;for(let inv of invoices){if(left<=0)break;let due=remaining.get(inv.id)||0;if(due<=0)continue;let used=Math.min(due,left);remaining.set(inv.id,due-used);paidBy.set(inv.id,(paidBy.get(inv.id)||0)+used);allocations.push({paymentId:pay.id,invoiceId:inv.id,amount:used,date:pay.date});left-=used;}});return {invoices:invoices.map(inv=>({invoice:inv,paid:paidBy.get(inv.id)||0,due:remaining.get(inv.id)||0})),allocations,totalDue:invoices.reduce((a,x)=>a+(+x.total||0),0),totalPaid:allocations.reduce((a,x)=>a+x.amount,0),totalCollected:payments.reduce((a,x)=>a+(+x.amount||0),0),advance:Math.max(0,payments.reduce((a,x)=>a+(+x.amount||0),0)-allocations.reduce((a,x)=>a+x.amount,0)),remaining:invoices.reduce((a,x)=>a+(remaining.get(x.id)||0),0)}}
 function customerDue(name){return customerLedger(name).remaining}
@@ -510,7 +520,14 @@ $('resetGrocer').onclick=resetGrocer;
 $('saveGrocer').onclick=()=>{let id=$('grocerId').value,name=$('grocerName').value.trim();if(!name){alert('أدخل اسم البقالة');return}if(db.grocers.some(x=>x.name===name&&x.id!==id)){alert('اسم البقالة مسجل مسبقاً');return}let previous=id?db.grocers.find(x=>x.id===id):null;let g={id:id||'G'+Date.now(),name,phone:$('grocerPhone').value.trim(),address:$('grocerAddress').value.trim(),notes:$('grocerNotes').value.trim()};if(id){if(previous&&previous.name!==name){db.invoices.forEach(v=>{if(v.customer===previous.name)v.customer=name});db.payments.forEach(v=>{if(v.customer===previous.name)v.customer=name})}db.grocers[db.grocers.findIndex(x=>x.id===id)]=g}else db.grocers.push(g);saveDB();resetGrocer()};
 function editGrocer(id){let g=db.grocers.find(x=>x.id===id);if(!g)return;$('grocerId').value=id;$('grocerName').value=g.name;$('grocerPhone').value=g.phone||'';$('grocerAddress').value=g.address||'';$('grocerNotes').value=g.notes||''}
 function deleteGrocer(id){let g=db.grocers.find(x=>x.id===id);if(!g||!confirm('حذف بيانات البقالة؟ ستبقى الفواتير والتحصيلات محفوظة باسمها.'))return;db.grocers=db.grocers.filter(x=>x.id!==id);saveDB()}
-function renderGrocers(){refreshGrocerOptions();let names=allCustomerNames();$('grocerList').innerHTML=names.length?`<div class="tablewrap"><table><tr><th>البقالة</th><th>الهاتف</th><th>العنوان</th><th>إجمالي الآجل</th><th>المحصل</th><th>المتبقي</th><th>إجراءات</th></tr>${names.map(n=>{let g=db.grocers.find(x=>x.name===n)||{},ledger=customerLedger(n),credit=ledger.totalDue,paid=ledger.totalPaid;return `<tr><td>${esc(n)}</td><td>${esc(g.phone||'-')}</td><td>${esc(g.address||'-')}</td><td>${money(credit)}</td><td>${money(paid)}</td><td><b>${money(ledger.remaining)}</b></td><td>${g.id?`<button class="btn small" onclick="editGrocer('${g.id}')">تعديل</button> <button class="btn red small" onclick="deleteGrocer('${g.id}')">حذف</button>`:'بقالة من فاتورة'}</td></tr>`}).join('')}</table></div>`:'<div class="empty">لا توجد بقالات مسجلة</div>'}
+function viewGrocer(name){
+ const g=db.grocers.find(x=>x.name===name)||{},l=customerLedger(name);
+ const invoices=db.invoices.filter(x=>(x.customer||'').trim()===name);
+ $('grocerViewDetails').innerHTML=`<div class="detailGrid"><div class="detailTile"><small>اسم البقالة</small><b>${esc(name)}</b></div><div class="detailTile"><small>رقم الهاتف</small><b>${esc(g.phone||'-')}</b></div><div class="detailTile"><small>العنوان</small><b>${esc(g.address||'-')}</b></div><div class="detailTile"><small>إجمالي الآجل</small><b>${money(l.totalDue)}</b></div><div class="detailTile"><small>المحصل</small><b>${money(l.totalPaid)}</b></div><div class="detailTile"><small>المتبقي</small><b>${money(l.remaining)}</b></div></div><h3>فواتير البقالة</h3>${invoices.length?`<div class="tablewrap"><table><thead><tr><th>رقم الفاتورة</th><th>التاريخ</th><th>الإجمالي</th><th>نوع الدفع</th><th>إجراء</th></tr></thead><tbody>${invoices.map(x=>`<tr><td>${esc(x.no)}</td><td>${esc(x.date)}</td><td>${money(x.total)}</td><td>${x.pay==='credit'?'آجل':'نقدي'}</td><td><button class="btn green small" onclick="closeGrocerView();viewHomeInvoice('${x.id}',true)">عرض الفاتورة</button></td></tr>`).join('')}</tbody></table></div>`:'<div class="empty">لا توجد فواتير مسجلة لهذه البقالة</div>'}`;
+ $('grocerViewModal').style.display='flex';
+}
+function closeGrocerView(){if($('grocerViewModal'))$('grocerViewModal').style.display='none'}
+function renderGrocers(){refreshGrocerOptions();let names=allCustomerNames();$('grocerList').innerHTML=names.length?`<div class="tablewrap"><table><tr><th>البقالة</th><th>الهاتف</th><th>العنوان</th><th>إجمالي الآجل</th><th>المحصل</th><th>المتبقي</th><th>إجراءات</th></tr>${names.map(n=>{let g=db.grocers.find(x=>x.name===n)||{},ledger=customerLedger(n),credit=ledger.totalDue,paid=ledger.totalPaid;return `<tr><td>${esc(n)}</td><td>${esc(g.phone||'-')}</td><td>${esc(g.address||'-')}</td><td>${money(credit)}</td><td>${money(paid)}</td><td><b>${money(ledger.remaining)}</b></td><td><div style="display:flex;gap:5px;flex-wrap:wrap"><button class="btn green small" onclick="viewGrocer('${n.replace(/'/g,"&#39;")}')">عرض</button>${g.id?`<button class="btn small" onclick="editGrocer('${g.id}')">تعديل</button> <button class="btn red small" onclick="deleteGrocer('${g.id}')">حذف</button>`:'<span class="muted">بقالة من فاتورة</span>'}</div></td></tr>`}).join('')}</table></div>`:'<div class="empty">لا توجد بقالات مسجلة</div>'}
 $('savePayment').onclick=()=>{let customer=$('payCustomer').value.trim(),amount=+$('payAmount').value||0;if(!customer||amount<=0){alert('أدخل اسم البقالة ومبلغاً صحيحاً');return}let ledger=customerLedger(customer),due=ledger.remaining;if(amount>due+0.0001&&!confirm('المبلغ أكبر من الدين المتبقي ('+money(due)+'). سيتم تسجيل الزيادة كرصيد مقدم غير موزع على الفواتير الحالية. متابعة؟'))return;db.payments.unshift({id:'R'+Date.now(),customer,date:$('payDate').value||today(),amount,note:$('payNote').value.trim()});saveDB();$('payAmount').value='';$('payNote').value='';$('customerDueHint').textContent='';$('statementCustomer').value=customer;renderCustomerStatement(customer);alert('تم تسجيل التحصيل وإضافته للصندوق، وأعيد توزيع السداد على أقدم الفواتير الآجلة أولاً')};
 $('saveGrocerDebt').onclick=saveGrocerDebt;$('saveGrocerDebtPayment').onclick=saveGrocerDebtPayment;
 $('owedDate').value=today();$('owedPayDate').value=today();
@@ -685,5 +702,37 @@ function showPwaUpdate(registration) {
   box.append(msg,btn); document.body.appendChild(box);
 }
 if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('controllerchange',()=>location.reload());
+</script>
+<script>
+/* ربط مستقل لزر حفظ الصنف */
+(function(){
+ function bindItemSave(){
+  var btn=document.getElementById('saveItem');
+  if(!btn)return;
+  btn.type='button';
+  btn.onclick=function(ev){
+   if(ev)ev.preventDefault();
+   try{
+    if(typeof window.saveItemRecord==='function'){window.saveItemRecord();return}
+    if(typeof db==='undefined'||typeof saveDB!=='function'){alert('تعذر تشغيل وظيفة الحفظ. أعد تحميل الصفحة.');return}
+    var el=function(id){return document.getElementById(id)};
+    var code=el('itemCode').value.trim(),name=el('itemName').value.trim();
+    var cr=el('itemCost').value,pr=el('itemPrice').value,qr=el('itemStock').value;
+    var cost=Number(cr),price=Number(pr),qty=Number(qr||0);
+    if(!code||!name){alert('أدخل كود الصنف واسم الصنف');return}
+    if(cr===''||pr===''||!Number.isFinite(cost)||!Number.isFinite(price)||cost<0||price<0||!Number.isFinite(qty)||qty<0){alert('راجع التكلفة وسعر البيع والكمية');return}
+    if(db.items.some(function(x){return x.code===code})){alert('كود الصنف مستخدم مسبقاً');return}
+    var item={id:'IT'+Date.now(),code:code,name:name,cost:cost,price:price,stock:qty};
+    db.items.push(item);
+    if(qty>0&&Array.isArray(db.stockMovements))db.stockMovements.unshift({id:'ST'+Date.now(),itemId:item.id,itemName:name,itemCode:code,qty:qty,before:0,after:qty,date:new Date().toISOString().slice(0,10),note:'رصيد افتتاحي عند إضافة الصنف'});
+    saveDB();
+    ['itemCode','itemName','itemCost','itemPrice'].forEach(function(id){el(id).value=''});
+    el('itemStock').value=0;
+    alert('تمت إضافة الصنف بنجاح');
+   }catch(err){console.error(err);alert('حدث خطأ أثناء الحفظ: '+(err.message||err))}
+  };
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bindItemSave);else bindItemSave();
+})();
 </script>
 </body></html>
