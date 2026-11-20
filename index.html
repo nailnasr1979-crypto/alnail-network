@@ -198,9 +198,9 @@ th{background:#e7f4f2;color:#155b58}td,th{border-bottom-color:#e5edef}.tablewrap
 <div class="card metric"><small>إجمالي ما تم ترحيله للبنك</small><strong id="mBankTransferred">0</strong><div class="muted">مجموع الإيداعات المحوّلة من الصندوق</div></div>
 </div>
 <div class="panel recentPanel" style="margin-top:14px"><h2>آخر الفواتير وحالة التحصيل</h2><p class="muted" style="margin-top:-5px">يمكنك معاينة تفاصيل أي فاتورة أو حذفها مباشرة من هنا.</p><div id="recent"></div></div>
-<div id="homeInvoiceModal" class="modalShade" style="display:none" onclick="if(event.target===this)closeHomeInvoice()"><div class="modalBox"><div class="modalTop"><h2 style="margin:0">تفاصيل الفاتورة</h2><button class="btn secondary small" onclick="closeHomeInvoice()">إغلاق ✕</button></div><div id="homeInvoiceDetails"></div></div></div>
-<div id="grocerViewModal" class="modalShade" style="display:none" onclick="if(event.target===this)closeGrocerView()"><div class="modalBox"><div class="modalTop"><h2 style="margin:0">تفاصيل البقالة</h2><button class="btn secondary small" onclick="closeGrocerView()">إغلاق ✕</button></div><div id="grocerViewDetails"></div></div></div>
-<div id="itemViewModal" class="modalShade" style="display:none" onclick="if(event.target===this)closeItemView()"><div class="modalBox"><div class="modalTop"><h2 style="margin:0">تفاصيل الصنف</h2><button class="btn secondary small" onclick="closeItemView()">إغلاق ✕</button></div><div id="itemViewDetails"></div></div></div>
+</div>
+</div>
+</div>
 <div class="panel"><h2>معلومة محاسبية</h2><p class="muted">الربح المحقّق هنا مؤشر على أساس التحصيل، وليس الربح المحاسبي على أساس الاستحقاق. التحصيل المقدم غير الموزع لا يُحسب مبيعات أو أرباحاً. بياناتك محفوظة داخل المتصفح؛ احفظ نسخة احتياطية دورياً.</p></div>
 </section>
 
@@ -462,6 +462,10 @@ if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('cont
 
 
 
+
+<div id="homeInvoiceModal" class="modalShade" style="display:none" onclick="if(event.target===this)closeHomeInvoice()"><div class="modalBox"><div class="modalTop"><h2 style="margin:0">تفاصيل الفاتورة</h2><button class="btn secondary small" onclick="closeHomeInvoice()">إغلاق ✕</button></div><div id="homeInvoiceDetails"></div></div>
+<div id="grocerViewModal" class="modalShade" style="display:none" onclick="if(event.target===this)closeGrocerView()"><div class="modalBox"><div class="modalTop"><h2 style="margin:0">تفاصيل البقالة</h2><button class="btn secondary small" onclick="closeGrocerView()">إغلاق ✕</button></div><div id="grocerViewDetails"></div></div>
+<div id="itemViewModal" class="modalShade" style="display:none" onclick="if(event.target===this)closeItemView()"><div class="modalBox"><div class="modalTop"><h2 style="margin:0">تفاصيل الصنف</h2><button class="btn secondary small" onclick="closeItemView()">إغلاق ✕</button></div><div id="itemViewDetails"></div></div>
 </body></html>`);
  w.document.close()
 }
@@ -739,4 +743,8 @@ if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('cont
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bindItemSave);else bindItemSave();
 })();
 </script>
+
+<div id="homeInvoiceModal" class="modalShade" style="display:none" onclick="if(event.target===this)closeHomeInvoice()"><div class="modalBox"><div class="modalTop"><h2 style="margin:0">تفاصيل الفاتورة</h2><button class="btn secondary small" onclick="closeHomeInvoice()">إغلاق ✕</button></div><div id="homeInvoiceDetails"></div></div>
+<div id="grocerViewModal" class="modalShade" style="display:none" onclick="if(event.target===this)closeGrocerView()"><div class="modalBox"><div class="modalTop"><h2 style="margin:0">تفاصيل البقالة</h2><button class="btn secondary small" onclick="closeGrocerView()">إغلاق ✕</button></div><div id="grocerViewDetails"></div></div>
+<div id="itemViewModal" class="modalShade" style="display:none" onclick="if(event.target===this)closeItemView()"><div class="modalBox"><div class="modalTop"><h2 style="margin:0">تفاصيل الصنف</h2><button class="btn secondary small" onclick="closeItemView()">إغلاق ✕</button></div><div id="itemViewDetails"></div></div>
 </body></html>
