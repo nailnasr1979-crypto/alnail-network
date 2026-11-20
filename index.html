@@ -198,8 +198,6 @@ th{background:#e7f4f2;color:#155b58}td,th{border-bottom-color:#e5edef}.tablewrap
 <div class="card metric"><small>إجمالي ما تم ترحيله للبنك</small><strong id="mBankTransferred">0</strong><div class="muted">مجموع الإيداعات المحوّلة من الصندوق</div></div>
 </div>
 <div class="panel recentPanel" style="margin-top:14px"><h2>آخر الفواتير وحالة التحصيل</h2><p class="muted" style="margin-top:-5px">يمكنك معاينة تفاصيل أي فاتورة أو حذفها مباشرة من هنا.</p><div id="recent"></div></div>
-<div id="homeInvoiceModal" class="modalShade" style="display:none" onclick="if(event.target===this)closeHomeInvoice()"><div class="modalBox"><div class="modalTop"><h2 style="margin:0">تفاصيل الفاتورة</h2><button class="btn secondary small" onclick="closeHomeInvoice()">إغلاق ✕</button></div><div id="homeInvoiceDetails"></div></div></div>
-<div id="itemViewModal" class="modalShade" style="display:none" onclick="if(event.target===this)closeItemView()"><div class="modalBox"><div class="modalTop"><h2 style="margin:0">تفاصيل الصنف</h2><button class="btn secondary small" onclick="closeItemView()">إغلاق ✕</button></div><div id="itemViewDetails"></div></div></div>
 <div class="panel"><h2>معلومة محاسبية</h2><p class="muted">الربح المحقّق هنا مؤشر على أساس التحصيل، وليس الربح المحاسبي على أساس الاستحقاق. التحصيل المقدم غير الموزع لا يُحسب مبيعات أو أرباحاً. بياناتك محفوظة داخل المتصفح؛ احفظ نسخة احتياطية دورياً.</p></div>
 </section>
 
@@ -321,6 +319,9 @@ th{background:#e7f4f2;color:#155b58}td,th{border-bottom-color:#e5edef}.tablewrap
 </section>
 </div></div></div>
 
+<!-- نوافذ التفاصيل عامة لتعمل من جميع أقسام النظام -->
+<div id="homeInvoiceModal" class="modalShade" style="display:none" onclick="if(event.target===this)closeHomeInvoice()"><div class="modalBox"><div class="modalTop"><h2 style="margin:0">تفاصيل الفاتورة</h2><button class="btn secondary small" onclick="closeHomeInvoice()">إغلاق ✕</button></div><div id="homeInvoiceDetails"></div></div></div>
+<div id="itemViewModal" class="modalShade" style="display:none" onclick="if(event.target===this)closeItemView()"><div class="modalBox"><div class="modalTop"><h2 style="margin:0">تفاصيل الصنف</h2><button class="btn secondary small" onclick="closeItemView()">إغلاق ✕</button></div><div id="itemViewDetails"></div></div></div>
 
 <div id="cloudAuth" style="display:none"><div class="authCard"><div style="font-size:34px;margin-bottom:8px">🌐</div><h2>شبكة النائل</h2><p>سجّل الدخول لمزامنة الفواتير والمخزون والحسابات بين الهاتف واللابتوب.</p><form id="cloudLoginForm"><div class="authField"><label for="cloudEmail">البريد الإلكتروني</label><input id="cloudEmail" type="email" autocomplete="username" required placeholder="name@gmail.com"></div><div class="authField"><label for="cloudPassword">كلمة المرور</label><input id="cloudPassword" type="password" autocomplete="current-password" required placeholder="كلمة مرور حسابك"></div><button id="cloudLoginBtn" type="submit">تسجيل الدخول والمزامنة</button></form><div style="margin-top:14px;padding-top:12px;border-top:1px solid #e2e8f0"><label for="cloudBackupImport">هل لديك نسخة احتياطية من النظام السابق؟ استوردها أولاً من الجهاز الذي يحتوي بياناتك.</label><input id="cloudBackupImport" type="file" accept="application/json" style="font-size:12px;padding:8px"><button type="button" id="cloudImportBtn" style="background:#0f766e">استيراد النسخة الاحتياطية قبل المزامنة</button></div><div id="cloudAuthMsg" style="margin-top:12px;font-size:13px;color:#b91c1c;line-height:1.7"></div><p style="font-size:11px;margin-bottom:0">بياناتك المحلية تبقى محفوظة، ويتم الاحتفاظ بنسخة احتياطية محلية قبل تحميل بيانات السحابة.</p></div></div>
 
@@ -492,13 +493,20 @@ function saveItemRecord(){
 window.saveItemRecord=saveItemRecord;
 
 function viewItem(id){
- const x=db.items.find(v=>v.id===id);if(!x)return;
- const sold=db.invoices.reduce((a,inv)=>a+(inv.rows||[]).filter(r=>r.itemId===x.id).reduce((b,r)=>b+(+r.qty||0),0),0);
- const supported=db.invoices.reduce((a,inv)=>a+(inv.supportRows||[]).filter(r=>r.itemId===x.id).reduce((b,r)=>b+(+r.qty||0),0),0);
- $('itemViewDetails').innerHTML=`<div class="detailGrid"><div class="detailTile"><small>كود الصنف</small><b>${esc(x.code||'-')}</b></div><div class="detailTile"><small>اسم الصنف</small><b>${esc(x.name||'-')}</b></div><div class="detailTile"><small>التكلفة</small><b>${money(x.cost)}</b></div><div class="detailTile"><small>سعر البيع</small><b>${money(x.price)}</b></div><div class="detailTile"><small>المخزون المتبقي</small><b>${(+x.stock||0).toLocaleString('en-US')}</b></div><div class="detailTile"><small>الكمية المباعة</small><b>${sold.toLocaleString('en-US')}</b></div><div class="detailTile"><small>الكمية المجانية</small><b>${supported.toLocaleString('en-US')}</b></div></div><div class="recentActions"><button class="btn" onclick="closeItemView();editItem('${x.id}')">تعديل الصنف</button></div>`;
- $('itemViewModal').style.display='flex';
+ try{
+  const x=db.items.find(v=>String(v.id)===String(id));
+  if(!x){alert('لم يتم العثور على بيانات هذا الصنف. حدّث الصفحة وحاول مرة أخرى.');return;}
+  const sold=db.invoices.reduce((a,inv)=>a+(inv.rows||[]).filter(r=>String(r.itemId)===String(x.id)).reduce((b,r)=>b+(+r.qty||0),0),0);
+  const supported=db.invoices.reduce((a,inv)=>a+(inv.supportRows||[]).filter(r=>String(r.itemId)===String(x.id)).reduce((b,r)=>b+(+r.qty||0),0),0);
+  const details=$('itemViewDetails'), modal=$('itemViewModal');
+  if(!details||!modal){alert('نافذة تفاصيل الصنف غير موجودة في الصفحة. أعد تحميل النظام.');return;}
+  details.innerHTML=`<div class="detailGrid"><div class="detailTile"><small>كود الصنف</small><b>${esc(x.code||'-')}</b></div><div class="detailTile"><small>اسم الصنف</small><b>${esc(x.name||'-')}</b></div><div class="detailTile"><small>التكلفة</small><b>${money(x.cost)}</b></div><div class="detailTile"><small>سعر البيع</small><b>${money(x.price)}</b></div><div class="detailTile"><small>المخزون المتبقي</small><b>${(+x.stock||0).toLocaleString('en-US')}</b></div><div class="detailTile"><small>الكمية المباعة</small><b>${sold.toLocaleString('en-US')}</b></div><div class="detailTile"><small>الكمية المجانية</small><b>${supported.toLocaleString('en-US')}</b></div></div><div class="recentActions"><button type="button" class="btn" onclick="closeItemView();editItem('${String(x.id).replace(/'/g, '&#39;')}')">تعديل الصنف</button></div>`;
+  modal.style.display='flex';
+ }catch(error){console.error('viewItem error:',error);alert('تعذر عرض تفاصيل الصنف: '+(error.message||error));}
 }
+window.viewItem=viewItem;
 function closeItemView(){if($('itemViewModal'))$('itemViewModal').style.display='none'}
+window.closeItemView=closeItemView;
 function editItem(id){let x=db.items.find(v=>v.id===id);if(!x)return;$('itemId').value=id;$('itemCode').value=x.code;$('itemName').value=x.name;$('itemCost').value=x.cost;$('itemPrice').value=x.price;$('itemStock').value=0;$('itemStock').disabled=false}
 function deleteItem(id){let it=db.items.find(x=>x.id===id);if(!it||!confirm('حذف الصنف من القائمة؟ ستبقى تفاصيله محفوظة في الفواتير السابقة.'))return;db.invoices.forEach(inv=>inv.rows.forEach(r=>{if(r.itemId===id){r.itemName=r.itemName||it.name;r.itemCode=r.itemCode||it.code;if(r.costAtSale===undefined)r.costAtSale=+it.cost||0}}));db.items=db.items.filter(x=>x.id!==id);saveDB()}
 function refreshStockSelector(){let sel=$('stockItem');if(!sel)return;let keep=sel.value;sel.innerHTML=itemOptions(keep);if(!db.items.some(x=>x.id===keep))sel.value='';updateStockCurrent()}
