@@ -500,6 +500,8 @@ function viewItem(id){
  $('itemViewModal').style.display='flex';
 }
 function closeItemView(){if($('itemViewModal'))$('itemViewModal').style.display='none'}
+// Explicit global bindings keep inline action buttons working across mobile and desktop browsers.
+window.viewItem=viewItem;window.closeItemView=closeItemView;
 function editItem(id){let x=db.items.find(v=>v.id===id);if(!x)return;$('itemId').value=id;$('itemCode').value=x.code;$('itemName').value=x.name;$('itemCost').value=x.cost;$('itemPrice').value=x.price;$('itemStock').value=0;$('itemStock').disabled=false}
 function deleteItem(id){let it=db.items.find(x=>x.id===id);if(!it||!confirm('حذف الصنف من القائمة؟ ستبقى تفاصيله محفوظة في الفواتير السابقة.'))return;db.invoices.forEach(inv=>inv.rows.forEach(r=>{if(r.itemId===id){r.itemName=r.itemName||it.name;r.itemCode=r.itemCode||it.code;if(r.costAtSale===undefined)r.costAtSale=+it.cost||0}}));db.items=db.items.filter(x=>x.id!==id);saveDB()}
 function refreshStockSelector(){let sel=$('stockItem');if(!sel)return;let keep=sel.value;sel.innerHTML=itemOptions(keep);if(!db.items.some(x=>x.id===keep))sel.value='';updateStockCurrent()}
@@ -527,6 +529,7 @@ function viewGrocer(name){
  $('grocerViewModal').style.display='flex';
 }
 function closeGrocerView(){if($('grocerViewModal'))$('grocerViewModal').style.display='none'}
+window.viewGrocer=viewGrocer;window.closeGrocerView=closeGrocerView;
 function renderGrocers(){refreshGrocerOptions();let names=allCustomerNames();$('grocerList').innerHTML=names.length?`<div class="tablewrap"><table><tr><th>البقالة</th><th>الهاتف</th><th>العنوان</th><th>إجمالي الآجل</th><th>المحصل</th><th>المتبقي</th><th>إجراءات</th></tr>${names.map(n=>{let g=db.grocers.find(x=>x.name===n)||{},ledger=customerLedger(n),credit=ledger.totalDue,paid=ledger.totalPaid;return `<tr><td>${esc(n)}</td><td>${esc(g.phone||'-')}</td><td>${esc(g.address||'-')}</td><td>${money(credit)}</td><td>${money(paid)}</td><td><b>${money(ledger.remaining)}</b></td><td><div style="display:flex;gap:5px;flex-wrap:wrap"><button class="btn green small" onclick="viewGrocer('${n.replace(/'/g,"&#39;")}')">عرض</button>${g.id?`<button class="btn small" onclick="editGrocer('${g.id}')">تعديل</button> <button class="btn red small" onclick="deleteGrocer('${g.id}')">حذف</button>`:'<span class="muted">بقالة من فاتورة</span>'}</div></td></tr>`}).join('')}</table></div>`:'<div class="empty">لا توجد بقالات مسجلة</div>'}
 $('savePayment').onclick=()=>{let customer=$('payCustomer').value.trim(),amount=+$('payAmount').value||0;if(!customer||amount<=0){alert('أدخل اسم البقالة ومبلغاً صحيحاً');return}let ledger=customerLedger(customer),due=ledger.remaining;if(amount>due+0.0001&&!confirm('المبلغ أكبر من الدين المتبقي ('+money(due)+'). سيتم تسجيل الزيادة كرصيد مقدم غير موزع على الفواتير الحالية. متابعة؟'))return;db.payments.unshift({id:'R'+Date.now(),customer,date:$('payDate').value||today(),amount,note:$('payNote').value.trim()});saveDB();$('payAmount').value='';$('payNote').value='';$('customerDueHint').textContent='';$('statementCustomer').value=customer;renderCustomerStatement(customer);alert('تم تسجيل التحصيل وإضافته للصندوق، وأعيد توزيع السداد على أقدم الفواتير الآجلة أولاً')};
 $('saveGrocerDebt').onclick=saveGrocerDebt;$('saveGrocerDebtPayment').onclick=saveGrocerDebtPayment;
@@ -647,6 +650,7 @@ function viewHomeInvoice(id,readOnly=false){
  $('homeInvoiceModal').style.display='flex';
 }
 function closeHomeInvoice(){if($('homeInvoiceModal'))$('homeInvoiceModal').style.display='none'}
+window.viewHomeInvoice=viewHomeInvoice;window.closeHomeInvoice=closeHomeInvoice;
 
 function refreshHome(){
  const s=realizedSummary(),ct=cashTotals();
