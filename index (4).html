@@ -1,0 +1,689 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#1D4ED8">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="شبكة النائل">
+<title>شبكة النائل | النظام المحاسبي</title>
+<style>
+:root{--blue:#1D4ED8;--blue2:#1e40af;--bg:#f3f4f6;--card:#fff;--text:#111827;--muted:#6b7280;--line:#e5e7eb;--green:#059669;--red:#dc2626;--amber:#d97706}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Tahoma,Arial,sans-serif;color:var(--text)}
+header{background:linear-gradient(118deg,#102b67 0%,#1d4ed8 58%,#3478f6 100%);color:white;padding:17px 16px;box-shadow:0 5px 22px #123b8050;position:relative;overflow:hidden}
+header:after{content:"";position:absolute;width:240px;height:240px;border:1px solid #ffffff18;border-radius:50%;left:-65px;top:-150px;box-shadow:0 0 0 24px #ffffff08,0 0 0 50px #ffffff06;pointer-events:none}
+.head{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;position:relative;z-index:1}
+.brand{display:flex;align-items:center;gap:13px;min-width:0}.brandMark{width:62px;height:62px;flex:0 0 62px;border-radius:19px;background:linear-gradient(145deg,#ffffff30,#ffffff12);border:1px solid #ffffff55;box-shadow:inset 0 1px 0 #ffffff55,0 8px 20px #071c4d45;display:grid;place-items:center;position:relative;overflow:hidden}.brandMark:before{content:"";position:absolute;width:48px;height:48px;border:1px solid #ffffff30;border-radius:15px;transform:rotate(45deg)}.brandMark svg{width:43px;height:43px;position:relative;z-index:1;filter:drop-shadow(0 2px 3px #08265b66)}.brandCopy{min-width:0}.brandCopy h1{font-size:23px;letter-spacing:.1px;margin:0 0 6px;font-weight:900}.brandCopy .sub{font-size:12px;opacity:.9;letter-spacing:.1px}.brandTag{display:inline-flex;align-items:center;gap:5px;margin-top:7px;padding:4px 9px;border:1px solid #ffffff38;border-radius:30px;background:#ffffff16;font-size:10px;color:#eff6ff}.brandTag b{font-variant-numeric:tabular-nums;letter-spacing:1px}.head>.pill{backdrop-filter:blur(8px);border:1px solid #ffffff30;border-radius:30px;padding:7px 11px;font-size:11px}
+@media(max-width:480px){header{padding:13px 11px}.brand{gap:10px}.brandMark{width:52px;height:52px;flex-basis:52px;border-radius:16px}.brandMark svg{width:37px;height:37px}.brandCopy h1{font-size:19px}.brandCopy .sub{font-size:10px}.brandTag{font-size:9px;margin-top:5px}}
+.wrap{max-width:1200px;margin:18px auto;padding:0 14px}
+nav{display:flex;gap:8px;overflow:auto;padding:4px 0 12px}
+nav button{white-space:nowrap;border:1px solid var(--line);background:#fff;color:#374151;border-radius:11px;padding:10px 14px;font-weight:bold;cursor:pointer}
+nav button.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.page{display:none}.page.active{display:block}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.card,.panel{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:15px;box-shadow:0 2px 8px #11100008}
+.metric{position:relative;overflow:hidden;background:linear-gradient(145deg,#fff,#f8fbff);border:1px solid #e3eaf5;box-shadow:0 6px 20px #1e3a8a0a}.metric:after{content:"";position:absolute;inset:0 0 auto;height:4px;background:linear-gradient(90deg,#1d4ed8,#60a5fa)}.metric small{color:var(--muted);display:block;margin-bottom:9px}.metric strong{font-size:23px;color:var(--blue);font-weight:800}.dashboardGrid{margin-top:12px}.dashboardGrid .metric{min-height:125px}.dashboardGrid .metric .muted{margin-top:9px}.profitMetric:after{background:linear-gradient(90deg,#059669,#34d399)}.profitMetric strong{color:#047857}.debtMetric:after{background:linear-gradient(90deg,#d97706,#fbbf24)}.debtMetric strong{color:#b45309}.cashMetric:after{background:linear-gradient(90deg,#1d4ed8,#38bdf8)}
+.panel{margin-bottom:14px}.panel h2{font-size:17px;margin:0 0 14px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:end}
+.field{display:flex;flex-direction:column;gap:6px;flex:1;min-width:130px}
+label{font-size:12px;color:#4b5563;font-weight:bold}
+input,select,textarea{width:100%;border:1px solid #d1d5db;border-radius:9px;padding:10px;background:white;font:inherit;font-size:14px;min-height:40px}
+input:focus,select:focus,textarea:focus{outline:2px solid #bfdbfe;border-color:var(--blue)}
+button{font-family:inherit}
+.btn{border:0;border-radius:9px;padding:10px 14px;background:var(--blue);color:#fff;font-weight:bold;cursor:pointer}
+.btn:hover{background:var(--blue2)}.btn.secondary{background:#e5e7eb;color:#111827}.btn.green{background:var(--green)}.btn.red{background:var(--red)}.btn.amber{background:var(--amber)}.btn.small{padding:7px 10px;font-size:12px}
+.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
+table{width:100%;border-collapse:collapse;min-width:700px}
+.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:10px}
+th,td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:center;font-size:13px}
+th{background:#eff6ff;color:#1e3a8a;position:sticky;top:0}
+td input,td select{min-width:90px;padding:7px}
+.totalbar{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;background:#eff6ff;padding:13px;border-radius:10px;margin-top:12px;font-weight:bold}
+.totalbar strong{color:var(--blue);font-size:19px}
+.muted{color:var(--muted);font-size:12px}.pill{padding:4px 8px;border-radius:20px;background:#dbeafe;color:#1e40af;font-size:11px}
+.empty{text-align:center;padding:25px;color:var(--muted)}
+.summaryTiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:10px 0}
+.summaryTile{border:1px solid #e5e7eb;border-radius:14px;padding:16px;background:linear-gradient(145deg,#fff,#f8fafc);box-shadow:0 5px 18px #0f172a0a;min-width:0}
+.summaryTile small{display:block;color:#64748b;font-size:12px;margin-bottom:9px}.summaryTile strong{display:block;font-size:19px;color:#0f172a;overflow-wrap:anywhere}.summaryTile.blue{border-top:4px solid #2563eb}.summaryTile.green{border-top:4px solid #059669}.summaryTile.amber{border-top:4px solid #d97706}.summaryTile.purple{border-top:4px solid #7c3aed}.summaryTile.red{border-top:4px solid #dc2626}
+.status{display:inline-block;padding:4px 9px;border-radius:30px;font-size:11px;font-weight:bold;background:#dcfce7;color:#166534}.status.due{background:#fef3c7;color:#92400e}.status.partial{background:#dbeafe;color:#1e40af}
+.statementBox{background:#f8fafc;border:1px solid #e2e8f0;border-radius:13px;padding:13px;margin-top:12px}
+@media(max-width:480px){.summaryTile{padding:12px}.summaryTile strong{font-size:16px}}
+@media print{body{font-family:Tahoma,Arial,sans-serif;color:#172033!important}.invoice-sheet{max-width:850px;margin:0 auto;padding:26px;border:1px solid #dbe3ef;border-radius:16px}.print-head{background:linear-gradient(120deg,#102a56,#2563eb)!important;color:#fff!important;padding:22px;border-radius:14px;margin-bottom:18px;-webkit-print-color-adjust:exact;print-color-adjust:exact}.print-head h2{margin:0 0 6px;font-size:23px}.print-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:14px 0}.print-meta div{background:#f1f5f9;border-radius:9px;padding:10px;font-size:12px}.invoice-sheet table{min-width:0;border-collapse:collapse}.invoice-sheet th{background:#eaf1ff!important;color:#173b78!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.invoice-sheet td,.invoice-sheet th{border:1px solid #dbe3ef;padding:11px}.print-total{margin:18px 0 0 auto;width:min(100%,380px);background:#f8fafc;border:1px solid #dbe3ef;border-radius:12px;padding:14px}.print-total .final{background:#eaf1ff;color:#123b7a;padding:12px;border-radius:9px;font-size:18px;font-weight:bold;margin-top:9px;-webkit-print-color-adjust:exact;print-color-adjust:exact}.print-foot{margin-top:24px;padding-top:12px;border-top:1px dashed #cbd5e1;text-align:center;color:#64748b;font-size:11px}}
+.notice{background:#fffbeb;border:1px solid #fde68a;color:#92400e;padding:10px;border-radius:9px;font-size:12px;margin-bottom:12px}
+.hidden{display:none!important}
+@media(max-width:800px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.metric strong{font-size:19px}}
+@media(max-width:480px){.grid{grid-template-columns:1fr 1fr}.wrap{padding:0 9px}.panel{padding:11px}h1{font-size:18px}.btn{padding:9px 11px}}
+@media print{header,nav,.no-print,.actions{display:none!important}body{background:white}.wrap{max-width:none;margin:0;padding:0}.page{display:none!important}#invoicePrint{display:block!important}.panel{box-shadow:none;border:0}}
+
+.modalShade{position:fixed;inset:0;background:#0f172a99;z-index:9999;display:flex;align-items:center;justify-content:center;padding:14px;overflow:auto}.modalBox{background:#fff;border-radius:18px;width:min(760px,100%);max-height:90vh;overflow:auto;padding:18px;box-shadow:0 20px 60px #0003}.modalTop{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}.recentActions{display:flex;gap:6px;flex-wrap:wrap}.recentInvoice{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:13px 2px;border-bottom:1px solid #e5e7eb}.stockTable td,.stockTable th{text-align:right}.stockQty{font-size:20px;font-weight:800;color:#1d4ed8;font-variant-numeric:tabular-nums}.detailGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:12px 0}.detailTile{background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;padding:10px}.detailTile small{display:block;color:#64748b;margin-bottom:5px}.detailTile b{font-size:16px}
+
+/* واجهة رئيسية مطورة مستوحاة من لوحة التحكم المرجعية */
+:root{--navy:#082b63;--navy2:#0b3b7b;--blue:#1769d2;--bg:#f2f5fa}
+body{background:#f2f5fa}
+header{min-height:142px;padding:24px 28px;background:radial-gradient(ellipse at 78% 18%,#55b7ff55 0,transparent 34%),radial-gradient(ellipse at 58% 100%,#0b75d955 0,transparent 45%),linear-gradient(112deg,#061d45 0%,#0b3d82 52%,#1675d2 100%);box-shadow:0 7px 25px #092b6040}
+header:before{content:"";position:absolute;inset:0;opacity:.22;pointer-events:none;background-image:radial-gradient(circle at 14% 30%,#fff 0 2px,transparent 3px),radial-gradient(circle at 27% 65%,#fff 0 2px,transparent 3px),radial-gradient(circle at 42% 20%,#fff 0 2px,transparent 3px),radial-gradient(circle at 65% 45%,#fff 0 2px,transparent 3px),linear-gradient(25deg,transparent 49.7%,#b8e3ff 50%,transparent 50.3%);background-size:190px 120px,240px 140px,220px 130px,260px 150px,100% 100%}
+.head{max-width:none;margin:0;padding:8px 10px}.brand{gap:17px}.brandMark{width:78px;height:78px;flex-basis:78px;border-radius:24px;background:linear-gradient(145deg,#ffffff35,#ffffff10);border:1px solid #ffffff66}.brandMark svg{width:54px;height:54px}.brandCopy h1{font-size:30px;letter-spacing:0}.brandCopy .sub{font-size:13px}.brandTag{margin-top:8px}.head>.pill{align-self:flex-start;margin-top:8px}
+.wrap{max-width:none;margin:0 0 0 258px;padding:22px 20px 32px;min-height:calc(100vh - 142px)}
+nav{position:fixed;z-index:100;left:0;top:0;bottom:0;width:258px;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;align-items:stretch;gap:7px;padding:22px 13px;background:linear-gradient(180deg,#082b63,#061d45);box-shadow:5px 0 22px #071d4030}
+nav:before{content:"شبكة النائل";display:block;color:#fff;font-size:22px;font-weight:900;padding:9px 10px 22px;border-bottom:1px solid #ffffff24;margin-bottom:10px}
+nav button{width:100%;text-align:right;white-space:normal;border:1px solid transparent;background:transparent;color:#eaf2ff;border-radius:12px;padding:13px 14px;font-size:14px;display:flex;align-items:center;gap:10px;transition:.18s}
+nav button:before{content:"";width:8px;height:8px;border-radius:3px;background:#7dbbff;box-shadow:0 0 0 4px #ffffff12;flex:0 0 8px}
+nav button.active{background:linear-gradient(100deg,#0879ef,#2563eb);color:#fff;border-color:#60a5fa55;box-shadow:0 7px 18px #0003}
+nav button:hover:not(.active){background:#ffffff12}
+.page{max-width:1500px;margin:auto}
+.homeWelcome{min-height:120px;border-radius:18px;padding:22px 25px;margin-bottom:15px;color:#fff;display:flex;align-items:center;justify-content:space-between;overflow:hidden;position:relative;background:radial-gradient(circle at 80% 20%,#60a5fa55,transparent 28%),linear-gradient(110deg,#0a2c64,#1456a5 68%,#147bd1);box-shadow:0 8px 22px #123b8020}
+.homeWelcome:after{content:"";position:absolute;width:230px;height:230px;border:1px solid #ffffff2a;border-radius:50%;left:7%;top:-120px;box-shadow:0 0 0 22px #ffffff0c,0 0 0 48px #ffffff08}
+.welcomeEyebrow{font-size:11px;color:#bfdbfe;font-weight:bold}.homeWelcome h2{font-size:24px;margin:8px 0 5px}.homeWelcome p{margin:0;color:#e0edff;font-size:13px}.welcomeMark{font-size:92px;line-height:.8;color:#ffffff38;position:relative;z-index:1;font-weight:900}
+.homeNote{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 13px;padding:12px 15px;border:1px solid #dbeafe;border-radius:12px;background:#fff;color:#173b70;font-size:12px}.homeNote strong{font-size:14px}.homeNote span{color:#64748b}
+.dashboardGrid{grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;margin-top:0}
+.dashboardGrid .metric{min-height:130px;border:0;border-radius:15px;padding:17px 16px;color:white;box-shadow:0 6px 17px #0b28521b;background:linear-gradient(135deg,#0878e8,#1454b8)}
+.dashboardGrid .metric:after{display:none}.dashboardGrid .metric small{color:#ffffffdf;font-size:12px;font-weight:bold;margin-bottom:13px}.dashboardGrid .metric strong{display:block;color:white;font-size:25px;overflow-wrap:anywhere}.dashboardGrid .metric .muted{color:#ffffffd9;font-size:11px;margin-top:10px}
+.dashboardGrid .metric:nth-child(2){background:linear-gradient(135deg,#10b981,#047857)}
+.dashboardGrid .metric:nth-child(3){background:linear-gradient(135deg,#f59e0b,#c56b08)}
+.dashboardGrid .metric:nth-child(4){background:linear-gradient(135deg,#7c3aed,#4c1d95)}
+.dashboardGrid .metric:nth-child(5){background:linear-gradient(135deg,#0e7490,#155e75)}
+.dashboardGrid .metric:nth-child(6){background:linear-gradient(135deg,#2563eb,#1e40af)}
+.dashboardGrid .metric:nth-child(7){background:linear-gradient(135deg,#0891b2,#155e75)}
+.dashboardGrid .metric:nth-child(8){background:linear-gradient(135deg,#64748b,#334155)}
+.dashboardGrid .metric:nth-child(9){background:linear-gradient(135deg,#e11d48,#9f1239)}
+.dashboardGrid .metric:nth-child(10){background:linear-gradient(135deg,#0d9488,#115e59)}
+.dashboardGrid .metric:nth-child(11){background:linear-gradient(135deg,#6366f1,#3730a3)}
+.panel{border-radius:15px;box-shadow:0 4px 15px #0b28520c;border-color:#e2e8f0}.panel h2{color:#12376e}.recentPanel{border-top:4px solid #0d4c9c}.recentPanel h2{padding-bottom:10px;border-bottom:1px solid #e8eef7}
+@media(max-width:1050px){.dashboardGrid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:800px){header{min-height:112px;padding:17px 14px}.brandMark{width:60px;height:60px;flex-basis:60px}.brandMark svg{width:43px;height:43px}.brandCopy h1{font-size:23px}.wrap{margin:0;padding:12px 10px 25px;min-height:0}nav{position:sticky;top:0;bottom:auto;left:auto;width:auto;flex-direction:row;align-items:center;overflow-x:auto;overflow-y:hidden;padding:9px 8px;margin:0 -10px 13px;gap:6px;box-shadow:0 4px 12px #071d4020}nav:before{display:none}nav button{width:auto;min-width:max-content;padding:10px 12px;font-size:12px}.dashboardGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.homeWelcome{min-height:105px;padding:17px}.homeWelcome h2{font-size:20px}}
+@media(max-width:420px){.dashboardGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.dashboardGrid .metric{min-height:112px;padding:12px}.dashboardGrid .metric strong{font-size:18px}.dashboardGrid .metric small{font-size:11px}.dashboardGrid .metric .muted{font-size:10px}.brandTag{display:none}.head>.pill{font-size:10px}.welcomeMark{font-size:65px}}
+@media print{nav{display:none!important}.wrap{margin:0!important;padding:0!important}header{min-height:0}}
+
+
+/* Premium Al-Nail visual refresh — presentation only; accounting data key and logic remain unchanged. */
+:root{--blue:#0f766e;--blue2:#115e59;--bg:#f2f6f8;--card:#ffffff;--text:#172b3a;--muted:#718096;--line:#dce6eb;--green:#0f9f78;--red:#d9485f;--amber:#c58a24;--navy:#102b3f;--teal:#14b8a6;--gold:#e5b65c}
+body{background:radial-gradient(circle at 10% 0%,#e1f4f1 0,transparent 28%),#f2f6f8;color:var(--text);font-family:"Tahoma",Arial,sans-serif}
+.topHeader{background:linear-gradient(112deg,#102b3f 0%,#123d50 52%,#0f766e 100%);padding:19px 24px;box-shadow:0 8px 28px #102b3f24;border-bottom:1px solid #ffffff1c}
+.topHeader:after{border-color:#ffffff16;box-shadow:0 0 0 24px #ffffff08,0 0 0 50px #ffffff05}
+.head{max-width:1600px}.brand{gap:16px}.brandMark{width:70px;height:70px;flex-basis:70px;border-radius:22px;background:linear-gradient(145deg,#ffffff25,#ffffff0b);border:1px solid #ffffff50;box-shadow:inset 0 1px 0 #ffffff55,0 10px 24px #061e2b55}.brandMark:before{display:none}.brandMark svg{width:56px;height:56px}.brandCopy h1{font-size:29px;letter-spacing:.2px}.brandCopy .sub{font-size:12px;color:#c8e9e5;letter-spacing:.5px}.brandTag{background:#ffffff12;border-color:#ffffff30;color:#e6fffb;padding:5px 11px}.brandTag b{color:#f4cc78}.headStatus{background:#ffffff14!important;color:#e8fffb!important;border:1px solid #ffffff32!important;padding:10px 15px!important;border-radius:14px!important;font-size:12px!important}
+.wrap{max-width:1600px;margin:22px auto;padding:0 18px}.appShell{display:grid;grid-template-columns:minmax(0,1fr) 258px;gap:18px;align-items:start;direction:rtl}.mainContent{min-width:0;grid-column:2;grid-row:1}
+nav.no-print{grid-column:1;grid-row:1;display:flex;flex-direction:column;gap:7px;overflow:visible;position:sticky;top:14px;padding:13px;background:linear-gradient(180deg,#12384a,#102b3f);border:1px solid #1d5360;border-radius:20px;box-shadow:0 12px 32px #102b3f22;min-height:calc(100vh - 150px)}
+nav.no-print:before{content:"القائمة الرئيسية";display:block;color:#9bd9d1;font-size:11px;font-weight:800;letter-spacing:.7px;padding:9px 12px 13px;border-bottom:1px solid #ffffff1c;margin-bottom:5px}
+nav button{width:100%;text-align:right;white-space:normal;border:1px solid transparent;background:transparent;color:#d5e7ec;border-radius:12px;padding:13px 14px;font-size:13px;font-weight:700;transition:.2s}
+nav button:hover{background:#ffffff12;color:#fff;border-color:#ffffff18;transform:translateX(-2px)}nav button.active{background:linear-gradient(110deg,#14b8a6,#0f8f83);color:#062f35;border-color:#4bd4c4;box-shadow:0 7px 18px #0d948833}
+.page{animation:pageIn .22s ease}@keyframes pageIn{from{opacity:.65;transform:translateY(4px)}to{opacity:1;transform:none}}
+.card,.panel{background:#fff;border:1px solid #dfe9ed;border-radius:17px;box-shadow:0 5px 18px #183b4b0a;padding:17px}.panel h2{color:#183b4b;font-size:17px;font-weight:900;padding-bottom:11px;border-bottom:1px solid #e8eff2}
+.homeWelcome{background:linear-gradient(115deg,#102f45,#116b69 72%,#159b8d);border:0;border-radius:20px;box-shadow:0 12px 26px #0f766e22;color:#fff}.homeWelcome p{color:#d0eeeb}.welcomeEyebrow{color:#9de5da}.welcomeMark{color:#f3ce7c}
+.homeNote{background:#e6f5f2;border:1px solid #c5e9e2;color:#245b5a;border-radius:14px}
+.metric{background:linear-gradient(150deg,#fff,#f8fbfc);border:1px solid #dce8eb;box-shadow:0 7px 20px #173d4b0c;border-radius:17px}.metric:after{height:4px;background:linear-gradient(90deg,#0f766e,#5bd2c2)}.metric strong{color:#0f766e}.profitMetric:after{background:linear-gradient(90deg,#0f9f78,#6bd6ad)}.profitMetric strong{color:#087d60}.debtMetric:after{background:linear-gradient(90deg,#c58a24,#f0c66e)}.debtMetric strong{color:#a66d0e}.cashMetric:after{background:linear-gradient(90deg,#167c91,#55c5d3)}.dashboardGrid .metric{min-height:128px}
+.btn{background:#0f766e;border-radius:10px;box-shadow:0 3px 8px #0f766e1c}.btn:hover{background:#115e59}.btn.secondary{background:#e9f0f2;color:#274655;box-shadow:none}.btn.green{background:#0f9f78}.btn.red{background:#d9485f}.btn.amber{background:#c58a24}
+input,select,textarea{border:1px solid #d6e2e7;border-radius:10px;background:#fbfdfe;color:#1b3442}input:focus,select:focus,textarea:focus{outline:3px solid #bdebe5;border-color:#0f9f91}label{color:#4d6571}
+th{background:#e7f4f2;color:#155b58}td,th{border-bottom-color:#e5edef}.tablewrap{border-color:#dce7eb;border-radius:12px}.totalbar{background:#e9f5f3;border:1px solid #d3ebe6}.totalbar strong{color:#0f766e}.pill{background:#d9f2ed;color:#12685f}.summaryTile{border-color:#e0e9ec;border-radius:15px;box-shadow:0 5px 16px #183b4b0a}.summaryTile strong{color:#173b4a}.summaryTile.blue{border-top-color:#167c91}.summaryTile.green{border-top-color:#0f9f78}.summaryTile.amber{border-top-color:#c58a24}
+.status{background:#d9f5e9;color:#087b58}.status.partial{background:#fff0cf;color:#94620d}.status.due{background:#ffe2e7;color:#b8324b}
+.recentInvoice{border-color:#e1eaed;border-radius:13px}.modalBox{border-radius:20px}
+@media(max-width:950px){.appShell{grid-template-columns:210px minmax(0,1fr);gap:12px}nav.no-print{min-height:calc(100vh - 135px);padding:9px}nav button{font-size:12px;padding:11px 10px}}
+@media(max-width:700px){.topHeader{padding:13px 12px}.brandMark{width:56px;height:56px;flex-basis:56px;border-radius:17px}.brandMark svg{width:45px;height:45px}.brandCopy h1{font-size:21px}.brandCopy .sub{font-size:9px}.brandTag{font-size:9px}.headStatus{display:none}.wrap{margin:0;padding:10px 9px 24px}.appShell{display:flex;flex-direction:column;gap:10px}.mainContent{width:100%;order:2}nav.no-print{order:1;position:sticky;top:0;z-index:20;width:100%;min-height:0;flex-direction:row;overflow-x:auto;overflow-y:hidden;padding:8px;margin:0;border-radius:13px;gap:6px}nav.no-print:before{display:none}nav button{width:auto;min-width:max-content;white-space:nowrap;text-align:center;padding:10px 12px;font-size:11px}.dashboardGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:420px){.brandTag{display:none}.brandCopy h1{font-size:19px}.dashboardGrid .metric{padding:12px}.dashboardGrid .metric strong{font-size:18px}}
+@media print{.appShell{display:block}nav.no-print{display:none!important}.mainContent{display:block}.topHeader{background:#12384a!important}}
+
+
+/* إصلاح نهائي لتوزيع مساحة لوحة الأداء المالي على الشاشات الكبيرة */
+@media (min-width: 701px){
+  .wrap{width:100%;max-width:1800px;margin:0 auto;padding:22px 22px 36px;}
+  .appShell{display:grid;grid-template-columns:258px minmax(0,1fr)!important;gap:20px;direction:rtl;align-items:start;width:100%;}
+  nav.no-print{grid-column:1!important;grid-row:1!important;position:sticky;top:16px;width:258px;min-width:0;max-height:calc(100vh - 32px);overflow-y:auto;}
+  .mainContent{grid-column:2!important;grid-row:1!important;width:100%;min-width:0;max-width:none;}
+  .page{width:100%;max-width:none;min-width:0;}
+  .dashboardGrid{width:100%;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:14px;}
+  .dashboardGrid .metric{min-width:0;overflow:hidden;}
+  .dashboardGrid .metric small,.dashboardGrid .metric .muted{line-height:1.55;overflow-wrap:normal;word-break:normal;}
+  .dashboardGrid .metric strong{font-size:clamp(18px,1.55vw,25px);line-height:1.35;white-space:normal;overflow-wrap:anywhere;word-break:normal;}
+}
+@media (min-width:701px) and (max-width:1150px){
+  .appShell{grid-template-columns:220px minmax(0,1fr)!important;gap:14px;}
+  nav.no-print{width:220px;}
+  .dashboardGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
+}
+@media (max-width:700px){
+  .wrap{width:100%;max-width:none;margin:0;padding:10px 9px 24px;}
+  .appShell{display:flex;flex-direction:column;gap:10px;width:100%;}
+  .mainContent{width:100%;min-width:0;order:2;}
+  nav.no-print{width:100%;min-width:0;order:1;}
+  .dashboardGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px;}
+  .dashboardGrid .metric{min-width:0;padding:12px;min-height:112px;}
+  .dashboardGrid .metric strong{font-size:clamp(16px,4vw,20px);line-height:1.35;overflow-wrap:anywhere;}
+  .dashboardGrid .metric small{line-height:1.45;}
+  .dashboardGrid .metric .muted{line-height:1.45;}
+}
+@media(max-width:360px){.dashboardGrid{grid-template-columns:1fr!important}.dashboardGrid .metric{min-height:96px}}
+
+
+#cloudAuth{position:fixed;inset:0;z-index:99999;background:linear-gradient(135deg,#0b1733ee,#1d4ed8ee);display:flex;align-items:center;justify-content:center;padding:18px}
+#cloudAuth .authCard{width:min(440px,100%);background:#fff;border-radius:22px;padding:24px;box-shadow:0 25px 80px #0005;color:#111827}
+#cloudAuth h2{margin:0 0 8px;color:#12316f;font-size:23px}#cloudAuth p{color:#64748b;line-height:1.8;font-size:13px}
+#cloudAuth .authField{margin:12px 0}#cloudAuth label{display:block;margin-bottom:6px;font-weight:bold}#cloudAuth input{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:10px;font-size:16px}
+#cloudAuth button{width:100%;padding:13px;border:0;border-radius:11px;background:#1d4ed8;color:white;font-weight:bold;font-size:15px;margin-top:10px}
+#cloudAuth button:disabled{opacity:.6}#cloudStatus{display:inline-flex;align-items:center;gap:7px;border-radius:20px;padding:6px 10px;background:#ffffff20;color:white;font-size:11px}
+
+</style>
+</head>
+<body>
+<header class="topHeader"><div class="head"><div class="brand"><div class="brandMark" aria-label="شعار شبكة النائل"><svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="40" cy="40" r="35" stroke="#8BE4D3" stroke-width="2.5"/><circle cx="40" cy="40" r="27" stroke="#FFFFFF" stroke-opacity=".28" stroke-width="1.5"/><path d="M17 31C30 18 50 18 63 31M23 39C33 29 47 29 57 39M30 47C36 41 44 41 50 47" stroke="#8BE4D3" stroke-width="4" stroke-linecap="round"/><circle cx="40" cy="55" r="4.5" fill="#F5C76B"/><path d="M23 61H57" stroke="white" stroke-opacity=".75" stroke-width="2.5" stroke-linecap="round"/></svg></div><div class="brandCopy"><h1>شبكة النائل</h1><div class="sub">AL-NAIL NETWORK · النظام المحاسبي الذكي</div><div class="brandTag"><b>01</b><span>إدارة المبيعات والمخزون والحسابات</span></div></div></div><div class="pill headStatus">منصة الإدارة المالية</div></div></header>
+<div class="wrap"><div class="appShell">
+<nav class="no-print">
+<button class="active" data-page="home">الرئيسية</button>
+<button data-page="invoice">فاتورة جديدة</button>
+<button data-page="invoices">الفواتير السابقة</button>
+<button data-page="items">الأصناف والمخزون</button>
+<button data-page="grocers">إدارة البقالات</button>
+<button data-page="cashbox">الصندوق والتحصيل</button>
+<button data-page="expenses">المصروفات</button>
+<button data-page="reports">التقارير</button>
+<button data-page="settings">الإعدادات</button>
+</nav>
+<div class="mainContent">
+
+<section id="home" class="page active">
+<div class="homeWelcome"><div><span class="welcomeEyebrow">لوحة التحكم الرئيسية</span><h2>مرحباً بك في شبكة النائل</h2><p>إدارة مبيعاتك ومخزونك وحساباتك من مكان واحد</p></div><div class="welcomeMark" aria-hidden="true">⌁</div></div>
+<div class="homeNote"><strong>ملخص الأداء المالي</strong><span>الأرباح هنا من المبيعات النقدية والتحصيل الفعلي للآجل فقط.</span></div>
+<div class="grid dashboardGrid">
+<div class="card metric cashMetric"><small>رصيد الصندوق الحالي</small><strong id="mCash">0</strong><div class="muted">الرصيد الافتتاحي + الوارد − الصادر</div></div>
+<div class="card metric"><small>إجمالي المحصّل من المبيعات</small><strong id="mCollected">0</strong><div class="muted">النقدي + التحصيل الموزع على الآجل</div></div>
+<div class="card metric profitMetric"><small>صافي الربح المحقّق</small><strong id="mProfit">0</strong><div class="muted">بعد تكلفة الكروت والمصروفات</div></div>
+<div class="card metric debtMetric"><small>ديون البقالات المتبقية</small><strong id="mDebt">0</strong><div class="muted">فواتير آجلة لم تُحصّل بعد</div></div>
+<div class="card metric"><small>ديون عليك لأصحاب البقالات</small><strong id="mPayableDebt">0</strong><div class="muted">التزاماتك التي لم تسددها بعد</div></div>
+<div class="card metric"><small>إجمالي المبيعات المسجلة</small><strong id="mSales">0</strong><div class="muted">يشمل النقدي والآجل ولو لم يُحصّل</div></div>
+<div class="card metric"><small>المبيعات الآجلة المسجلة</small><strong id="mCredit">0</strong><div class="muted">قيمة جميع الفواتير الآجلة</div></div>
+<div class="card metric"><small>عدد الفواتير</small><strong id="mCount">0</strong><div class="muted">نقدية وآجلة</div></div>
+<div class="card metric"><small>المصروفات المسجلة</small><strong id="mExpenses">0</strong><div class="muted">مخصومة من صافي الربح المحقّق</div></div>
+<div class="card metric cashMetric"><small>إجمالي أرصدة الحسابات البنكية</small><strong id="mBankBalance">0</strong><div class="muted">أرصدة الحسابات بعد التحويلات والسحوبات</div></div>
+<div class="card metric"><small>إجمالي ما تم ترحيله للبنك</small><strong id="mBankTransferred">0</strong><div class="muted">مجموع الإيداعات المحوّلة من الصندوق</div></div>
+</div>
+<div class="panel recentPanel" style="margin-top:14px"><h2>آخر الفواتير وحالة التحصيل</h2><p class="muted" style="margin-top:-5px">يمكنك معاينة تفاصيل أي فاتورة أو حذفها مباشرة من هنا.</p><div id="recent"></div></div>
+<div id="homeInvoiceModal" class="modalShade" style="display:none" onclick="if(event.target===this)closeHomeInvoice()"><div class="modalBox"><div class="modalTop"><h2 style="margin:0">تفاصيل الفاتورة</h2><button class="btn secondary small" onclick="closeHomeInvoice()">إغلاق ✕</button></div><div id="homeInvoiceDetails"></div></div></div>
+<div id="itemViewModal" class="modalShade" style="display:none" onclick="if(event.target===this)closeItemView()"><div class="modalBox"><div class="modalTop"><h2 style="margin:0">تفاصيل الصنف</h2><button class="btn secondary small" onclick="closeItemView()">إغلاق ✕</button></div><div id="itemViewDetails"></div></div></div>
+<div class="panel"><h2>معلومة محاسبية</h2><p class="muted">الربح المحقّق هنا مؤشر على أساس التحصيل، وليس الربح المحاسبي على أساس الاستحقاق. التحصيل المقدم غير الموزع لا يُحسب مبيعات أو أرباحاً. بياناتك محفوظة داخل المتصفح؛ احفظ نسخة احتياطية دورياً.</p></div>
+</section>
+
+<section id="invoice" class="page">
+<div class="panel">
+<h2 id="invoiceTitle">إنشاء فاتورة جديدة</h2>
+<div class="row">
+<div class="field"><label>رقم الفاتورة (تلقائي تسلسلي)</label><input id="invNo" readonly placeholder="يُنشأ تلقائياً"></div>
+<div class="field"><label>التاريخ</label><input id="invDate" type="date"></div>
+<div class="field"><label>اسم البقالة / العميل</label><input id="invCustomer" list="grocerOptions" placeholder="اختر أو اكتب اسم البقالة"><datalist id="grocerOptions"></datalist></div>
+<div class="field"><label>طريقة الدفع</label><select id="invPay"><option value="cash">نقدي</option><option value="credit">آجل</option></select></div>
+</div>
+<div class="row" style="margin-top:12px">
+<div class="field"><label>خصم على الفاتورة</label><input id="invDiscount" type="number" min="0" value="0"></div>
+<div class="field"><label>خيار النسبة</label><select id="invRateMode"><option value="auto">تلقائي حسب طريقة الدفع</option><option value="none">بدون عمولة (0%)</option><option value="custom">نسبة مخصصة</option></select></div>
+<div class="field" id="customRateWrap" style="display:none"><label>النسبة المخصصة %</label><input id="invCustomRate" type="number" min="0" step="0.01" value="0"></div>
+<div class="field"><label>ملاحظات</label><input id="invNotes" placeholder="اختياري"></div>
+</div>
+</div>
+<div class="panel">
+<div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap"><h2 style="margin:0">أصناف الفاتورة</h2><button class="btn green no-print" id="addLine">+ إضافة صنف</button></div>
+<div class="muted" style="margin:8px 0 12px">اختر الصنف الأول، ثم أضف أي عدد من الأصناف الأخرى في نفس الفاتورة. يمكنك تعديل السعر والكمية لكل صنف.</div>
+<div class="tablewrap"><table><thead><tr><th>الصنف</th><th>الكمية</th><th>سعر الوحدة</th><th>الإجمالي</th><th>حذف</th></tr></thead><tbody id="lines"></tbody></table></div>
+<div class="panel" style="margin-top:14px;border:1px dashed #2563eb;background:#f8fbff">
+<h3 style="margin-top:0">دعم مجاني للزبون (يُخصم من المخزون دون احتساب مبلغ)</h3>
+<div class="muted" style="margin-bottom:10px">أضف الكروت أو الورق الذي تمنحه للزبون مجاناً. لن يدخل في قيمة الفاتورة أو العمولة، وسيُخصم من المخزون تلقائياً.</div>
+<div style="display:flex;justify-content:flex-end;margin-bottom:8px"><button class="btn secondary no-print" id="addSupportLine">+ إضافة كمية دعم</button></div>
+<div class="tablewrap"><table><thead><tr><th>صنف الدعم</th><th>الكمية المجانية</th><th>حذف</th></tr></thead><tbody id="supportLines"></tbody></table></div>
+<div class="muted" id="supportStockHint">الدعم المجاني لا يضاف إلى إجمالي الفاتورة.</div>
+</div>
+<div class="totalbar"><span>إجمالي الأصناف: <strong id="subTotal">0</strong></span><span>العمولة: <strong id="commission">0</strong></span><span>الإجمالي النهائي: <strong id="grandTotal">0</strong></span></div>
+<div class="actions no-print"><button class="btn green" id="saveInvoice">حفظ الفاتورة</button><button class="btn secondary" id="clearInvoice">تفريغ النموذج</button><button class="btn secondary" id="cancelEdit">إلغاء التعديل</button></div>
+</div>
+</section>
+
+<section id="invoices" class="page">
+<div class="panel"><h2>البحث في الفواتير</h2><div class="row"><div class="field"><label>رقم الفاتورة أو اسم العميل</label><input id="searchInvoice" placeholder="اكتب للبحث..."></div></div></div>
+<div class="panel"><h2>سجل الفواتير</h2><div id="invoiceList"></div></div>
+</section>
+
+<section id="items" class="page">
+<div class="panel"><h2>إضافة / تعديل صنف</h2><input id="itemId" type="hidden"><div class="row">
+<div class="field"><label>كود الصنف</label><input id="itemCode" placeholder="مثال: C12"></div>
+<div class="field"><label>اسم الصنف</label><input id="itemName" placeholder="مثال: كرت 12 جيجا"></div>
+<div class="field"><label>سعر التكلفة</label><input id="itemCost" type="number" min="0"></div>
+<div class="field"><label>سعر البيع</label><input id="itemPrice" type="number" min="0"></div>
+<div class="field"><label>كمية لإضافتها للمخزون</label><input id="itemStock" type="number" min="0" step="any" value="0"></div>
+</div><div class="actions"><button class="btn green" id="saveItem">حفظ الصنف</button><button class="btn secondary" id="resetItem">تفريغ</button></div></div>
+<div class="panel">
+<h2>إضافة كمية إلى المخزون الموجود</h2>
+<div class="notice">هذه الحركة تزيد الكمية فوق الرصيد الحالي ولا تستبدله. مثال: إذا كان رصيد الصنف 20 وأضفت 10 يصبح الرصيد 30.</div>
+<div class="row">
+<div class="field"><label>اختر الصنف</label><select id="stockItem"></select></div>
+<div class="field"><label>الرصيد الحالي</label><input id="stockCurrent" readonly value="0"></div>
+<div class="field"><label>الكمية الجديدة المضافة</label><input id="stockAddQty" type="number" min="0.001" step="any" placeholder="أدخل الكمية"></div>
+<div class="field"><label>تاريخ الإضافة</label><input id="stockAddDate" type="date"></div>
+<div class="field"><label>ملاحظات / رقم سند التوريد</label><input id="stockAddNote" placeholder="اختياري"></div>
+</div>
+<div class="actions"><button class="btn green" id="addStockEntry">+ إضافة الكمية للمخزون</button></div>
+</div>
+<div class="panel" style="border:1px solid #bfdbfe;background:linear-gradient(135deg,#f8fbff,#ffffff)"><h2>ملخص المخزون بالأرقام والنسب</h2><p class="muted" style="margin-top:-6px">يعرض الرصيد المتبقي لكل صنف بدقة، ونسبة كمية الصنف من إجمالي الكميات المتوفرة بالمخزون.</p><div id="stockDashboard"></div></div>
+<div class="panel"><h2>قائمة الأصناف والمخزون</h2><div id="itemList"></div></div>
+<div class="panel"><h2>سجل إضافات المخزون</h2><div id="stockMovementList"></div></div>
+</section>
+
+<section id="grocers" class="page">
+<div class="panel"><h2>إضافة / تعديل بقالة أو نقطة بيع</h2><input id="grocerId" type="hidden"><div class="row"><div class="field"><label>اسم البقالة / نقطة البيع</label><input id="grocerName" placeholder="اسم البقالة"></div><div class="field"><label>رقم الهاتف</label><input id="grocerPhone" inputmode="tel" placeholder="اختياري"></div><div class="field"><label>العنوان / المنطقة</label><input id="grocerAddress" placeholder="اختياري"></div><div class="field"><label>ملاحظات</label><input id="grocerNotes" placeholder="اختياري"></div></div><div class="actions"><button class="btn green" id="saveGrocer">حفظ البقالة</button><button class="btn secondary" id="resetGrocer">تفريغ</button></div></div>
+<div class="panel"><h2>البقالات وأرصدتها</h2><div id="grocerList"></div></div>
+</section>
+<section id="cashbox" class="page">
+<div class="grid"><div class="card metric"><small>رصيد الصندوق الحالي</small><strong id="cashBalance">0</strong></div><div class="card metric"><small>إجمالي الديون المتبقية</small><strong id="debtBalance">0</strong></div><div class="card metric"><small>المبالغ المحصلة</small><strong id="collectedTotal">0</strong></div><div class="card metric"><small>حركة الصندوق اليدوية</small><strong id="manualCashTotal">0</strong></div></div>
+<div class="panel" style="margin-top:14px"><h2>تحصيل مبلغ من بقالة / نقطة بيع</h2><div class="row"><div class="field"><label>البقالة</label><input id="payCustomer" list="grocerOptions" placeholder="اسم البقالة"></div><div class="field"><label>التاريخ</label><input id="payDate" type="date"></div><div class="field"><label>المبلغ المحصل</label><input id="payAmount" type="number" min="0" step="any"></div><div class="field"><label>ملاحظات</label><input id="payNote" placeholder="اختياري"></div></div><div class="actions"><button class="btn green" id="savePayment">تسجيل التحصيل وإضافته للصندوق</button></div><div id="customerDueHint" class="muted"></div></div>
+<div class="panel"><h2>كشف حساب البقالة ودورات الآجل</h2><div class="muted">يعرض كل فاتورة آجلة على حدة، والمبلغ المسدد منها والمتبقي. عند إغلاق المديونية يمكنك إصدار فاتورة آجلة جديدة وتبدأ دورة حساب جديدة تلقائياً.</div><div class="row" style="margin-top:10px"><div class="field"><label>اختر البقالة لعرض كشف الحساب</label><input id="statementCustomer" list="grocerOptions" placeholder="اكتب اسم البقالة"></div></div><div id="customerStatement" class="statementBox"><div class="empty">اختر بقالة لعرض فواتيرها الآجلة والتحصيلات</div></div></div>
+<div class="panel"><h2>مديونية عليك لأصحاب البقالات</h2>
+<div class="notice">هذا الحساب منفصل عن ديون البقالات لك. سجّل هنا ما عليك لصاحب البقالة، ثم سجّل كل دفعة تسددها له؛ ينخفض المتبقي تلقائياً ويُخصم السداد من الصندوق.</div>
+<div class="row" style="margin-top:10px"><div class="field"><label>صاحب البقالة</label><input id="owedGrocer" list="grocerOptions" placeholder="اسم صاحب البقالة"></div><div class="field"><label>التاريخ</label><input id="owedDate" type="date"></div><div class="field"><label>مبلغ الدين الجديد</label><input id="owedAmount" type="number" min="0.01" step="any" placeholder="المبلغ الذي عليك"></div><div class="field"><label>البيان</label><input id="owedNote" placeholder="سبب المديونية / ملاحظات"></div></div>
+<div class="actions"><button class="btn green" id="saveGrocerDebt">+ تسجيل مديونية عليك</button></div>
+<div class="divider" style="height:1px;background:#e5e7eb;margin:16px 0"></div>
+<h3>تسجيل دفعة سداد لصاحب البقالة</h3>
+<div class="row"><div class="field"><label>صاحب البقالة</label><input id="owedPayGrocer" list="grocerOptions" placeholder="اسم صاحب البقالة"></div><div class="field"><label>التاريخ</label><input id="owedPayDate" type="date"></div><div class="field"><label>مبلغ الدفعة المسددة</label><input id="owedPayAmount" type="number" min="0.01" step="any" placeholder="المبلغ المدفوع"></div><div class="field"><label>ملاحظات</label><input id="owedPayNote" placeholder="اختياري"></div></div>
+<div class="actions"><button class="btn green" id="saveGrocerDebtPayment">تسجيل السداد وخصمه من الصندوق</button></div>
+<div class="panel" style="margin-top:12px"><h3>أرصدة أصحاب البقالات</h3><div id="grocerDebtSummary"></div></div>
+<div class="panel"><h3>سجل المديونيات والدفعات</h3><div id="grocerDebtHistory"></div></div>
+</div>
+<div class="panel"><h2>حركة نقدية يدوية</h2><div class="row"><div class="field"><label>نوع الحركة</label><select id="cashType"><option value="in">إيداع / وارد</option><option value="out">سحب / صادر</option></select></div><div class="field"><label>التاريخ</label><input id="cashDate" type="date"></div><div class="field"><label>البيان</label><input id="cashDesc" placeholder="سبب الحركة"></div><div class="field"><label>المبلغ</label><input id="cashAmount" type="number" min="0"></div></div><div class="actions"><button class="btn green" id="saveCashMove">حفظ الحركة</button></div></div>
+<div class="panel" id="bankPanel"><h2>الحسابات البنكية والتحويل من الصندوق</h2>
+<div class="grid" style="margin-bottom:12px"><div class="card metric"><small>إجمالي رصيد البنوك</small><strong id="bankTotalBalance">0</strong></div><div class="card metric"><small>إجمالي المبالغ المرحلة للبنك</small><strong id="bankTotalTransferred">0</strong></div><div class="card metric"><small>عدد الحسابات البنكية</small><strong id="bankAccountCount">0</strong></div></div>
+<div class="notice">أضف حسابك البنكي مرة واحدة، ثم سجّل كل مبلغ تنقله من الصندوق إلى البنك. التحويل بين الصندوق والبنك ليس إيراداً ولا مصروفاً؛ بل نقل رصيد فقط، ويُحدّث رصيد الجهتين تلقائياً.</div>
+<h3 style="margin:14px 0 8px">إضافة حساب بنكي</h3><div class="row"><div class="field"><label>اسم البنك</label><input id="bankName" placeholder="مثلاً: بنك الكريمي"></div><div class="field"><label>اسم صاحب الحساب</label><input id="bankOwner" placeholder="اسم صاحب الحساب"></div><div class="field"><label>رقم الحساب / الآيبان</label><input id="bankNumber" placeholder="اختياري"></div><div class="field"><label>الرصيد الافتتاحي</label><input id="bankOpening" type="number" min="0" step="any" value="0"></div></div><div class="actions"><button class="btn green" id="saveBankAccount">+ إضافة الحساب البنكي</button></div>
+<div class="panel" style="margin-top:12px"><h3>حساباتي البنكية وأرصدتها</h3><div id="bankAccountList"></div></div>
+<h3 style="margin:14px 0 8px">ترحيل مبلغ بين الصندوق والبنك</h3><div class="row"><div class="field"><label>نوع التحويل</label><select id="bankTransferDirection"><option value="toBank">من الصندوق إلى البنك (إيداع)</option><option value="toCash">من البنك إلى الصندوق (سحب)</option></select></div><div class="field"><label>الحساب البنكي</label><select id="bankTransferAccount"><option value="">اختر الحساب</option></select></div><div class="field"><label>التاريخ</label><input id="bankTransferDate" type="date"></div><div class="field"><label>المبلغ</label><input id="bankTransferAmount" type="number" min="0.01" step="any"></div><div class="field"><label>البيان / رقم الإيصال</label><input id="bankTransferNote" placeholder="اختياري"></div></div><div class="actions"><button class="btn" id="saveBankTransfer">تسجيل التحويل وتحديث الأرصدة</button></div>
+<div class="panel" style="margin-top:12px"><h3>سجل التحويلات البنكية</h3><div id="bankTransferList"></div></div></div>
+<div class="panel"><h2>سجل التحصيلات والحركات النقدية</h2><div id="cashLedger"></div></div>
+</section>
+<section id="expenses" class="page">
+<div class="panel"><h2>تسجيل مصروف</h2><div class="row">
+<div class="field"><label>التاريخ</label><input id="expDate" type="date"></div>
+<div class="field"><label>نوع المصروف</label><input id="expType" placeholder="كهرباء، إنترنت، نقل..."></div>
+<div class="field"><label>البيان</label><input id="expDesc" placeholder="تفاصيل المصروف"></div>
+<div class="field"><label>المبلغ</label><input id="expAmount" type="number" min="0"></div>
+</div><div class="actions"><button class="btn green" id="saveExpense">حفظ المصروف</button></div></div>
+<div class="panel"><h2>سجل المصروفات</h2><div id="expenseList"></div></div>
+</section>
+
+<section id="reports" class="page">
+<div class="panel"><h2>ملخص الحسابات</h2><div id="reportSummary"></div></div>
+<div class="panel"><h2>حركة المخزون</h2><div id="stockReport"></div></div>
+</section>
+
+<section id="settings" class="page">
+<div class="panel"><h2>النسب والإعدادات</h2><div class="notice">النسب الافتراضية قابلة للتغيير. تم وضع عمولة 15% للنقدي و10% للآجل كبداية، ويمكنك تعديلها حسب اتفاقك.</div>
+<div class="row">
+<div class="field"><label>عمولة النقدي %</label><input id="rateCash" type="number" min="0" step="0.01"></div>
+<div class="field"><label>عمولة الآجل %</label><input id="rateCredit" type="number" min="0" step="0.01"></div>
+<div class="field"><label>رصيد الصندوق الافتتاحي</label><input id="openingCash" type="number" step="any"></div><div class="field"><label>اسم النشاط</label><input id="businessName"></div>
+<div class="field"><label>العملة</label><input id="currency"></div>
+</div><div class="actions"><button class="btn green" id="saveSettings">حفظ الإعدادات</button><button class="btn secondary" id="exportData">تنزيل نسخة احتياطية</button><label class="btn secondary" for="importFile" style="cursor:pointer">استعادة نسخة</label><input id="importFile" type="file" accept="application/json" class="hidden"></div></div>
+<div class="panel"><h2>معلومات</h2><p class="muted">التطبيق متصل بسحابة شبكة النائل. بعد تسجيل الدخول بالبيانات نفسها تتم مزامنة الفواتير والمخزون والحسابات بين الأجهزة عبر الإنترنت. احتفظ بنسخة احتياطية دورية.</p></div>
+</section>
+</div></div></div>
+
+
+<div id="cloudAuth" style="display:none"><div class="authCard"><div style="font-size:34px;margin-bottom:8px">🌐</div><h2>شبكة النائل</h2><p>سجّل الدخول لمزامنة الفواتير والمخزون والحسابات بين الهاتف واللابتوب.</p><form id="cloudLoginForm"><div class="authField"><label for="cloudEmail">البريد الإلكتروني</label><input id="cloudEmail" type="email" autocomplete="username" required placeholder="name@gmail.com"></div><div class="authField"><label for="cloudPassword">كلمة المرور</label><input id="cloudPassword" type="password" autocomplete="current-password" required placeholder="كلمة مرور حسابك"></div><button id="cloudLoginBtn" type="submit">تسجيل الدخول والمزامنة</button></form><div style="margin-top:14px;padding-top:12px;border-top:1px solid #e2e8f0"><label for="cloudBackupImport">هل لديك نسخة احتياطية من النظام السابق؟ استوردها أولاً من الجهاز الذي يحتوي بياناتك.</label><input id="cloudBackupImport" type="file" accept="application/json" style="font-size:12px;padding:8px"><button type="button" id="cloudImportBtn" style="background:#0f766e">استيراد النسخة الاحتياطية قبل المزامنة</button></div><div id="cloudAuthMsg" style="margin-top:12px;font-size:13px;color:#b91c1c;line-height:1.7"></div><p style="font-size:11px;margin-bottom:0">بياناتك المحلية تبقى محفوظة، ويتم الاحتفاظ بنسخة احتياطية محلية قبل تحميل بيانات السحابة.</p></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const KEY='nail_network_accounting_v1';
+let db=JSON.parse(localStorage.getItem(KEY)||'null')||{items:[],invoices:[],expenses:[],changes:[],grocers:[],payments:[],cashMoves:[],stockMovements:[],settings:{cash:15,credit:10,openingCash:0,name:'شبكة النائل',currency:'ريال يمني'}};
+db.grocers=db.grocers||[];db.payments=db.payments||[];db.cashMoves=db.cashMoves||[];db.stockMovements=db.stockMovements||[];db.grocerDebts=db.grocerDebts||[];db.grocerDebtPayments=db.grocerDebtPayments||[];db.settings.openingCash=+db.settings.openingCash||0;db.bankAccounts=db.bankAccounts||[];db.bankTransfers=db.bankTransfers||[];
+// ترحيل الفواتير القديمة: العمولة نسبة مستحقة للبقالة وتخصم من قيمة الفاتورة.
+if(!db.settings.commissionDeductMode){db.invoices.forEach(v=>{v.total=Math.max(0,Math.max(0,(+v.sub||0)-(+v.discount||0))-(+v.commission||0))});db.settings.commissionDeductMode=true;}
+db.items.forEach(i=>{if(!Number.isFinite(+i.stock))i.stock=0});db.invoices.forEach(v=>{v.rows=v.rows||[]});db.changes=db.changes||[];
+let editingId=null, lineCounter=0;
+// تسلسل أرقام الفواتير: لا يعاد استخدام رقم فاتورة محذوفة.
+function nextInvoiceNo(){let nums=db.invoices.map(v=>String(v.no||'').match(/^\d+$/)?parseInt(v.no,10):0);let max=Math.max(1000,...nums,+db.settings.nextInvoiceSeq||1000);return String(max+1)}
+function setInvoiceNo(){if(!editingId)$('invNo').value=nextInvoiceNo()}
+function invoiceRate(){let mode=$('invRateMode').value;if(mode==='none')return 0;if(mode==='custom')return Math.max(0,+$('invCustomRate').value||0);return $('invPay').value==='credit'?(+db.settings.credit||0):(+db.settings.cash||0)}
+const $=id=>document.getElementById(id);
+const money=n=>(Number(n)||0).toLocaleString('en-US',{maximumFractionDigits:2})+' '+(db.settings.currency||'');
+const today=()=>new Date().toISOString().slice(0,10);
+let cloudClient=null,cloudUser=null,cloudReady=false,cloudSaveTimer=null,cloudSaving=false,cloudLastUpdated=null,cloudPulling=false,cloudDirty=false,cloudConflict=false;
+const SUPABASE_URL='https://isysjpzfsnlxdcimhtgw.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY='sb_publishable_Q7Tvf2zcq7iy_xrMQy3MLA_kkvTgj_u';
+function cloudMessage(msg,isError=false){const el=$('cloudAuthMsg');if(el){el.style.color=isError?'#b91c1c':'#047857';el.textContent=msg}}
+function showCloudLogin(show=true){$('cloudAuth').style.display=show?'flex':'none'}
+function hasLocalBusinessData(d){return !!(d&&(d.items?.length||d.invoices?.length||d.grocers?.length||d.expenses?.length||d.payments?.length||d.stockMovements?.length))}
+function saveDB(){localStorage.setItem(KEY,JSON.stringify(db));refreshAll();if(cloudReady&&cloudUser){cloudDirty=true;scheduleCloudSave()}}
+function scheduleCloudSave(){clearTimeout(cloudSaveTimer);cloudSaveTimer=setTimeout(pushCloudData,900)}
+function setCloudConflict(message='يوجد تعديل أحدث من الجهاز الآخر. أوقفنا الحفظ حتى لا نفقد أي بيانات.') {cloudConflict=true;cloudReady=false;clearTimeout(cloudSaveTimer);const status=$('cloudSyncStatus');if(status){status.textContent='تعارض مزامنة · الحفظ متوقف';status.style.background='#991b1b';status.style.borderRadius='12px';status.style.maxWidth='min(360px,calc(100% - 24px))';status.style.whiteSpace='normal';status.style.lineHeight='1.7';status.innerHTML='⚠️ '+message+'<br><button id="cloudConflictReload" style="margin-top:7px;border:0;border-radius:8px;padding:7px 10px;background:#fff;color:#991b1b;font-weight:bold">تحميل آخر نسخة سحابية</button> <button id="cloudConflictBackup" style="margin-top:7px;border:0;border-radius:8px;padding:7px 10px;background:#fee2e2;color:#7f1d1d;font-weight:bold">تنزيل نسخة من تعديلاتي</button>';document.getElementById('cloudConflictReload').onclick=async()=>{if(!confirm('سيتم استبدال البيانات الظاهرة بآخر نسخة سحابية. نزّل نسخة من تعديلاتك أولاً إذا كنت تحتاجها. متابعة؟'))return;try{const {data,error}=await cloudClient.from('nail_accounting_data').select('data,updated_at').eq('user_id',cloudUser.id).maybeSingle();if(error)throw error;if(!data?.data)throw new Error('لم نعثر على نسخة سحابية');localStorage.setItem(KEY+'_precloud_backup',localStorage.getItem(KEY)||'{}');db=data.data;localStorage.setItem(KEY,JSON.stringify(db));cloudLastUpdated=data.updated_at;cloudDirty=false;cloudConflict=false;cloudReady=true;refreshAll();status.textContent='متصل · تمت المزامنة';status.style.background='#065f46'}catch(e){alert('تعذر تحميل النسخة: '+(e.message||e))}};document.getElementById('cloudConflictBackup').onclick=()=>{const blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='نسخة-تعديلات-محلية-شبكة-النائل.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}}}
+async function pushCloudData(){if(!cloudReady||!cloudUser||cloudSaving||cloudConflict)return;cloudSaving=true;try{const nextUpdated=new Date().toISOString();let query=cloudClient.from('nail_accounting_data').update({data:db,updated_at:nextUpdated}).eq('user_id',cloudUser.id);if(cloudLastUpdated)query=query.eq('updated_at',cloudLastUpdated);const {data,error}=await query.select('updated_at').maybeSingle();if(error)throw error;if(!data){setCloudConflict();return}cloudLastUpdated=data.updated_at;cloudDirty=false;const status=$('cloudSyncStatus');if(status)status.textContent='متصل · تمت المزامنة'}catch(e){const status=$('cloudSyncStatus');if(status)status.textContent='تعذرت المزامنة';console.error('Cloud sync error',e)}finally{cloudSaving=false}}
+async function initializeCloud(){try{if(!window.supabase?.createClient)throw new Error('تعذر تحميل مكتبة الاتصال. تحقق من الإنترنت ثم أعد فتح التطبيق.');cloudClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);const {data:{session},error}=await cloudClient.auth.getSession();if(error)throw error;if(session){await finishCloudLogin(session.user);return}showCloudLogin(true)}catch(e){showCloudLogin(true);cloudMessage(e.message||'تعذر الاتصال بالخدمة السحابية.',true)}}
+async function finishCloudLogin(user){cloudUser=user;cloudMessage('جارٍ تحميل بياناتك...');try{const {data,error}=await cloudClient.from('nail_accounting_data').select('data,updated_at').eq('user_id',user.id).maybeSingle();if(error)throw error;if(data?.data){cloudLastUpdated=data.updated_at;cloudDirty=false;cloudConflict=false;localStorage.setItem(KEY+'_precloud_backup',localStorage.getItem(KEY)||'{}');db=data.data;localStorage.setItem(KEY,JSON.stringify(db));db.grocers=db.grocers||[];db.payments=db.payments||[];db.cashMoves=db.cashMoves||[];db.stockMovements=db.stockMovements||[];db.grocerDebts=db.grocerDebts||[];db.grocerDebtPayments=db.grocerDebtPayments||[];db.bankAccounts=db.bankAccounts||[];db.bankTransfers=db.bankTransfers||[];refreshAll()}else{const firstPayload={user_id:user.id,data:db,updated_at:new Date().toISOString()};const {error:upErr}=await cloudClient.from('nail_accounting_data').upsert(firstPayload,{onConflict:'user_id'});if(upErr)throw upErr;cloudLastUpdated=firstPayload.updated_at}cloudReady=true;showCloudLogin(false);let pill=document.getElementById('cloudSyncStatus');if(!pill){pill=document.createElement('div');pill.id='cloudSyncStatus';pill.style.cssText='position:fixed;bottom:12px;left:12px;z-index:9998;background:#065f46;color:#fff;padding:7px 11px;border-radius:20px;font:12px Tahoma,Arial;box-shadow:0 3px 12px #0002';document.body.appendChild(pill)}pill.textContent='متصل · تمت المزامنة';refreshAll()}catch(e){cloudReady=false;cloudMessage('تعذر تحميل/حفظ البيانات: '+(e.message||'خطأ غير معروف'),true);showCloudLogin(true)}}
+async function pollCloudChanges(){if(!cloudReady||!cloudUser||cloudSaving||cloudPulling)return;try{const {data,error}=await cloudClient.from('nail_accounting_data').select('data,updated_at').eq('user_id',cloudUser.id).maybeSingle();if(error)throw error;if(data?.data&&data.updated_at&&data.updated_at!==cloudLastUpdated){if(cloudDirty){setCloudConflict('وجدنا تعديلًا من الجهاز الآخر بينما لديك تعديلات غير محفوظة. احتفظنا بتعديلاتك وأوقفنا المزامنة لتختار بأمان.');return}cloudPulling=true;localStorage.setItem(KEY+'_precloud_backup',localStorage.getItem(KEY)||'{}');db=data.data;cloudLastUpdated=data.updated_at;cloudDirty=false;localStorage.setItem(KEY,JSON.stringify(db));db.grocers=db.grocers||[];db.payments=db.payments||[];db.cashMoves=db.cashMoves||[];db.stockMovements=db.stockMovements||[];db.grocerDebts=db.grocerDebts||[];db.grocerDebtPayments=db.grocerDebtPayments||[];db.bankAccounts=db.bankAccounts||[];db.bankTransfers=db.bankTransfers||[];refreshAll();const status=$('cloudSyncStatus');if(status)status.textContent='تم تحديث البيانات من الجهاز الآخر'} }catch(e){console.warn('Cloud refresh error',e)}finally{cloudPulling=false}}
+setInterval(pollCloudChanges,6000);
+$('cloudImportBtn').addEventListener('click',async()=>{const f=$('cloudBackupImport').files[0];if(!f){cloudMessage('اختر ملف النسخة الاحتياطية أولاً.',true);return}try{const d=JSON.parse(await f.text());if(!d.items||!d.invoices)throw new Error('ملف النسخة لا يبدو نسخة شبكة النائل');localStorage.setItem(KEY+'_precloud_backup',localStorage.getItem(KEY)||'{}');db=d;localStorage.setItem(KEY,JSON.stringify(db));cloudMessage('تم استيراد النسخة محلياً. الآن سجّل الدخول لرفعها إلى السحابة.')}catch(err){cloudMessage(err.message||'تعذر قراءة النسخة الاحتياطية.',true)}});
+$('cloudLoginForm').addEventListener('submit',async e=>{e.preventDefault();const btn=$('cloudLoginBtn');btn.disabled=true;btn.textContent='جارٍ تسجيل الدخول...';cloudMessage('');try{const {data,error}=await cloudClient.auth.signInWithPassword({email:$('cloudEmail').value.trim(),password:$('cloudPassword').value});if(error)throw error;await finishCloudLogin(data.user)}catch(err){cloudMessage(err.message||'فشل تسجيل الدخول. تحقق من البريد وكلمة المرور.',true)}finally{btn.disabled=false;btn.textContent='تسجيل الدخول والمزامنة'}});
+
+function go(page){document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id===page));document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===page));if(page==='invoices')renderInvoices();if(page==='items')renderItems();if(page==='expenses')renderExpenses();if(page==='reports')renderReports();if(page==='grocers')renderGrocers();if(page==='cashbox')renderCashbox()}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>go(b.dataset.page));
+function itemOptions(selected=''){return '<option value="">اختر الصنف</option>'+db.items.map(i=>`<option value="${esc(i.id)}" ${i.id===selected?'selected':''}>${esc(i.name)} (${esc(i.code)})</option>`).join('')}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function addLine(data={}){lineCounter++;let tr=document.createElement('tr');tr.dataset.id=lineCounter;tr.innerHTML=`<td><select class="lineItem">${itemOptions(data.itemId||'')}</select></td><td><input class="lineQty" type="number" min="0" step="any" value="${data.qty??1}"></td><td><input class="linePrice" type="number" min="0" step="any" value="${data.price??''}"></td><td class="lineTotal">0</td><td><button class="btn red small removeLine">حذف</button></td>`;$('lines').appendChild(tr);
+let sel=tr.querySelector('.lineItem'),price=tr.querySelector('.linePrice');
+sel.onchange=()=>{let it=db.items.find(x=>x.id===sel.value);if(it&&!price.value)price.value=it.price;calcInvoice()};
+tr.querySelectorAll('input').forEach(x=>x.oninput=calcInvoice);tr.querySelector('.removeLine').onclick=()=>{tr.remove();calcInvoice()};if(data.itemId){let it=db.items.find(x=>x.id===data.itemId);if(it&&!data.price)price.value=it.price}calcInvoice()}
+function addSupportLine(data={}){let tr=document.createElement('tr');tr.innerHTML=`<td><select class="supportItem">${itemOptions(data.itemId||'')}</select></td><td><input class="supportQty" type="number" min="0" step="any" value="${data.qty??1}"></td><td><button type="button" class="btn red small removeSupportLine">حذف</button></td>`;$('supportLines').appendChild(tr);tr.querySelector('.supportItem').onchange=calcInvoice;tr.querySelector('.supportQty').oninput=calcInvoice;tr.querySelector('.removeSupportLine').onclick=()=>{tr.remove();calcInvoice()};calcInvoice()}
+function getSupportRows(){return [...document.querySelectorAll('#supportLines tr')].map(tr=>({itemId:tr.querySelector('.supportItem').value,qty:+tr.querySelector('.supportQty').value||0})).filter(x=>x.itemId&&x.qty>0)}
+function calcInvoice(){let sub=0;document.querySelectorAll('#lines tr').forEach(tr=>{let q=+tr.querySelector('.lineQty').value||0,p=+tr.querySelector('.linePrice').value||0,t=q*p;sub+=t;tr.querySelector('.lineTotal').textContent=money(t)});let discount=+ $('invDiscount').value||0;let rate=invoiceRate()/100;let comm=Math.max(0,sub-discount)*rate;$('subTotal').textContent=money(sub);$('commission').textContent=money(comm);$('grandTotal').textContent=money(Math.max(0,Math.max(0,sub-discount)-comm));let support=getSupportRows();$('supportStockHint').textContent=support.length?'دعم مجاني: '+support.reduce((a,r)=>a+r.qty,0)+' وحدة — لا يُحتسب ضمن قيمة الفاتورة.':'الدعم المجاني لا يضاف إلى إجمالي الفاتورة.'}
+$('addLine').onclick=()=>addLine();$('addSupportLine').onclick=()=>addSupportLine();$('invDiscount').oninput=calcInvoice;$('invPay').onchange=calcInvoice;$('invRateMode').onchange=()=>{$('customRateWrap').style.display=$('invRateMode').value==='custom'?'block':'none';calcInvoice()};$('invCustomRate').oninput=calcInvoice;
+function clearInvoice(){editingId=null;$('invoiceTitle').textContent='إنشاء فاتورة جديدة';$('invNo').value=nextInvoiceNo();$('invDate').value=today();$('invCustomer').value='';$('invPay').value='cash';$('invDiscount').value=0;$('invRateMode').value='auto';$('invCustomRate').value=0;$('customRateWrap').style.display='none';$('invNotes').value='';$('lines').innerHTML='';$('supportLines').innerHTML='';addLine();$('cancelEdit').classList.add('hidden')}
+$('clearInvoice').onclick=clearInvoice;$('cancelEdit').onclick=()=>{clearInvoice();go('invoices')};
+$('saveInvoice').onclick=()=>{
+let no=$('invNo').value.trim(),rows=[...document.querySelectorAll('#lines tr')].map(tr=>({itemId:tr.querySelector('.lineItem').value,qty:+tr.querySelector('.lineQty').value||0,price:+tr.querySelector('.linePrice').value||0})).filter(x=>x.itemId&&x.qty>0),supportRows=getSupportRows();
+if(!no){alert('أدخل رقم الفاتورة');return}if(!$('invCustomer').value.trim()){alert('أدخل اسم العميل أو البقالة قبل حفظ الفاتورة حتى يظهر الاسم في الطباعة');$('invCustomer').focus();return}if(!rows.length&&!supportRows.length){alert('أضف صنفاً للبيع أو كمية دعم مجانية');return}
+if(db.invoices.some(x=>x.no===no&&x.id!==editingId)){alert('رقم الفاتورة مستخدم مسبقاً');return}
+let old=db.invoices.find(x=>x.id===editingId);
+// احسب المتاح بعد إعادة كميات الفاتورة القديمة عند التعديل
+let available={};db.items.forEach(i=>available[i.id]=+i.stock||0);
+if(old&&old.stockApplied){old.rows.forEach(r=>{available[r.itemId]=(available[r.itemId]||0)+(+r.qty||0)});(old.supportRows||[]).forEach(r=>{available[r.itemId]=(available[r.itemId]||0)+(+r.qty||0)})}
+let requested={};rows.concat(supportRows).forEach(r=>requested[r.itemId]=(requested[r.itemId]||0)+r.qty);
+for(let [id,qty] of Object.entries(requested)){let it=db.items.find(i=>i.id===id);if(!it){alert('يوجد صنف محذوف في الفاتورة');return}if(qty>(available[id]||0)){alert('الكمية المطلوبة من '+it.name+' أكبر من المخزون المتاح ('+(available[id]||0)+')');return}}
+let sub=rows.reduce((a,x)=>a+x.qty*x.price,0),discount=+ $('invDiscount').value||0,rate=invoiceRate(),commission=Math.max(0,sub-discount)*(rate/100);
+rows=rows.map(r=>{let it=db.items.find(i=>i.id===r.itemId);return {...r,itemName:it.name,itemCode:it.code,costAtSale:+it.cost||0}});
+supportRows=supportRows.map(r=>{let it=db.items.find(i=>i.id===r.itemId);return {...r,itemName:it.name,itemCode:it.code,costAtSale:+it.cost||0}});let inv={id:editingId||('I'+Date.now()),no,date:$('invDate').value||today(),customer:$('invCustomer').value.trim(),pay:$('invPay').value,rateMode:$('invRateMode').value,ratePercent:rate,discount,notes:$('invNotes').value,rows,supportRows,sub,commission,total:Math.max(0,Math.max(0,sub-discount)-commission),stockApplied:true,updatedAt:new Date().toISOString()};
+// إعادة أثر الفاتورة القديمة ثم تطبيق الجديدة، مع عدم المساس ببقية الحركات
+if(old&&old.stockApplied){old.rows.forEach(r=>{let it=db.items.find(i=>i.id===r.itemId);if(it)it.stock=(+it.stock||0)+(+r.qty||0)});(old.supportRows||[]).forEach(r=>{let it=db.items.find(i=>i.id===r.itemId);if(it)it.stock=(+it.stock||0)+(+r.qty||0)})}
+rows.concat(supportRows).forEach(r=>{let it=db.items.find(i=>i.id===r.itemId);it.stock=(+it.stock||0)-r.qty});
+if(old){db.changes.push({date:new Date().toLocaleString('ar'),no,oldTotal:old.total,newTotal:inv.total,description:'تعديل الفاتورة والمخزون'});db.invoices[db.invoices.findIndex(x=>x.id===editingId)]=inv}else{db.invoices.unshift(inv);db.settings.nextInvoiceSeq=Math.max(+db.settings.nextInvoiceSeq||1000,parseInt(no,10)||1000)}
+saveDB();alert(old?'تم تحديث الفاتورة والمخزون وإعادة الاحتساب':'تم حفظ الفاتورة وخصم الكميات من المخزون');clearInvoice();go('invoices')
+};
+function editInvoice(id){let x=db.invoices.find(v=>v.id===id);if(!x)return;editingId=id;go('invoice');$('invoiceTitle').textContent='تعديل الفاتورة رقم '+x.no;$('invNo').value=x.no;$('invDate').value=x.date;$('invCustomer').value=x.customer;$('invPay').value=x.pay;$('invRateMode').value=x.rateMode||'auto';$('invCustomRate').value=x.ratePercent??0;$('customRateWrap').style.display=$('invRateMode').value==='custom'?'block':'none';$('invDiscount').value=x.discount;$('invNotes').value=x.notes||'';$('lines').innerHTML='';x.rows.forEach(addLine);$('supportLines').innerHTML='';(x.supportRows||[]).forEach(addSupportLine);$('cancelEdit').classList.remove('hidden');calcInvoice()}
+function deleteInvoice(id){let x=db.invoices.find(v=>v.id===id);if(!x||!confirm('هل تريد حذف الفاتورة '+x.no+'؟'))return;db.changes.push({date:new Date().toLocaleString('ar'),no:x.no,oldTotal:x.total,newTotal:0,description:'حذف الفاتورة'});if(x.stockApplied){x.rows.forEach(r=>{let it=db.items.find(i=>i.id===r.itemId);if(it)it.stock=(+it.stock||0)+(+r.qty||0)});(x.supportRows||[]).forEach(r=>{let it=db.items.find(i=>i.id===r.itemId);if(it)it.stock=(+it.stock||0)+(+r.qty||0)})}db.invoices=db.invoices.filter(v=>v.id!==id);saveDB()}
+function renderInvoices(){let q=($('searchInvoice').value||'').toLowerCase();let arr=db.invoices.filter(x=>x.no.toLowerCase().includes(q)||(x.customer||'').toLowerCase().includes(q));$('invoiceList').innerHTML=arr.length?`<div class="tablewrap"><table><thead><tr><th>رقم</th><th>التاريخ</th><th>العميل</th><th>الأصناف</th><th>الدفع</th><th>الإجمالي</th><th>حالة الحساب</th><th>إجراءات</th></tr></thead><tbody>${arr.map(x=>`<tr><td>${esc(x.no)}</td><td>${esc(x.date)}</td><td>${esc(x.customer)}</td><td>${x.rows.length} بيع + ${(x.supportRows||[]).length} دعم</td><td>${x.pay==='cash'?'نقدي':'آجل'}</td><td>${money(x.total)}</td><td>${x.pay==='credit'?(()=>{let l=customerLedger(x.customer||'').invoices.find(z=>z.invoice.id===x.id);return l?(l.due<=0.001?'<span class="status">مسددة</span>':l.paid>0?'<span class="status partial">مسدد جزئياً</span>':'<span class="status due">آجل / مستحق</span>'):'<span class="status due">آجل</span>'})():'<span class="status">نقدي</span>'}</td><td><button class="btn green small" title="عرض تفاصيل الفاتورة دون تعديل" onclick="viewHomeInvoice('${x.id}')">عرض</button> <button class="btn secondary small" onclick="editInvoice('${x.id}')">تعديل</button> <button class="btn secondary small" onclick="printInvoice('${x.id}')">طباعة</button> <button class="btn red small" onclick="deleteInvoice('${x.id}')">حذف</button></td></tr>`).join('')}</tbody></table></div>`:'<div class="empty">لا توجد فواتير حتى الآن</div>'}
+$('searchInvoice').oninput=renderInvoices;
+function printInvoice(id){
+ let x=db.invoices.find(v=>v.id===id);if(!x)return;
+ // الفواتير القديمة التي حُفظت دون اسم: اطلب الاسم الآن واحفظه داخل الفاتورة حتى لا يتكرر الطلب.
+ if(!String(x.customer||'').trim()){
+  const entered=prompt('هذه الفاتورة لا تحتوي على اسم العميل أو البقالة. اكتب الاسم ليظهر في الفاتورة المطبوعة:','');
+  if(entered===null)return;
+  const customerName=entered.trim();
+  if(!customerName){alert('يجب إدخال اسم العميل أو البقالة قبل الطباعة.');return;}
+  x.customer=customerName;saveDB();
+  if(typeof renderInvoices==='function')renderInvoices();
+ }
+ let w=window.open('','_blank');if(!w){alert('اسمح بفتح النوافذ المنبثقة لطباعة الفاتورة');return}
+ const ledger=x.pay==='credit'?customerLedger(x.customer||'').invoices.find(z=>z.invoice.id===x.id):null;
+ const status=x.pay==='credit'?(ledger?(ledger.due<=0.001?'مسددة':ledger.paid>0?'مسددة جزئياً':'مستحقة'):'مستحقة'):'مدفوعة';
+ w.document.write(`<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>فاتورة ${esc(x.no)}</title><style>
+*{box-sizing:border-box;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+@page{size:A4;margin:10mm}
+:root{--navy:#102a43;--blue:#1769aa;--teal:#087e83;--gold:#d5a84b;--ink:#182b3a;--muted:#617486;--line:#d8e4eb}
+body{font-family:Tahoma,Arial,sans-serif;color:var(--ink);background:#eaf1f5;padding:22px;margin:0}
+.invoice-sheet{position:relative;overflow:hidden;max-width:850px;margin:0 auto;padding:26px;background:linear-gradient(145deg,#fff 0%,#f5f9fc 62%,#edf5f7 100%);border:1px solid #cbdbe5;border-radius:22px;box-shadow:0 16px 45px #173b5520}
+.invoice-sheet:before{content:"";position:absolute;inset:0 0 auto;height:9px;background:linear-gradient(90deg,var(--gold),#f1d58c,var(--teal),var(--blue),var(--navy))}
+.print-head{position:relative;display:flex;justify-content:space-between;align-items:center;gap:18px;padding:25px 24px;margin:0 0 19px;border-radius:17px;color:#fff;background:linear-gradient(120deg,#0d263e 0%,#124b70 55%,#087e83 100%);box-shadow:0 9px 22px #0e3d5b25}
+.brand-side{display:flex;align-items:center;gap:14px}.brand-symbol{width:62px;height:62px;flex:0 0 62px;border-radius:18px;display:grid;place-items:center;background:linear-gradient(145deg,#ffffff28,#ffffff0b);border:1px solid #ffffff55;color:#f3d58a;font-size:31px;font-weight:900}.print-head h2{margin:0 0 7px;font-size:25px;letter-spacing:.2px}.print-head p{margin:0;color:#d7e9f0;font-size:12px}.invoice-stamp{min-width:116px;text-align:center;border:1px solid #ffffff65;background:#ffffff13;border-radius:13px;padding:11px 13px}.invoice-stamp b{display:block;color:#f5d98e;font-size:12px;margin-bottom:5px}.invoice-stamp strong{font-size:20px;color:#fff}
+.section-label{display:flex;align-items:center;gap:9px;margin:18px 0 10px;color:#164b68;font-size:14px;font-weight:800}.section-label:after{content:"";height:1px;flex:1;background:linear-gradient(90deg,#d8e5eb,transparent)}
+.print-meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0 0 18px}.print-meta div{min-height:66px;padding:12px 13px;border-radius:12px;background:linear-gradient(145deg,#fff,#edf5f8);border:1px solid #d9e6eb;box-shadow:0 3px 9px #173b5508;font-size:13px;overflow-wrap:anywhere}.print-meta b{display:block;color:#668092;font-size:10px;margin-bottom:7px;font-weight:700}.print-meta span{font-weight:800;color:#173c55}.pay-chip{display:inline-block;padding:4px 10px;border-radius:30px;background:#dff4ed;color:#08734e;font-weight:800}.pay-chip.credit{background:#fff0d7;color:#98600c}
+table{width:100%;border-collapse:separate;border-spacing:0;margin:8px 0 17px;overflow:hidden;border:1px solid #d5e2e9;border-radius:12px;background:#fff}th{background:linear-gradient(110deg,#164b70,#176f83);color:#fff;font-weight:800;font-size:12px;padding:13px 10px}td{padding:12px 10px;text-align:center;font-size:12px;border-bottom:1px solid #e4edf1}tbody tr:nth-child(even) td{background:#f0f6f8}tbody tr:last-child td{border-bottom:0}td:first-child{text-align:right;font-weight:700;color:#24485e}
+.support-title{margin:18px 0 8px;padding:11px 14px;border-radius:11px;background:#fff4df;color:#8a5b11;border:1px solid #f0d8a7;font-size:13px;font-weight:800}.support-table th{background:linear-gradient(110deg,#9a6a20,#c08a36)}
+.bottom-layout{display:grid;grid-template-columns:1fr minmax(270px,360px);gap:14px;align-items:stretch;margin-top:8px}.thank-card{padding:17px;border-radius:14px;background:linear-gradient(145deg,#e5f3f4,#f5faf9);border:1px solid #cce2e1;display:flex;flex-direction:column;justify-content:center}.thank-card strong{font-size:15px;color:#145e68;margin-bottom:7px}.thank-card p{font-size:11px;line-height:1.9;color:#58727a;margin:0}.print-total{padding:15px 17px;border-radius:15px;background:linear-gradient(145deg,#102f49,#174e6b);color:#edf7fa;box-shadow:0 8px 18px #12364d22;line-height:2;font-size:12px}.total-row{display:flex;justify-content:space-between;gap:12px;padding:3px 0;border-bottom:1px solid #ffffff20}.total-row b{color:#fff}.total-row.rate{color:#c7dce5}.print-total .final{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:11px;padding:13px 14px;border-radius:11px;background:linear-gradient(110deg,#e4bd65,#f2d99c);color:#24394a;font-size:15px;font-weight:900}.print-foot{margin-top:20px;padding:12px 5px 0;border-top:1px dashed #b9cbd4;text-align:center;color:#6c8290;font-size:10px}.print-foot b{color:#176477}
+@media(max-width:600px){body{padding:7px}.invoice-sheet{padding:13px;border-radius:14px}.print-head{padding:16px;gap:8px}.brand-symbol{width:46px;height:46px;flex-basis:46px;border-radius:13px;font-size:23px}.print-head h2{font-size:18px}.print-head p{font-size:10px}.invoice-stamp{min-width:83px;padding:8px}.invoice-stamp strong{font-size:16px}.print-meta{grid-template-columns:1fr 1fr;gap:7px}.print-meta div{padding:9px;font-size:11px}.bottom-layout{grid-template-columns:1fr}td,th{padding:8px 5px;font-size:10px}}
+@media print{html,body{background:#eaf1f5!important;padding:0!important;margin:0!important}.invoice-sheet{max-width:none;width:100%;min-height:0;margin:0;border-radius:0;box-shadow:none;break-inside:avoid}.print-head,th,.print-total,.print-total .final,.invoice-sheet:before{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}.print-meta div,tbody tr:nth-child(even) td,.thank-card,.support-title{ -webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}table{break-inside:auto}tr{break-inside:avoid;break-after:auto}.print-foot{break-inside:avoid}}
+</style></head><body><main class="invoice-sheet">
+<header class="print-head"><div class="brand-side"><div class="brand-symbol">✦</div><div><h2>${esc(db.settings.name)}</h2><p>نظام المبيعات وإدارة الشبكة • فاتورة مبيعات رسمية</p></div></div><div class="invoice-stamp"><b>رقم الفاتورة</b><strong>${esc(x.no)}</strong></div></header>
+<div class="section-label">بيانات الفاتورة والعميل</div><div class="print-meta"><div><b>تاريخ الإصدار</b><span>${esc(x.date)}</span></div><div><b>العميل / البقالة</b><span>${esc(String(x.customer||'').trim())}</span></div><div><b>طريقة الدفع</b><span class="pay-chip ${x.pay==='credit'?'credit':''}">${x.pay==='credit'?'آجل':'نقدي'}</span></div><div><b>حالة الحساب</b><span>${status}</span></div><div><b>نسبة العمولة</b><span>${x.ratePercent??(x.pay==='credit'?db.settings.credit:db.settings.cash)}%</span></div><div><b>ملاحظات</b><span>${esc(x.notes||'لا توجد ملاحظات')}</span></div></div>
+<div class="section-label">تفاصيل الأصناف</div><table><thead><tr><th>الصنف</th><th>الكمية</th><th>سعر الوحدة</th><th>الإجمالي</th></tr></thead><tbody>${x.rows.map(r=>{let it=db.items.find(i=>i.id===r.itemId);return `<tr><td>${esc(r.itemName||it?.name||'صنف محذوف')}</td><td>${r.qty}</td><td>${money(r.price)}</td><td><b>${money(r.qty*r.price)}</b></td></tr>`}).join('')}</tbody></table>
+${(x.supportRows||[]).length?`<div class="support-title">✦ دعم مجاني للزبون — كميات مجانية غير داخلة في الحساب</div><table class="support-table"><thead><tr><th>الصنف</th><th>الكمية المجانية</th></tr></thead><tbody>${x.supportRows.map(r=>`<tr><td>${esc(r.itemName||'صنف')}</td><td>${r.qty}</td></tr>`).join('')}</tbody></table>`:''}
+<div class="bottom-layout"><aside class="thank-card"><strong>شكراً لاختياركم شبكة النائل</strong><p>نسعد بخدمتكم دائماً، ونتمنى لكم تجربة مميزة واتصالاً أسرع وأفضل.<br>يرجى الاحتفاظ بهذه الفاتورة للرجوع إليها عند الحاجة.</p></aside><section class="print-total"><div class="total-row"><span>إجمالي الأصناف</span><b>${money(x.sub)}</b></div><div class="total-row"><span>الخصم</span><b>${money(x.discount)}</b></div><div class="total-row rate"><span>نسبة العمولة</span><b>${x.ratePercent??(x.pay==='credit'?db.settings.credit:db.settings.cash)}%</b></div><div class="total-row"><span>العمولة</span><b>${money(x.commission)}</b></div><div class="final"><span>الإجمالي النهائي</span><span>${money(x.total)}</span></div></section></div>
+<footer class="print-foot"><b>شبكة النائل</b> • فاتورة إلكترونية صادرة من النظام المحاسبي • شكراً لثقتكم بنا</footer></main><script>window.onload=()=>{setTimeout(()=>window.print(),250)}<\/script>
+<script>
+// PWA: register the app shell worker only on a secure hosted origin.
+if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+  window.addEventListener('load', async () => {
+    try {
+      const registration = await navigator.serviceWorker.register('./sw.js');
+      if (registration.waiting) showPwaUpdate(registration);
+      registration.addEventListener('updatefound', () => {
+        const worker = registration.installing;
+        if (worker) worker.addEventListener('statechange', () => {
+          if (worker.state === 'installed' && navigator.serviceWorker.controller) showPwaUpdate(registration);
+        });
+      });
+    } catch (error) { console.warn('PWA worker registration failed', error); }
+  });
+}
+function showPwaUpdate(registration) {
+  if (document.getElementById('pwaUpdateNotice')) return;
+  const box = document.createElement('div'); box.id='pwaUpdateNotice';
+  box.dir='rtl'; box.style.cssText='position:fixed;z-index:10020;bottom:18px;right:18px;max-width:calc(100% - 36px);background:#102b67;color:#fff;padding:13px 16px;border-radius:14px;box-shadow:0 8px 28px #0003;font:14px Tahoma,Arial;display:flex;gap:12px;align-items:center';
+  const msg=document.createElement('span'); msg.textContent='يتوفر تحديث جديد لشبكة النائل';
+  const btn=document.createElement('button'); btn.textContent='تحديث الآن'; btn.style.cssText='border:0;border-radius:9px;padding:9px 13px;background:#d7ad55;color:#102b67;font-weight:bold;white-space:nowrap';
+  btn.onclick=()=>{if(registration.waiting){registration.waiting.postMessage({type:'SKIP_WAITING'});}else location.reload();};
+  box.append(msg,btn); document.body.appendChild(box);
+}
+if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('controllerchange',()=>location.reload());
+<\/script>
+</body></html>`);
+ w.document.close()
+}
+function resetItem(){$('itemId').value='';$('itemCode').value='';$('itemName').value='';$('itemCost').value='';$('itemPrice').value='';$('itemStock').value=0;$('itemStock').disabled=false}
+$('resetItem').onclick=resetItem;
+$('saveItem').onclick=()=>{
+ const id=$('itemId').value,code=$('itemCode').value.trim(),name=$('itemName').value.trim();
+ const cost=Number($('itemCost').value),price=Number($('itemPrice').value),qty=Number($('itemStock').value)||0;
+ if(!code||!name){alert('أدخل كود الصنف واسم الصنف');return}
+ if($('itemCost').value===''||$('itemPrice').value===''||!Number.isFinite(cost)||!Number.isFinite(price)||cost<0||price<0){alert('أدخل التكلفة وسعر البيع بشكل صحيح');return}
+ if(!Number.isFinite(qty)||qty<0){alert('أدخل كمية صحيحة');return}
+ const duplicate=db.items.find(v=>v.code===code&&v.id!==id);
+ if(duplicate){alert('كود الصنف مستخدم لصنف آخر، أدخل كودًا مختلفًا');return}
+ if(id){
+  const item=db.items.find(v=>v.id===id);if(!item){alert('لم يتم العثور على الصنف');return}
+  item.code=code;item.name=name;item.cost=cost;item.price=price;
+  if(qty>0){const before=Number(item.stock)||0;item.stock=before+qty;db.stockMovements.unshift({id:'ST'+Date.now(),itemId:item.id,itemName:item.name,itemCode:item.code,qty,before,after:item.stock,date:today(),note:'كمية مضافة أثناء تعديل الصنف',createdAt:new Date().toISOString()})}
+ }else{
+  const item={id:'IT'+Date.now(),code,name,cost,price,stock:qty};
+  db.items.push(item);
+  if(qty>0)db.stockMovements.unshift({id:'ST'+Date.now(),itemId:item.id,itemName:name,itemCode:code,qty,before:0,after:qty,date:today(),note:'رصيد افتتاحي عند إضافة الصنف',createdAt:new Date().toISOString()});
+ }
+ saveDB();resetItem();alert(id?'تم تحديث الصنف بنجاح':'تمت إضافة الصنف بنجاح');
+};
+function viewItem(id){
+ const x=db.items.find(v=>v.id===id);if(!x)return;
+ const sold=db.invoices.reduce((a,inv)=>a+(inv.rows||[]).filter(r=>r.itemId===x.id).reduce((b,r)=>b+(+r.qty||0),0),0);
+ const supported=db.invoices.reduce((a,inv)=>a+(inv.supportRows||[]).filter(r=>r.itemId===x.id).reduce((b,r)=>b+(+r.qty||0),0),0);
+ $('itemViewDetails').innerHTML=`<div class="detailGrid"><div class="detailTile"><small>كود الصنف</small><b>${esc(x.code||'-')}</b></div><div class="detailTile"><small>اسم الصنف</small><b>${esc(x.name||'-')}</b></div><div class="detailTile"><small>التكلفة</small><b>${money(x.cost)}</b></div><div class="detailTile"><small>سعر البيع</small><b>${money(x.price)}</b></div><div class="detailTile"><small>المخزون المتبقي</small><b>${(+x.stock||0).toLocaleString('en-US')}</b></div><div class="detailTile"><small>الكمية المباعة</small><b>${sold.toLocaleString('en-US')}</b></div><div class="detailTile"><small>الكمية المجانية</small><b>${supported.toLocaleString('en-US')}</b></div></div><div class="recentActions"><button class="btn" onclick="closeItemView();editItem('${x.id}')">تعديل الصنف</button></div>`;
+ $('itemViewModal').style.display='flex';
+}
+function closeItemView(){if($('itemViewModal'))$('itemViewModal').style.display='none'}
+function editItem(id){let x=db.items.find(v=>v.id===id);if(!x)return;$('itemId').value=id;$('itemCode').value=x.code;$('itemName').value=x.name;$('itemCost').value=x.cost;$('itemPrice').value=x.price;$('itemStock').value=0;$('itemStock').disabled=false}
+function deleteItem(id){let it=db.items.find(x=>x.id===id);if(!it||!confirm('حذف الصنف من القائمة؟ ستبقى تفاصيله محفوظة في الفواتير السابقة.'))return;db.invoices.forEach(inv=>inv.rows.forEach(r=>{if(r.itemId===id){r.itemName=r.itemName||it.name;r.itemCode=r.itemCode||it.code;if(r.costAtSale===undefined)r.costAtSale=+it.cost||0}}));db.items=db.items.filter(x=>x.id!==id);saveDB()}
+function refreshStockSelector(){let sel=$('stockItem');if(!sel)return;let keep=sel.value;sel.innerHTML=itemOptions(keep);if(!db.items.some(x=>x.id===keep))sel.value='';updateStockCurrent()}
+function updateStockCurrent(){let it=db.items.find(x=>x.id===$('stockItem')?.value);if($('stockCurrent'))$('stockCurrent').value=it?(+it.stock||0):0}
+$('stockItem').onchange=updateStockCurrent;
+$('stockAddDate').value=today();
+$('addStockEntry').onclick=()=>{let itemId=$('stockItem').value,qty=+$('stockAddQty').value||0,it=db.items.find(x=>x.id===itemId);if(!it){alert('اختر الصنف أولاً');return}if(qty<=0){alert('أدخل كمية أكبر من صفر');return}let before=+it.stock||0;it.stock=before+qty;db.stockMovements.unshift({id:'ST'+Date.now(),itemId,itemName:it.name,itemCode:it.code,qty,before,after:it.stock,date:$('stockAddDate').value||today(),note:$('stockAddNote').value.trim(),createdAt:new Date().toISOString()});saveDB();$('stockAddQty').value='';$('stockAddNote').value='';$('stockCurrent').value=it.stock;alert('تمت إضافة الكمية فوق الرصيد السابق بنجاح')};
+function deleteStockMovement(id){let m=db.stockMovements.find(x=>x.id===id);if(!m||!confirm('حذف حركة الإضافة وعكس كميتها من المخزون؟'))return;let it=db.items.find(x=>x.id===m.itemId);if(it){let next=(+it.stock||0)-(+m.qty||0);if(next<0&&!confirm('عكس هذه الحركة سيجعل رصيد الصنف بالسالب بسبب صرف كميات سابقة. هل تريد المتابعة؟'))return;it.stock=next}db.stockMovements=db.stockMovements.filter(x=>x.id!==id);saveDB()}
+function renderStockMovements(){$('stockMovementList').innerHTML=db.stockMovements.length?`<div class="tablewrap"><table><tr><th>التاريخ</th><th>الصنف</th><th>الكمية المضافة</th><th>الرصيد قبل</th><th>الرصيد بعد</th><th>ملاحظات</th><th>إجراء</th></tr>${db.stockMovements.map(m=>`<tr><td>${esc(m.date||'-')}</td><td>${esc(m.itemName||db.items.find(i=>i.id===m.itemId)?.name||'صنف محذوف')}</td><td>${+m.qty||0}</td><td>${m.before??'-'}</td><td>${m.after??'-'}</td><td>${esc(m.note||'-')}</td><td><button class="btn red small" onclick="deleteStockMovement('${m.id}')">حذف وعكس</button></td></tr>`).join('')}</table></div>`:'<div class="empty">لا توجد إضافات مخزون مسجلة بعد</div>'}
+function renderItems(){$('itemList').innerHTML=db.items.length?`<div class="tablewrap"><table><tr><th>الكود</th><th>الصنف</th><th>التكلفة</th><th>سعر البيع</th><th>المخزون المتبقي</th><th>الكمية المباعة</th><th>إجراءات</th></tr>${db.items.map(x=>{let qty=db.invoices.reduce((a,inv)=>a+inv.rows.filter(r=>r.itemId===x.id).reduce((b,r)=>b+r.qty,0),0);return `<tr><td>${esc(x.code)}</td><td>${esc(x.name)}</td><td>${money(x.cost)}</td><td>${money(x.price)}</td><td><b>${+x.stock||0}</b></td><td>${qty}</td><td><button class="btn green small" onclick="viewItem('${x.id}')">عرض</button> <button class="btn small" onclick="editItem('${x.id}')">تعديل</button> <button class="btn red small" onclick="deleteItem('${x.id}')">حذف</button></td></tr>`}).join('')}</table></div>`:'<div class="empty">أضف الأصناف أولاً</div>';refreshStockSelector();renderStockMovements()}
+function customerInvoices(name){return db.invoices.filter(x=>(x.customer||'').trim()===name)}
+function customerLedger(name){let invoices=customerInvoices(name).filter(x=>x.pay==='credit').slice().sort((a,b)=>(a.date||'').localeCompare(b.date||'')||String(a.no).localeCompare(String(b.no),undefined,{numeric:true}));let payments=db.payments.filter(x=>x.customer===name).slice().sort((a,b)=>(a.date||'').localeCompare(b.date||''));let remaining=new Map(invoices.map(x=>[x.id,Math.max(0,+x.total||0)])),paidBy=new Map(invoices.map(x=>[x.id,0]));let allocations=[];payments.forEach(pay=>{let left=+pay.amount||0;for(let inv of invoices){if(left<=0)break;let due=remaining.get(inv.id)||0;if(due<=0)continue;let used=Math.min(due,left);remaining.set(inv.id,due-used);paidBy.set(inv.id,(paidBy.get(inv.id)||0)+used);allocations.push({paymentId:pay.id,invoiceId:inv.id,amount:used,date:pay.date});left-=used;}});return {invoices:invoices.map(inv=>({invoice:inv,paid:paidBy.get(inv.id)||0,due:remaining.get(inv.id)||0})),allocations,totalDue:invoices.reduce((a,x)=>a+(+x.total||0),0),totalPaid:allocations.reduce((a,x)=>a+x.amount,0),totalCollected:payments.reduce((a,x)=>a+(+x.amount||0),0),advance:Math.max(0,payments.reduce((a,x)=>a+(+x.amount||0),0)-allocations.reduce((a,x)=>a+x.amount,0)),remaining:invoices.reduce((a,x)=>a+(remaining.get(x.id)||0),0)}}
+function customerDue(name){return customerLedger(name).remaining}
+function allCustomerNames(){return [...new Set([...db.grocers.map(x=>x.name),...db.invoices.map(x=>x.customer).filter(Boolean)])]}
+function refreshGrocerOptions(){let dl=$('grocerOptions');if(dl)dl.innerHTML=allCustomerNames().map(n=>`<option value="${esc(n)}">`).join('')}
+function resetGrocer(){$('grocerId').value='';$('grocerName').value='';$('grocerPhone').value='';$('grocerAddress').value='';$('grocerNotes').value=''}
+$('resetGrocer').onclick=resetGrocer;
+$('saveGrocer').onclick=()=>{let id=$('grocerId').value,name=$('grocerName').value.trim();if(!name){alert('أدخل اسم البقالة');return}if(db.grocers.some(x=>x.name===name&&x.id!==id)){alert('اسم البقالة مسجل مسبقاً');return}let previous=id?db.grocers.find(x=>x.id===id):null;let g={id:id||'G'+Date.now(),name,phone:$('grocerPhone').value.trim(),address:$('grocerAddress').value.trim(),notes:$('grocerNotes').value.trim()};if(id){if(previous&&previous.name!==name){db.invoices.forEach(v=>{if(v.customer===previous.name)v.customer=name});db.payments.forEach(v=>{if(v.customer===previous.name)v.customer=name})}db.grocers[db.grocers.findIndex(x=>x.id===id)]=g}else db.grocers.push(g);saveDB();resetGrocer()};
+function editGrocer(id){let g=db.grocers.find(x=>x.id===id);if(!g)return;$('grocerId').value=id;$('grocerName').value=g.name;$('grocerPhone').value=g.phone||'';$('grocerAddress').value=g.address||'';$('grocerNotes').value=g.notes||''}
+function deleteGrocer(id){let g=db.grocers.find(x=>x.id===id);if(!g||!confirm('حذف بيانات البقالة؟ ستبقى الفواتير والتحصيلات محفوظة باسمها.'))return;db.grocers=db.grocers.filter(x=>x.id!==id);saveDB()}
+function renderGrocers(){refreshGrocerOptions();let names=allCustomerNames();$('grocerList').innerHTML=names.length?`<div class="tablewrap"><table><tr><th>البقالة</th><th>الهاتف</th><th>العنوان</th><th>إجمالي الآجل</th><th>المحصل</th><th>المتبقي</th><th>إجراءات</th></tr>${names.map(n=>{let g=db.grocers.find(x=>x.name===n)||{},ledger=customerLedger(n),credit=ledger.totalDue,paid=ledger.totalPaid;return `<tr><td>${esc(n)}</td><td>${esc(g.phone||'-')}</td><td>${esc(g.address||'-')}</td><td>${money(credit)}</td><td>${money(paid)}</td><td><b>${money(ledger.remaining)}</b></td><td>${g.id?`<button class="btn small" onclick="editGrocer('${g.id}')">تعديل</button> <button class="btn red small" onclick="deleteGrocer('${g.id}')">حذف</button>`:'بقالة من فاتورة'}</td></tr>`}).join('')}</table></div>`:'<div class="empty">لا توجد بقالات مسجلة</div>'}
+$('savePayment').onclick=()=>{let customer=$('payCustomer').value.trim(),amount=+$('payAmount').value||0;if(!customer||amount<=0){alert('أدخل اسم البقالة ومبلغاً صحيحاً');return}let ledger=customerLedger(customer),due=ledger.remaining;if(amount>due+0.0001&&!confirm('المبلغ أكبر من الدين المتبقي ('+money(due)+'). سيتم تسجيل الزيادة كرصيد مقدم غير موزع على الفواتير الحالية. متابعة؟'))return;db.payments.unshift({id:'R'+Date.now(),customer,date:$('payDate').value||today(),amount,note:$('payNote').value.trim()});saveDB();$('payAmount').value='';$('payNote').value='';$('customerDueHint').textContent='';$('statementCustomer').value=customer;renderCustomerStatement(customer);alert('تم تسجيل التحصيل وإضافته للصندوق، وأعيد توزيع السداد على أقدم الفواتير الآجلة أولاً')};
+$('saveGrocerDebt').onclick=saveGrocerDebt;$('saveGrocerDebtPayment').onclick=saveGrocerDebtPayment;
+$('owedDate').value=today();$('owedPayDate').value=today();
+function renderCustomerStatement(name){let box=$('customerStatement');if(!box)return;if(!name){box.innerHTML='<div class="empty">اختر بقالة لعرض فواتيرها الآجلة والتحصيلات</div>';return}let l=customerLedger(name);box.innerHTML=`<div class="summaryTiles"><div class="summaryTile blue"><small>إجمالي الآجل</small><strong>${money(l.totalDue)}</strong></div><div class="summaryTile green"><small>المسدد</small><strong>${money(l.totalPaid)}</strong></div><div class="summaryTile amber"><small>المتبقي</small><strong>${money(l.remaining)}</strong></div><div class="summaryTile purple"><small>رصيد مقدم غير موزع</small><strong>${money(l.advance)}</strong></div></div>${l.invoices.length?`<div class="tablewrap"><table><thead><tr><th>رقم الفاتورة</th><th>التاريخ</th><th>قيمة الآجل</th><th>المسدد</th><th>المتبقي</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody>${l.invoices.map(z=>`<tr><td>${esc(z.invoice.no)}</td><td>${esc(z.invoice.date)}</td><td>${money(z.invoice.total)}</td><td>${money(z.paid)}</td><td><b>${money(z.due)}</b></td><td>${z.due<=.001?'<span class="status">مغلقة / مسددة</span>':z.paid>0?'<span class="status partial">مسددة جزئياً</span>':'<span class="status due">مفتوحة / آجلة</span>'}</td><td><button class="btn small" onclick="viewHomeInvoice('${z.invoice.id}',true)">عرض</button></td></tr>`).join('')}</tbody></table></div>`:'<div class="empty">لا توجد فواتير آجلة لهذا العميل</div>'}<p class="muted">يتم توزيع كل تحصيل تلقائياً على أقدم فاتورة آجلة مستحقة أولاً. بعد سدادها تظهر مغلقة، وأي فاتورة جديدة تبدأ كسجل مستقل للدورة التالية.</p>`}
+$('payCustomer').oninput=()=>{let n=$('payCustomer').value.trim();$('customerDueHint').textContent=n?'الدين المتبقي على '+n+': '+money(customerDue(n)):'';$('statementCustomer').value=n;renderCustomerStatement(n)};
+$('statementCustomer').oninput=()=>renderCustomerStatement($('statementCustomer').value.trim());
+$('saveCashMove').onclick=()=>{let amount=+$('cashAmount').value||0;if(amount<=0){alert('أدخل مبلغاً صحيحاً');return}db.cashMoves.unshift({id:'M'+Date.now(),type:$('cashType').value,date:$('cashDate').value||today(),desc:$('cashDesc').value.trim(),amount});saveDB();$('cashDesc').value='';$('cashAmount').value=''};
+function cashTotals(){let cashSales=db.invoices.filter(x=>x.pay==='cash').reduce((a,x)=>a+(+x.total||0),0),collected=db.payments.reduce((a,x)=>a+(+x.amount||0),0),expenses=db.expenses.reduce((a,x)=>a+(+x.amount||0),0),ins=db.cashMoves.filter(x=>x.type==='in').reduce((a,x)=>a+x.amount,0),outs=db.cashMoves.filter(x=>x.type==='out').reduce((a,x)=>a+x.amount,0),grocerDebtPaid=(db.grocerDebtPayments||[]).reduce((a,x)=>a+(+x.amount||0),0),bankOut=db.bankTransfers.filter(x=>x.direction==='toBank').reduce((a,x)=>a+(+x.amount||0),0),bankIn=db.bankTransfers.filter(x=>x.direction==='toCash').reduce((a,x)=>a+(+x.amount||0),0);return {balance:(+db.settings.openingCash||0)+cashSales+collected+ins+bankIn-expenses-outs-grocerDebtPaid-bankOut,collected,manual:ins-outs-grocerDebtPaid+bankIn-bankOut}}
+function bankAccountBalance(id){const a=db.bankAccounts.find(x=>x.id===id);if(!a)return 0;return (+a.opening||0)+db.bankTransfers.filter(x=>x.accountId===id&&x.direction==='toBank').reduce((v,x)=>v+(+x.amount||0),0)-db.bankTransfers.filter(x=>x.accountId===id&&x.direction==='toCash').reduce((v,x)=>v+(+x.amount||0),0)}
+function bankTotals(){return {balance:db.bankAccounts.reduce((v,a)=>v+bankAccountBalance(a.id),0),transferred:db.bankTransfers.filter(x=>x.direction==='toBank').reduce((v,x)=>v+(+x.amount||0),0)}}
+function renderBanking(){const totals=bankTotals();$('bankTotalBalance').textContent=money(totals.balance);$('bankTotalTransferred').textContent=money(totals.transferred);$('bankAccountCount').textContent=db.bankAccounts.length;$('bankAccountList').innerHTML=db.bankAccounts.length?`<div class="tablewrap"><table><tr><th>البنك</th><th>صاحب الحساب</th><th>رقم الحساب</th><th>الرصيد الحالي</th><th>إجراء</th></tr>${db.bankAccounts.map(a=>`<tr><td>${esc(a.name)}</td><td>${esc(a.owner||'-')}</td><td>${esc(a.number||'-')}</td><td><b>${money(bankAccountBalance(a.id))}</b></td><td><button class="btn red small" onclick="deleteBankAccount('${a.id}')">حذف</button></td></tr>`).join('')}</table></div>`:'<div class="empty">لم تتم إضافة حسابات بنكية بعد</div>';$('bankTransferAccount').innerHTML='<option value="">اختر الحساب</option>'+db.bankAccounts.map(a=>`<option value="${esc(a.id)}">${esc(a.name)} — ${esc(a.number||'')}</option>`).join('');$('bankTransferList').innerHTML=db.bankTransfers.length?`<div class="tablewrap"><table><tr><th>التاريخ</th><th>الحساب</th><th>نوع الحركة</th><th>المبلغ</th><th>البيان</th><th>إجراء</th></tr>${[...db.bankTransfers].sort((a,b)=>(b.date||'').localeCompare(a.date||'')).map(x=>{let a=db.bankAccounts.find(z=>z.id===x.accountId);return `<tr><td>${esc(x.date||'')}</td><td>${esc(a?.name||'حساب محذوف')}</td><td>${x.direction==='toBank'?'ترحيل من الصندوق للبنك':'سحب من البنك للصندوق'}</td><td>${money(x.amount)}</td><td>${esc(x.note||'-')}</td><td><button class="btn red small" onclick="deleteBankTransfer('${x.id}')">حذف / عكس</button></td></tr>`}).join('')}</table></div>`:'<div class="empty">لا توجد تحويلات بنكية مسجلة</div>'}
+$('saveBankAccount').onclick=()=>{let name=$('bankName').value.trim();if(!name){alert('أدخل اسم البنك');return}db.bankAccounts.push({id:'BA'+Date.now(),name,owner:$('bankOwner').value.trim(),number:$('bankNumber').value.trim(),opening:Math.max(0,+$('bankOpening').value||0)});$('bankName').value=$('bankOwner').value=$('bankNumber').value='';$('bankOpening').value='0';saveDB()};
+$('saveBankTransfer').onclick=()=>{let accountId=$('bankTransferAccount').value,amount=+$('bankTransferAmount').value||0,direction=$('bankTransferDirection').value;if(!accountId){alert('اختر الحساب البنكي');return}if(amount<=0){alert('أدخل مبلغاً صحيحاً');return}if(direction==='toBank'&&amount>cashTotals().balance){alert('رصيد الصندوق لا يكفي لهذا التحويل');return}if(direction==='toCash'&&amount>bankAccountBalance(accountId)){alert('رصيد الحساب البنكي لا يكفي لهذا السحب');return}db.bankTransfers.unshift({id:'BT'+Date.now(),accountId,direction,amount,date:$('bankTransferDate').value||today(),note:$('bankTransferNote').value.trim()});$('bankTransferAmount').value='';$('bankTransferNote').value='';saveDB();alert('تم تسجيل التحويل وتحديث رصيد الصندوق والحساب البنكي')};
+function deleteBankTransfer(id){const x=db.bankTransfers.find(z=>z.id===id);if(!x)return;if(!confirm('حذف التحويل وعكس أثره على رصيد الصندوق والبنك؟'))return;db.bankTransfers=db.bankTransfers.filter(z=>z.id!==id);saveDB()}
+function deleteBankAccount(id){if(db.bankTransfers.some(x=>x.accountId===id)){alert('لا يمكن حذف حساب له تحويلات مسجلة. احذف أو عكس تحويلاته أولاً للمحافظة على السجل.');return}if(!confirm('حذف الحساب البنكي؟'))return;db.bankAccounts=db.bankAccounts.filter(x=>x.id!==id);saveDB()}
+function renderCashbox(){let t=cashTotals(),debt=allCustomerNames().reduce((a,n)=>a+customerDue(n),0);renderBanking();$('cashBalance').textContent=money(t.balance);$('debtBalance').textContent=money(debt);$('collectedTotal').textContent=money(t.collected);$('manualCashTotal').textContent=money(t.manual);let rows=[...db.payments.map(x=>({...x,kind:'تحصيل من بقالة',flow:'in',desc:x.customer})),...(db.grocerDebtPayments||[]).map(x=>({...x,kind:'سداد دين لصاحب بقالة',flow:'out',desc:x.grocer})),...db.cashMoves.map(x=>({...x,kind:x.type==='in'?'إيداع نقدي':'سحب نقدي',flow:x.type,desc:x.desc})),...db.bankTransfers.map(x=>({...x,kind:x.direction==='toBank'?'تحويل من الصندوق للبنك':'سحب من البنك للصندوق',flow:x.direction==='toBank'?'out':'in',desc:(db.bankAccounts.find(a=>a.id===x.accountId)?.name||'حساب بنكي')+' '+(x.note||''),id:x.id})),...db.expenses.map(x=>({...x,kind:'مصروف',flow:'out',desc:x.type+' '+(x.desc||'')}))].sort((a,b)=>(b.date||'').localeCompare(a.date||''));$('cashLedger').innerHTML=rows.length?`<div class="tablewrap"><table><tr><th>التاريخ</th><th>النوع</th><th>البيان</th><th>وارد</th><th>صادر</th><th>إجراء</th></tr>${rows.map(x=>`<tr><td>${esc(x.date)}</td><td>${x.kind}</td><td>${esc(x.desc||'')}</td><td>${x.flow==='in'?money(x.amount):'-'}</td><td>${x.flow==='out'?money(x.amount):'-'}</td><td>${x.id&&x.id[0]==='R'?`<button class="btn red small" onclick="deletePayment('${x.id}')">حذف</button>`:x.id&&x.id.startsWith('GP')?`<button class="btn red small" onclick="deleteGrocerDebtEntry('${x.id}','payment')">حذف</button>`:x.id&&x.id[0]==='M'?`<button class="btn red small" onclick="deleteCashMove('${x.id}')">حذف</button>`:x.id&&x.id.startsWith('BT')?`<button class="btn red small" onclick="deleteBankTransfer('${x.id}')">حذف / عكس</button>`:'-'}</td></tr>`).join('')}</table></div>`:'<div class="empty">لا توجد حركات نقدية</div>'}
+function deletePayment(id){if(confirm('حذف التحصيل؟ سيعاد احتساب الدين والصندوق تلقائياً.')){db.payments=db.payments.filter(x=>x.id!==id);saveDB()}}
+function deleteCashMove(id){if(confirm('حذف الحركة النقدية؟')){db.cashMoves=db.cashMoves.filter(x=>x.id!==id);saveDB()}}
+$('saveExpense').onclick=()=>{let amount=+$('expAmount').value||0;if(amount<=0){alert('أدخل مبلغاً صحيحاً');return}db.expenses.unshift({id:'E'+Date.now(),date:$('expDate').value||today(),type:$('expType').value,desc:$('expDesc').value,amount});saveDB();$('expType').value='';$('expDesc').value='';$('expAmount').value=''};
+function deleteExpense(id){if(confirm('حذف المصروف؟')){db.expenses=db.expenses.filter(x=>x.id!==id);saveDB()}}
+function renderExpenses(){$('expenseList').innerHTML=db.expenses.length?`<div class="tablewrap"><table><tr><th>التاريخ</th><th>النوع</th><th>البيان</th><th>المبلغ</th><th>حذف</th></tr>${db.expenses.map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${money(x.amount)}</td><td><button class="btn red small" onclick="deleteExpense('${x.id}')">حذف</button></td></tr>`).join('')}</table></div>`:'<div class="empty">لا توجد مصروفات</div>'}
+function renderReports(){let sales=db.invoices.reduce((a,x)=>a+x.sub,0),profit=db.invoices.reduce((a,x)=>a+x.rows.reduce((b,r)=>{let it=db.items.find(i=>i.id===r.itemId);return b+r.qty*(r.price-(r.costAtSale??it?.cost??0))},0),0),exp=db.expenses.reduce((a,x)=>a+x.amount,0);let cashSales=db.invoices.filter(x=>x.pay==='cash').reduce((a,x)=>a+x.total,0),creditSales=db.invoices.filter(x=>x.pay==='credit').reduce((a,x)=>a+x.total,0),net=profit-db.invoices.reduce((a,x)=>a+x.commission,0)-exp,ct=cashTotals(),debt=allCustomerNames().reduce((a,n)=>a+customerDue(n),0);$('reportSummary').innerHTML=`<div class="summaryTiles"><div class="summaryTile blue"><small>إجمالي قيمة الأصناف المباعة</small><strong>${money(sales)}</strong></div><div class="summaryTile green"><small>الربح قبل المصروفات والعمولات</small><strong>${money(profit)}</strong></div><div class="summaryTile red"><small>إجمالي المصروفات</small><strong>${money(exp)}</strong></div><div class="summaryTile blue"><small>المبيعات النقدية</small><strong>${money(cashSales)}</strong></div><div class="summaryTile amber"><small>إجمالي الفواتير الآجلة</small><strong>${money(creditSales)}</strong></div><div class="summaryTile purple"><small>صافي الربح التقديري</small><strong>${money(net)}</strong></div><div class="summaryTile green"><small>رصيد الصندوق الحالي</small><strong>${money(ct.balance)}</strong></div><div class="summaryTile amber"><small>الديون المتبقية</small><strong>${money(debt)}</strong></div><div class="summaryTile blue"><small>إجمالي التحصيلات</small><strong>${money(ct.collected)}</strong></div></div>`;$('stockReport').innerHTML=db.items.length?`<div class="tablewrap"><table><tr><th>الصنف</th><th>المخزون المتبقي</th><th>الكمية المباعة</th><th>قيمة المبيعات</th></tr>${db.items.map(it=>{let rows=db.invoices.flatMap(x=>x.rows).filter(r=>r.itemId===it.id);return `<tr><td>${esc(it.name)}</td><td>${+it.stock||0}</td><td>${rows.reduce((a,r)=>a+r.qty,0)}</td><td>${money(rows.reduce((a,r)=>a+r.qty*r.price,0))}</td></tr>`}).join('')}</table></div>`:'لا توجد أصناف'}
+// الربح المحقّق يعتمد على التحصيل الفعلي، وليس على تسجيل الدين.
+// توزع التحصيلات على الفواتير الآجلة حسب كشف حساب كل بقالة، وتُحتسب
+// تكلفة الكروت المدفوعة والدعم المجاني بنسبة الجزء الذي تم تحصيله.
+function invoiceActualMargin(inv){
+ const saleCost=(inv.rows||[]).reduce((sum,r)=>{const item=db.items.find(i=>i.id===r.itemId);return sum+(+r.qty||0)*(+(r.costAtSale??item?.cost??0)||0)},0);
+ const freeCost=(inv.supportRows||[]).reduce((sum,r)=>{const item=db.items.find(i=>i.id===r.itemId);return sum+(+r.qty||0)*(+(r.costAtSale??item?.cost??0)||0)},0);
+ return (+inv.total||0)-saleCost-freeCost;
+}
+function realizedSummary(){
+ const paidByInvoice=new Map();let allocatedCredit=0;
+ for(const name of allCustomerNames()){
+  const ledger=customerLedger(name);
+  for(const entry of ledger.invoices){paidByInvoice.set(entry.invoice.id,entry.paid);allocatedCredit+=entry.paid;}
+ }
+ let cashSales=0,creditSales=0,realizedMargin=0;
+ for(const inv of db.invoices){
+  const amount=Math.max(0,+inv.total||0);
+  if(inv.pay==='credit'){
+   creditSales+=amount;
+   const received=Math.min(amount,Math.max(0,paidByInvoice.get(inv.id)||0));
+   const portion=amount>0?received/amount:0;
+   realizedMargin+=invoiceActualMargin(inv)*portion;
+  }else{cashSales+=amount;realizedMargin+=invoiceActualMargin(inv)}
+ }
+ const expenses=db.expenses.reduce((sum,e)=>sum+(+e.amount||0),0);
+ return {cashSales,creditSales,allocatedCredit,receivedSales:cashSales+allocatedCredit,realizedMargin,expenses,netRealized:realizedMargin-expenses,uncollected:Math.max(0,creditSales-allocatedCredit)};
+}
+function grocerPayableLedger(name){
+ const debts=db.grocerDebts.filter(x=>x.grocer===name).reduce((a,x)=>a+(+x.amount||0),0);
+ const paid=db.grocerDebtPayments.filter(x=>x.grocer===name).reduce((a,x)=>a+(+x.amount||0),0);
+ return {debts,paid,remaining:Math.max(0,debts-paid)};
+}
+function allPayableGrocerNames(){return [...new Set([...db.grocerDebts.map(x=>x.grocer),...db.grocerDebtPayments.map(x=>x.grocer)].filter(Boolean))]}
+function totalGrocerPayable(){return allPayableGrocerNames().reduce((sum,n)=>sum+grocerPayableLedger(n).remaining,0)}
+function saveGrocerDebt(){
+ const grocer=$('owedGrocer').value.trim(),amount=+$('owedAmount').value||0;
+ if(!grocer||amount<=0){alert('أدخل اسم صاحب البقالة ومبلغ الدين بشكل صحيح');return}
+ db.grocerDebts.unshift({id:'GD'+Date.now(),grocer,date:$('owedDate').value||today(),amount,note:$('owedNote').value.trim()});
+ saveDB();$('owedAmount').value='';$('owedNote').value='';$('owedPayGrocer').value=grocer;
+ alert('تم تسجيل المديونية عليك لصاحب البقالة دون إضافتها إلى المصروفات.');
+}
+function saveGrocerDebtPayment(){
+ const grocer=$('owedPayGrocer').value.trim(),amount=+$('owedPayAmount').value||0;
+ if(!grocer||amount<=0){alert('أدخل اسم صاحب البقالة ومبلغ الدفعة بشكل صحيح');return}
+ const ledger=grocerPayableLedger(grocer);
+ if(ledger.remaining<=0){alert('لا توجد مديونية مسجلة لهذا الاسم. سجّل المديونية أولاً.');return}
+ if(amount>ledger.remaining+0.0001){alert('مبلغ الدفعة أكبر من المتبقي عليك ('+money(ledger.remaining)+'). سجّل دفعة لا تتجاوز المديونية.');return}
+ db.grocerDebtPayments.unshift({id:'GP'+Date.now(),grocer,date:$('owedPayDate').value||today(),amount,note:$('owedPayNote').value.trim()});
+ saveDB();$('owedPayAmount').value='';$('owedPayNote').value='';
+ alert('تم تسجيل الدفعة، وخصمها من الصندوق، وتخفيض المديونية تلقائياً.');
+}
+function deleteGrocerDebtEntry(id,type){
+ if(type==='debt'){
+  const d=db.grocerDebts.find(x=>x.id===id);if(!d)return;
+  const paid=db.grocerDebtPayments.filter(x=>x.grocer===d.grocer).reduce((a,x)=>a+(+x.amount||0),0);
+  if(paid>0){alert('لا يمكن حذف قيد المديونية مع وجود دفعات سداد لهذا صاحب البقالة. احذف دفعات السداد أولاً إذا كنت تريد تصحيح الحساب.');return}
+  if(!confirm('حذف قيد المديونية؟'))return;
+  db.grocerDebts=db.grocerDebts.filter(x=>x.id!==id);
+  // Keep repayment records; if they exceed the remaining liability they will be visibly flagged in the ledger.
+ }else{
+  if(!confirm('حذف دفعة السداد؟ سيعود المبلغ إلى رصيد الصندوق وترتفع المديونية بنفس القيمة.'))return;
+  db.grocerDebtPayments=db.grocerDebtPayments.filter(x=>x.id!==id);
+ }
+ saveDB();
+}
+function renderGrocerDebts(){
+ const summary=$('grocerDebtSummary'),history=$('grocerDebtHistory');if(!summary||!history)return;
+ const names=allPayableGrocerNames();
+ summary.innerHTML=names.length?`<div class="tablewrap"><table><thead><tr><th>صاحب البقالة</th><th>إجمالي المديونية</th><th>المدفوع</th><th>المتبقي عليك</th></tr></thead><tbody>${names.map(n=>{const l=grocerPayableLedger(n);return `<tr><td>${esc(n)}</td><td>${money(l.debts)}</td><td>${money(l.paid)}</td><td><b>${money(l.remaining)}</b></td></tr>`}).join('')}</tbody></table></div>`:'<div class="empty">لا توجد مديونيات عليك مسجلة</div>';
+ const rows=[...db.grocerDebts.map(x=>({...x,kind:'مديونية عليك',type:'debt'})),...db.grocerDebtPayments.map(x=>({...x,kind:'دفعة سداد',type:'payment'}))].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+ history.innerHTML=rows.length?`<div class="tablewrap"><table><thead><tr><th>التاريخ</th><th>صاحب البقالة</th><th>نوع الحركة</th><th>المبلغ</th><th>البيان</th><th>إجراء</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${esc(x.date||'-')}</td><td>${esc(x.grocer)}</td><td>${x.kind}</td><td>${money(x.amount)}</td><td>${esc(x.note||'-')}</td><td><button class="btn red small" onclick="deleteGrocerDebtEntry('${x.id}','${x.type}')">حذف</button></td></tr>`).join('')}</tbody></table></div>`:'<div class="empty">لا توجد حركات بعد</div>';
+}
+function renderStockDashboard(){
+ const box=$('stockDashboard');if(!box)return;
+ const totalQty=db.items.reduce((a,x)=>a+(+x.stock||0),0),low=db.items.filter(x=>(+x.stock||0)<=5).length;
+ const stats=`<div class="summaryTiles"><div class="summaryTile blue"><small>إجمالي عدد الأصناف</small><strong>${db.items.length.toLocaleString('en-US')}</strong></div><div class="summaryTile green"><small>إجمالي الكميات المتبقية</small><strong>${totalQty.toLocaleString('en-US')}</strong></div><div class="summaryTile amber"><small>أصناف منخفضة (5 أو أقل)</small><strong>${low.toLocaleString('en-US')}</strong></div></div>`;
+ const rows=db.items.slice().sort((a,b)=>(+a.stock||0)-(+b.stock||0)).map(it=>{const q=Math.max(0,+it.stock||0),lowStock=q<=5,pct=totalQty>0?(q/totalQty*100):0;return `<tr><td><strong>${esc(it.name)}</strong><div class="muted" style="font-size:11px">${esc(it.code||'')}</div></td><td><span class="stockQty" style="color:${lowStock?'#b45309':'#1d4ed8'}">${q.toLocaleString('en-US',{maximumFractionDigits:3})}</span></td><td style="min-width:145px"><div style="display:flex;align-items:center;gap:8px"><div style="height:9px;flex:1;background:#e5e7eb;border-radius:99px;overflow:hidden"><div style="height:100%;width:${pct.toFixed(2)}%;background:${lowStock?'#f59e0b':'#2563eb'};border-radius:99px"></div></div><b style="min-width:48px;font-size:12px;color:#374151">${pct.toFixed(1)}%</b></div><div class="muted" style="font-size:10px">من إجمالي المخزون</div></td><td><span class="status${lowStock?' due':''}">${lowStock?'مخزون منخفض':'متوفر'}</span></td></tr>`}).join('');
+ box.innerHTML=stats+(rows?`<div class="tablewrap" style="margin-top:12px"><table class="stockTable"><thead><tr><th>الصنف</th><th>الكمية المتبقية بالضبط</th><th>النسبة</th><th>الحالة</th></tr></thead><tbody>${rows}</tbody></table></div>`:'<div class="empty">أضف الأصناف ليظهر رصيد كل صنف هنا</div>');
+}
+function homeInvoiceAmounts(inv){
+ const total=Math.max(0,+inv.total||0);
+ const ledger=inv.pay==='credit'?customerLedger((inv.customer||'').trim()):null;
+ const entry=ledger?.invoices.find(x=>x.invoice.id===inv.id);
+ const paid=inv.pay==='cash'?total:Math.min(total,entry?.paid||0);
+ const due=Math.max(0,total-paid);
+ const status=inv.pay==='cash'?'نقدي محصّل':due<0.001?'آجل مسدد':paid>0?'آجل جزئي':'آجل غير محصّل';
+ return {total,paid,due,status,css:due<0.001?'':' '+(paid>0?'partial':'due')};
+}
+function viewHomeInvoice(id,readOnly=false){
+ const inv=db.invoices.find(x=>x.id===id);if(!inv)return;
+ const a=homeInvoiceAmounts(inv);
+ const itemRows=(inv.rows||[]).map(r=>{const it=db.items.find(z=>z.id===r.itemId);return `<tr><td>${esc(it?.name||'صنف محذوف')}</td><td>${(+r.qty||0).toLocaleString('en-US')}</td><td>${money(r.price)}</td><td>${money((+r.qty||0)*(+r.price||0))}</td></tr>`}).join('');
+ const supportRows=(inv.supportRows||[]).map(r=>{const it=db.items.find(z=>z.id===r.itemId);return `<tr><td>${esc(it?.name||'صنف محذوف')}</td><td>${(+r.qty||0).toLocaleString('en-US')}</td><td colspan="2">دعم مجاني – دون مقابل</td></tr>`}).join('');
+ $('homeInvoiceDetails').innerHTML=`<div class="detailGrid"><div class="detailTile"><small>رقم الفاتورة</small><b>${esc(inv.no)}</b></div><div class="detailTile"><small>العميل</small><b>${esc(inv.customer||'بدون اسم')}</b></div><div class="detailTile"><small>التاريخ</small><b>${esc(inv.date||'')}</b></div><div class="detailTile"><small>حالة التحصيل</small><b>${a.status}</b></div><div class="detailTile"><small>الإجمالي</small><b>${money(a.total)}</b></div><div class="detailTile"><small>المحصّل</small><b>${money(a.paid)}</b></div><div class="detailTile"><small>المتبقي</small><b>${money(a.due)}</b></div></div><div class="tablewrap"><table><thead><tr><th>الصنف</th><th>الكمية</th><th>السعر</th><th>الإجمالي</th></tr></thead><tbody>${itemRows||'<tr><td colspan="4">لا توجد أصناف بيع</td></tr>'}${supportRows}</tbody></table></div><div class="recentActions" style="margin-top:14px">${readOnly?'':`<button class="btn" onclick="closeHomeInvoice();editInvoice('${inv.id}')">تعديل الفاتورة</button>`}<button class="btn secondary" onclick="printInvoice('${inv.id}')">طباعة</button>${readOnly?'':`<button class="btn red" onclick="closeHomeInvoice();deleteInvoice('${inv.id}')">حذف الفاتورة</button>`}</div>`;
+ $('homeInvoiceModal').style.display='flex';
+}
+function closeHomeInvoice(){if($('homeInvoiceModal'))$('homeInvoiceModal').style.display='none'}
+
+function refreshHome(){
+ const s=realizedSummary(),ct=cashTotals();
+ $('mCash').textContent=money(ct.balance);
+ $('mCollected').textContent=money(s.receivedSales);
+ $('mProfit').textContent=money(s.netRealized);
+ $('mDebt').textContent=money(s.uncollected);
+ $('mPayableDebt').textContent=money(totalGrocerPayable());
+ renderStockDashboard();
+ $('mSales').textContent=money(s.cashSales+s.creditSales);
+ $('mCredit').textContent=money(s.creditSales);
+ $('mCount').textContent=db.invoices.length;
+ $('mExpenses').textContent=money(s.expenses);
+ const bank=bankTotals();$('mBankBalance').textContent=money(bank.balance);$('mBankTransferred').textContent=money(bank.transferred);
+ $('recent').innerHTML=db.invoices.slice(0,7).map(inv=>{
+  const a=homeInvoiceAmounts(inv);
+  return `<div class="recentInvoice"><div style="min-width:190px;flex:1"><strong>فاتورة ${esc(inv.no)}</strong> <span class="muted">${esc(inv.customer||'بدون اسم')} · ${esc(inv.date||'')}</span><div class="muted" style="margin-top:5px">الإجمالي: ${money(a.total)} · المحصّل: ${money(a.paid)}${a.due>0?' · المتبقي: '+money(a.due):''}</div><div style="margin-top:6px"><span class="status${a.css}">${a.status}</span></div></div><div class="recentActions"><button class="btn small" onclick="viewHomeInvoice('${inv.id}')">عرض</button><button class="btn secondary small" onclick="printInvoice('${inv.id}')">طباعة</button><button class="btn red small" onclick="deleteInvoice('${inv.id}')">حذف</button></div></div>`;
+ }).join('')||'<div class="empty">لا توجد فواتير مسجلة</div>';
+}
+
+function refreshSettings(){$('rateCash').value=db.settings.cash;$('rateCredit').value=db.settings.credit;$('openingCash').value=+db.settings.openingCash||0;$('businessName').value=db.settings.name;$('currency').value=db.settings.currency}
+$('saveSettings').onclick=()=>{db.settings={...db.settings,cash:+$('rateCash').value||0,credit:+$('rateCredit').value||0,openingCash:+$('openingCash').value||0,name:$('businessName').value||'شبكة النائل',currency:$('currency').value||'ريال يمني'};saveDB();alert('تم حفظ الإعدادات')};
+$('exportData').onclick=()=>{let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='نسخة-احتياطية-شبكة-النائل.json';a.click();URL.revokeObjectURL(a.href)};
+$('importFile').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{let d=JSON.parse(await f.text());if(!d.items||!d.invoices)throw 0;if(confirm('سيتم استبدال البيانات الحالية بالنسخة المختارة. متابعة؟')){db=d;saveDB();refreshSettings();alert('تمت استعادة النسخة')}}catch{alert('ملف النسخة الاحتياطية غير صالح')}e.target.value=''};
+function refreshAll(){refreshHome();renderInvoices();renderItems();renderExpenses();renderReports();refreshSettings();refreshGrocerOptions();if($('grocerList'))renderGrocers();if($('cashLedger'))renderCashbox();if($('grocerDebtSummary'))renderGrocerDebts();if($('statementCustomer')&&$('statementCustomer').value)renderCustomerStatement($('statementCustomer').value.trim())}
+$('invDate').value=today();$('expDate').value=today();$('payDate').value=today();$('cashDate').value=today();$('bankTransferDate').value=today();clearInvoice();refreshAll();
+initializeCloud();
+</script>
+
+<script>
+// PWA: register the app shell worker only on a secure hosted origin.
+if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+  window.addEventListener('load', async () => {
+    try {
+      const registration = await navigator.serviceWorker.register('./sw.js');
+      if (registration.waiting) showPwaUpdate(registration);
+      registration.addEventListener('updatefound', () => {
+        const worker = registration.installing;
+        if (worker) worker.addEventListener('statechange', () => {
+          if (worker.state === 'installed' && navigator.serviceWorker.controller) showPwaUpdate(registration);
+        });
+      });
+    } catch (error) { console.warn('PWA worker registration failed', error); }
+  });
+}
+function showPwaUpdate(registration) {
+  if (document.getElementById('pwaUpdateNotice')) return;
+  const box = document.createElement('div'); box.id='pwaUpdateNotice';
+  box.dir='rtl'; box.style.cssText='position:fixed;z-index:10020;bottom:18px;right:18px;max-width:calc(100% - 36px);background:#102b67;color:#fff;padding:13px 16px;border-radius:14px;box-shadow:0 8px 28px #0003;font:14px Tahoma,Arial;display:flex;gap:12px;align-items:center';
+  const msg=document.createElement('span'); msg.textContent='يتوفر تحديث جديد لشبكة النائل';
+  const btn=document.createElement('button'); btn.textContent='تحديث الآن'; btn.style.cssText='border:0;border-radius:9px;padding:9px 13px;background:#d7ad55;color:#102b67;font-weight:bold;white-space:nowrap';
+  btn.onclick=()=>{if(registration.waiting){registration.waiting.postMessage({type:'SKIP_WAITING'});}else location.reload();};
+  box.append(msg,btn); document.body.appendChild(box);
+}
+if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('controllerchange',()=>location.reload());
+</script>
+</body></html>
