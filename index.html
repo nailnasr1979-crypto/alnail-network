@@ -166,7 +166,7 @@ th{background:#e7f4f2;color:#155b58}td,th{border-bottom-color:#e5edef}.tablewrap
 </style>
 </head>
 <body>
-<header class="topHeader"><div class="head"><div class="brand"><div class="brandMark" aria-label="شعار شبكة النائل"><svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="40" cy="40" r="35" stroke="#8BE4D3" stroke-width="2.5"/><circle cx="40" cy="40" r="27" stroke="#FFFFFF" stroke-opacity=".28" stroke-width="1.5"/><path d="M17 31C30 18 50 18 63 31M23 39C33 29 47 29 57 39M30 47C36 41 44 41 50 47" stroke="#8BE4D3" stroke-width="4" stroke-linecap="round"/><circle cx="40" cy="55" r="4.5" fill="#F5C76B"/><path d="M23 61H57" stroke="white" stroke-opacity=".75" stroke-width="2.5" stroke-linecap="round"/></svg></div><div class="brandCopy"><h1>شبكة النائل</h1><div class="sub">AL-NAIL NETWORK · النظام المحاسبي الذكي</div><div class="brandTag"><b>01</b><span>إدارة المبيعات والمخزون والحسابات</span></div></div></div><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><button id="autoRefreshToggle" type="button" aria-pressed="true" title="تشغيل أو إيقاف التحديث التلقائي" style="border:1px solid #ffffff55;background:#065f46;color:#fff;border-radius:11px;padding:9px 13px;font-weight:800;cursor:pointer;font-size:13px">● التحديث التلقائي: يعمل</button><button id="refreshAppBtn" type="button" title="تحديث البيانات الآن يدوياً" style="border:1px solid #ffffff55;background:#ffffff18;color:#fff;border-radius:11px;padding:9px 13px;font-weight:800;cursor:pointer;font-size:13px">↻ تحديث يدوي</button><div class="pill headStatus">منصة الإدارة المالية</div></div></div></header>
+<header class="topHeader"><div class="head"><div class="brand"><div class="brandMark" aria-label="شعار شبكة النائل"><svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="40" cy="40" r="35" stroke="#8BE4D3" stroke-width="2.5"/><circle cx="40" cy="40" r="27" stroke="#FFFFFF" stroke-opacity=".28" stroke-width="1.5"/><path d="M17 31C30 18 50 18 63 31M23 39C33 29 47 29 57 39M30 47C36 41 44 41 50 47" stroke="#8BE4D3" stroke-width="4" stroke-linecap="round"/><circle cx="40" cy="55" r="4.5" fill="#F5C76B"/><path d="M23 61H57" stroke="white" stroke-opacity=".75" stroke-width="2.5" stroke-linecap="round"/></svg></div><div class="brandCopy"><h1>شبكة النائل</h1><div class="sub">AL-NAIL NETWORK · النظام المحاسبي الذكي</div><div class="brandTag"><b>01</b><span>إدارة المبيعات والمخزون والحسابات</span></div></div></div><div class="pill headStatus">منصة الإدارة المالية</div></div></header>
 <div class="wrap"><div class="appShell">
 <nav class="no-print">
 <button class="active" data-page="home">الرئيسية</button>
@@ -315,11 +315,6 @@ th{background:#e7f4f2;color:#155b58}td,th{border-bottom-color:#e5edef}.tablewrap
 <div class="field"><label>رصيد الصندوق الافتتاحي</label><input id="openingCash" type="number" step="any"></div><div class="field"><label>اسم النشاط</label><input id="businessName"></div>
 <div class="field"><label>العملة</label><input id="currency"></div>
 </div><div class="actions"><button class="btn green" id="saveSettings">حفظ الإعدادات</button><button class="btn secondary" id="exportData">تنزيل نسخة احتياطية</button><label class="btn secondary" for="importFile" style="cursor:pointer">استعادة نسخة</label><input id="importFile" type="file" accept="application/json" class="hidden"></div></div>
-<div class="panel" id="dailyBackupPanel"><h2>النسخ الاحتياطي اليومي التلقائي</h2>
-<p class="muted">يحفظ النظام نسخة مستقلة من بياناتك داخل هذا الجهاز مرة كل يوم، ويحدّث نسخة اليوم بعد كل عملية حفظ. يحتفظ بآخر 30 نسخة يومية.</p>
-<div class="row" style="align-items:center"><div class="field"><label>حالة النسخ الاحتياطي</label><strong id="dailyBackupStatus">جارٍ التحقق من النسخ...</strong></div>
-<div class="actions" style="margin-top:0"><button class="btn secondary" type="button" id="downloadDailyBackup">تنزيل آخر نسخة يومية</button><button class="btn secondary" type="button" id="restoreDailyBackup">استعادة آخر نسخة يومية</button></div></div>
-</div>
 <div class="panel"><h2>معلومات</h2><p class="muted">التطبيق متصل بسحابة شبكة النائل. بعد تسجيل الدخول بالبيانات نفسها تتم مزامنة الفواتير والمخزون والحسابات بين الأجهزة عبر الإنترنت. احتفظ بنسخة احتياطية دورية.</p></div>
 </section>
 </div></div></div>
@@ -352,64 +347,14 @@ const SUPABASE_PUBLISHABLE_KEY='sb_publishable_Q7Tvf2zcq7iy_xrMQy3MLA_kkvTgj_u';
 function cloudMessage(msg,isError=false){const el=$('cloudAuthMsg');if(el){el.style.color=isError?'#b91c1c':'#047857';el.textContent=msg}}
 function showCloudLogin(show=true){$('cloudAuth').style.display=show?'flex':'none'}
 function hasLocalBusinessData(d){return !!(d&&(d.items?.length||d.invoices?.length||d.grocers?.length||d.expenses?.length||d.payments?.length||d.stockMovements?.length))}
-
-// النسخ اليومية التلقائية: IndexedDB حتى لا تستهلك مساحة localStorage الصغيرة.
-const DAILY_BACKUP_DB='nail_network_daily_backups_v1';
-const DAILY_BACKUP_STORE='snapshots';
-function openDailyBackupDB(){
- return new Promise((resolve,reject)=>{
-  if(!('indexedDB' in window)){reject(new Error('المتصفح لا يدعم التخزين المحلي للنسخ'));return}
-  const req=indexedDB.open(DAILY_BACKUP_DB,1);
-  req.onupgradeneeded=()=>{const d=req.result;if(!d.objectStoreNames.contains(DAILY_BACKUP_STORE))d.createObjectStore(DAILY_BACKUP_STORE,{keyPath:'date'})};
-  req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error||new Error('تعذر فتح مخزن النسخ'));
- });
-}
-function localDateKey(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
-async function backupDailyData(){
- try{
-  const d=await openDailyBackupDB(),date=localDateKey();
-  await new Promise((resolve,reject)=>{
-   const tx=d.transaction(DAILY_BACKUP_STORE,'readwrite'),store=tx.objectStore(DAILY_BACKUP_STORE);
-   store.put({date,createdAt:new Date().toISOString(),data:JSON.parse(JSON.stringify(db))});
-   tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error||new Error('تم إلغاء حفظ النسخة'));
-  });
-  const all=await getDailyBackups();
-  if(all.length>30){
-   await new Promise((resolve,reject)=>{const tx=d.transaction(DAILY_BACKUP_STORE,'readwrite'),store=tx.objectStore(DAILY_BACKUP_STORE);all.sort((a,b)=>b.date.localeCompare(a.date)).slice(30).forEach(x=>store.delete(x.date));tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)});
-  }
-  const status=document.getElementById('dailyBackupStatus');if(status)status.textContent='آخر نسخة محفوظة: '+date+' · الاحتفاظ بآخر 30 يومًا';
-  d.close();
- }catch(e){console.warn('Daily backup failed',e);const status=document.getElementById('dailyBackupStatus');if(status)status.textContent='تعذر إنشاء النسخة اليومية: '+(e.message||e)}
-}
-async function getDailyBackups(){
- const d=await openDailyBackupDB();
- return await new Promise((resolve,reject)=>{const tx=d.transaction(DAILY_BACKUP_STORE,'readonly'),req=tx.objectStore(DAILY_BACKUP_STORE).getAll();req.onsuccess=()=>{d.close();resolve(req.result||[])};req.onerror=()=>{d.close();reject(req.error)}});
-}
-function downloadBackupObject(data,filename){
- const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');
- a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);
-}
-document.getElementById('downloadDailyBackup')?.addEventListener('click',async()=>{
- try{const all=await getDailyBackups();all.sort((a,b)=>b.date.localeCompare(a.date));if(!all.length){alert('لا توجد نسخة يومية محفوظة بعد');return}downloadBackupObject(all[0].data,'نسخة-شبكة-النائل-'+all[0].date+'.json')}
- catch(e){alert('تعذر تنزيل النسخة: '+(e.message||e))}
-});
-document.getElementById('restoreDailyBackup')?.addEventListener('click',async()=>{
- try{const all=await getDailyBackups();all.sort((a,b)=>b.date.localeCompare(a.date));if(!all.length){alert('لا توجد نسخة يومية محفوظة بعد');return}
- if(!confirm('سيتم حفظ نسخة من البيانات الحالية أولاً، ثم استعادة نسخة '+all[0].date+'. هل تريد المتابعة؟'))return;
- localStorage.setItem(KEY+'_before_daily_restore',JSON.stringify(db));db=all[0].data;localStorage.setItem(KEY,JSON.stringify(db));
- if(typeof refreshAll==='function')refreshAll();if(cloudReady&&cloudUser){cloudDirty=true;scheduleCloudSave()}
- alert('تمت استعادة النسخة اليومية بتاريخ '+all[0].date);
- }catch(e){alert('تعذرت الاستعادة: '+(e.message||e))}
-});
-
-function saveDB(){localStorage.setItem(KEY,JSON.stringify(db));refreshAll();backupDailyData();if(cloudReady&&cloudUser){cloudDirty=true;scheduleCloudSave()}}
+function saveDB(){localStorage.setItem(KEY,JSON.stringify(db));refreshAll();if(cloudReady&&cloudUser){cloudDirty=true;scheduleCloudSave()}}
 function scheduleCloudSave(){clearTimeout(cloudSaveTimer);cloudSaveTimer=setTimeout(pushCloudData,900)}
 function setCloudConflict(message='يوجد تعديل أحدث من الجهاز الآخر. أوقفنا الحفظ حتى لا نفقد أي بيانات.') {cloudConflict=true;cloudReady=false;clearTimeout(cloudSaveTimer);const status=$('cloudSyncStatus');if(status){status.textContent='تعارض مزامنة · الحفظ متوقف';status.style.background='#991b1b';status.style.borderRadius='12px';status.style.maxWidth='min(360px,calc(100% - 24px))';status.style.whiteSpace='normal';status.style.lineHeight='1.7';status.innerHTML='⚠️ '+message+'<br><button id="cloudConflictReload" style="margin-top:7px;border:0;border-radius:8px;padding:7px 10px;background:#fff;color:#991b1b;font-weight:bold">تحميل آخر نسخة سحابية</button> <button id="cloudConflictBackup" style="margin-top:7px;border:0;border-radius:8px;padding:7px 10px;background:#fee2e2;color:#7f1d1d;font-weight:bold">تنزيل نسخة من تعديلاتي</button>';document.getElementById('cloudConflictReload').onclick=async()=>{if(!confirm('سيتم استبدال البيانات الظاهرة بآخر نسخة سحابية. نزّل نسخة من تعديلاتك أولاً إذا كنت تحتاجها. متابعة؟'))return;try{const {data,error}=await cloudClient.from('nail_accounting_data').select('data,updated_at').eq('user_id',cloudUser.id).maybeSingle();if(error)throw error;if(!data?.data)throw new Error('لم نعثر على نسخة سحابية');localStorage.setItem(KEY+'_precloud_backup',localStorage.getItem(KEY)||'{}');db=data.data;localStorage.setItem(KEY,JSON.stringify(db));cloudLastUpdated=data.updated_at;cloudDirty=false;cloudConflict=false;cloudReady=true;refreshAll();status.textContent='متصل · تمت المزامنة';status.style.background='#065f46'}catch(e){alert('تعذر تحميل النسخة: '+(e.message||e))}};document.getElementById('cloudConflictBackup').onclick=()=>{const blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='نسخة-تعديلات-محلية-شبكة-النائل.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}}}
 async function pushCloudData(){if(!cloudReady||!cloudUser||cloudSaving||cloudConflict)return;cloudSaving=true;try{const nextUpdated=new Date().toISOString();let query=cloudClient.from('nail_accounting_data').update({data:db,updated_at:nextUpdated}).eq('user_id',cloudUser.id);if(cloudLastUpdated)query=query.eq('updated_at',cloudLastUpdated);const {data,error}=await query.select('updated_at').maybeSingle();if(error)throw error;if(!data){setCloudConflict();return}cloudLastUpdated=data.updated_at;cloudDirty=false;const status=$('cloudSyncStatus');if(status)status.textContent='متصل · تمت المزامنة'}catch(e){const status=$('cloudSyncStatus');if(status)status.textContent='تعذرت المزامنة';console.error('Cloud sync error',e)}finally{cloudSaving=false}}
 async function initializeCloud(){try{if(!window.supabase?.createClient)throw new Error('تعذر تحميل مكتبة الاتصال. تحقق من الإنترنت ثم أعد فتح التطبيق.');cloudClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);const {data:{session},error}=await cloudClient.auth.getSession();if(error)throw error;if(session){await finishCloudLogin(session.user);return}showCloudLogin(true)}catch(e){showCloudLogin(true);cloudMessage(e.message||'تعذر الاتصال بالخدمة السحابية.',true)}}
 async function finishCloudLogin(user){cloudUser=user;cloudMessage('جارٍ تحميل بياناتك...');try{const {data,error}=await cloudClient.from('nail_accounting_data').select('data,updated_at').eq('user_id',user.id).maybeSingle();if(error)throw error;if(data?.data){cloudLastUpdated=data.updated_at;cloudDirty=false;cloudConflict=false;localStorage.setItem(KEY+'_precloud_backup',localStorage.getItem(KEY)||'{}');db=data.data;localStorage.setItem(KEY,JSON.stringify(db));db.grocers=db.grocers||[];db.payments=db.payments||[];db.cashMoves=db.cashMoves||[];db.stockMovements=db.stockMovements||[];db.grocerDebts=db.grocerDebts||[];db.grocerDebtPayments=db.grocerDebtPayments||[];db.bankAccounts=db.bankAccounts||[];db.bankTransfers=db.bankTransfers||[];refreshAll()}else{const firstPayload={user_id:user.id,data:db,updated_at:new Date().toISOString()};const {error:upErr}=await cloudClient.from('nail_accounting_data').upsert(firstPayload,{onConflict:'user_id'});if(upErr)throw upErr;cloudLastUpdated=firstPayload.updated_at}cloudReady=true;showCloudLogin(false);let pill=document.getElementById('cloudSyncStatus');if(!pill){pill=document.createElement('div');pill.id='cloudSyncStatus';pill.style.cssText='position:fixed;bottom:12px;left:12px;z-index:9998;background:#065f46;color:#fff;padding:7px 11px;border-radius:20px;font:12px Tahoma,Arial;box-shadow:0 3px 12px #0002';document.body.appendChild(pill)}pill.textContent='متصل · تمت المزامنة';refreshAll()}catch(e){cloudReady=false;cloudMessage('تعذر تحميل/حفظ البيانات: '+(e.message||'خطأ غير معروف'),true);showCloudLogin(true)}}
 async function pollCloudChanges(){if(!cloudReady||!cloudUser||cloudSaving||cloudPulling)return;try{const {data,error}=await cloudClient.from('nail_accounting_data').select('data,updated_at').eq('user_id',cloudUser.id).maybeSingle();if(error)throw error;if(data?.data&&data.updated_at&&data.updated_at!==cloudLastUpdated){if(cloudDirty){setCloudConflict('وجدنا تعديلًا من الجهاز الآخر بينما لديك تعديلات غير محفوظة. احتفظنا بتعديلاتك وأوقفنا المزامنة لتختار بأمان.');return}cloudPulling=true;localStorage.setItem(KEY+'_precloud_backup',localStorage.getItem(KEY)||'{}');db=data.data;cloudLastUpdated=data.updated_at;cloudDirty=false;localStorage.setItem(KEY,JSON.stringify(db));db.grocers=db.grocers||[];db.payments=db.payments||[];db.cashMoves=db.cashMoves||[];db.stockMovements=db.stockMovements||[];db.grocerDebts=db.grocerDebts||[];db.grocerDebtPayments=db.grocerDebtPayments||[];db.bankAccounts=db.bankAccounts||[];db.bankTransfers=db.bankTransfers||[];refreshAll();const status=$('cloudSyncStatus');if(status)status.textContent='تم تحديث البيانات من الجهاز الآخر'} }catch(e){console.warn('Cloud refresh error',e)}finally{cloudPulling=false}}
-
+setInterval(pollCloudChanges,6000);
 $('cloudImportBtn').addEventListener('click',async()=>{const f=$('cloudBackupImport').files[0];if(!f){cloudMessage('اختر ملف النسخة الاحتياطية أولاً.',true);return}try{const d=JSON.parse(await f.text());if(!d.items||!d.invoices)throw new Error('ملف النسخة لا يبدو نسخة شبكة النائل');localStorage.setItem(KEY+'_precloud_backup',localStorage.getItem(KEY)||'{}');db=d;localStorage.setItem(KEY,JSON.stringify(db));cloudMessage('تم استيراد النسخة محلياً. الآن سجّل الدخول لرفعها إلى السحابة.')}catch(err){cloudMessage(err.message||'تعذر قراءة النسخة الاحتياطية.',true)}});
 $('cloudLoginForm').addEventListener('submit',async e=>{e.preventDefault();const btn=$('cloudLoginBtn');btn.disabled=true;btn.textContent='جارٍ تسجيل الدخول...';cloudMessage('');try{const {data,error}=await cloudClient.auth.signInWithPassword({email:$('cloudEmail').value.trim(),password:$('cloudPassword').value});if(error)throw error;await finishCloudLogin(data.user)}catch(err){cloudMessage(err.message||'فشل تسجيل الدخول. تحقق من البريد وكلمة المرور.',true)}finally{btn.disabled=false;btn.textContent='تسجيل الدخول والمزامنة'}});
 
@@ -468,9 +413,7 @@ function printInvoice(id){
  let w=window.open('','_blank');if(!w){alert('اسمح بفتح النوافذ المنبثقة لطباعة الفاتورة');return}
  const ledger=x.pay==='credit'?customerLedger(x.customer||'').invoices.find(z=>z.invoice.id===x.id):null;
  const status=x.pay==='credit'?(ledger?(ledger.due<=0.001?'مسددة':ledger.paid>0?'مسددة جزئياً':'مستحقة'):'مستحقة'):'مدفوعة';
- // اسم ملف PDF المقترح: اسم العميل ثم رقم الفاتورة ثم تاريخها.
- const invoiceFileName=('فاتورة-'+String(x.customer||'عميل').trim()+'-'+String(x.no||'بدون-رقم')+'-'+String(x.date||today())).replace(/[\\/:*?"<>|]+/g,'-').replace(/\s+/g,'-');
- w.document.write(`<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(invoiceFileName)}</title><style>
+ w.document.write(`<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>فاتورة ${esc(x.no)}</title><style>
 *{box-sizing:border-box;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
 @page{size:A4;margin:10mm}
 :root{--navy:#102a43;--blue:#1769aa;--teal:#087e83;--gold:#d5a84b;--ink:#182b3a;--muted:#617486;--line:#d8e4eb}
@@ -492,7 +435,7 @@ table{width:100%;border-collapse:separate;border-spacing:0;margin:8px 0 17px;ove
 <div class="section-label">تفاصيل الأصناف</div><table><thead><tr><th>الصنف</th><th>الكمية</th><th>سعر الوحدة</th><th>الإجمالي</th></tr></thead><tbody>${x.rows.map(r=>{let it=db.items.find(i=>i.id===r.itemId);return `<tr><td>${esc(r.itemName||it?.name||'صنف محذوف')}</td><td>${r.qty}</td><td>${money(r.price)}</td><td><b>${money(r.qty*r.price)}</b></td></tr>`}).join('')}</tbody></table>
 ${(x.supportRows||[]).length?`<div class="support-title">✦ دعم مجاني للزبون — كميات مجانية غير داخلة في الحساب</div><table class="support-table"><thead><tr><th>الصنف</th><th>الكمية المجانية</th></tr></thead><tbody>${x.supportRows.map(r=>`<tr><td>${esc(r.itemName||'صنف')}</td><td>${r.qty}</td></tr>`).join('')}</tbody></table>`:''}
 <div class="bottom-layout"><aside class="thank-card"><strong>شكراً لاختياركم شبكة النائل</strong><p>نسعد بخدمتكم دائماً، ونتمنى لكم تجربة مميزة واتصالاً أسرع وأفضل.<br>يرجى الاحتفاظ بهذه الفاتورة للرجوع إليها عند الحاجة.</p></aside><section class="print-total"><div class="total-row"><span>إجمالي الأصناف</span><b>${money(x.sub)}</b></div><div class="total-row"><span>الخصم</span><b>${money(x.discount)}</b></div><div class="total-row rate"><span>نسبة العمولة</span><b>${x.ratePercent??(x.pay==='credit'?db.settings.credit:db.settings.cash)}%</b></div><div class="total-row"><span>العمولة</span><b>${money(x.commission)}</b></div><div class="final"><span>الإجمالي النهائي</span><span>${money(x.total)}</span></div></section></div>
-<footer class="print-foot"><b>شبكة النائل</b> • فاتورة إلكترونية صادرة من النظام المحاسبي • شكراً لثقتكم بنا</footer></main><script>window.onload=()=>{document.title=${JSON.stringify(invoiceFileName)};window.focus();setTimeout(()=>{document.title=${JSON.stringify(invoiceFileName)};window.print()},900)}<\/script>
+<footer class="print-foot"><b>شبكة النائل</b> • فاتورة إلكترونية صادرة من النظام المحاسبي • شكراً لثقتكم بنا</footer></main><script>window.onload=()=>{setTimeout(()=>window.print(),250)}<\/script>
 <script>
 // PWA: register the app shell worker only on a secure hosted origin.
 if ('serviceWorker' in navigator && location.protocol !== 'file:') {
@@ -737,39 +680,8 @@ $('saveSettings').onclick=()=>{db.settings={...db.settings,cash:+$('rateCash').v
 $('exportData').onclick=()=>{let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='نسخة-احتياطية-شبكة-النائل.json';a.click();URL.revokeObjectURL(a.href)};
 $('importFile').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{let d=JSON.parse(await f.text());if(!d.items||!d.invoices)throw 0;if(confirm('سيتم استبدال البيانات الحالية بالنسخة المختارة. متابعة؟')){db=d;saveDB();refreshSettings();alert('تمت استعادة النسخة')}}catch{alert('ملف النسخة الاحتياطية غير صالح')}e.target.value=''};
 function refreshAll(){refreshHome();renderInvoices();renderItems();renderExpenses();renderReports();refreshSettings();refreshGrocerOptions();if($('grocerList'))renderGrocers();if($('cashLedger'))renderCashbox();if($('grocerDebtSummary'))renderGrocerDebts();if($('statementCustomer')&&$('statementCustomer').value)renderCustomerStatement($('statementCustomer').value.trim())}
-const refreshAppBtn=document.getElementById('refreshAppBtn');
-const autoRefreshToggle=document.getElementById('autoRefreshToggle');
-let autoRefreshEnabled=localStorage.getItem('nail_auto_refresh')!=='false';
-let autoRefreshTimer=null;
-function updateAutoRefreshUI(){
- if(!autoRefreshToggle)return;
- autoRefreshToggle.textContent=autoRefreshEnabled?'● التحديث التلقائي: يعمل':'○ التحديث التلقائي: متوقف';
- autoRefreshToggle.style.background=autoRefreshEnabled?'#065f46':'#6b7280';
- autoRefreshToggle.setAttribute('aria-pressed',String(autoRefreshEnabled));
-}
-function startAutoRefresh(){clearInterval(autoRefreshTimer);if(autoRefreshEnabled)autoRefreshTimer=setInterval(pollCloudChanges,6000)}
-if(autoRefreshToggle)autoRefreshToggle.addEventListener('click',()=>{
- autoRefreshEnabled=!autoRefreshEnabled;
- localStorage.setItem('nail_auto_refresh',String(autoRefreshEnabled));
- updateAutoRefreshUI();startAutoRefresh();
-backupDailyData();
-});
-updateAutoRefreshUI();startAutoRefresh();
-if(refreshAppBtn)refreshAppBtn.addEventListener('click',async()=>{
- const original=refreshAppBtn.textContent;
- refreshAppBtn.disabled=true;refreshAppBtn.textContent='↻ جارٍ التحديث...';
- try{
-  if(cloudDirty&&cloudReady&&cloudUser&&!cloudConflict){
-   await pushCloudData();
-   if(cloudDirty||cloudConflict){alert('لم يكتمل حفظ التعديلات السحابية. لم يتم تحديث البيانات حتى لا تفقد أي بيانات.');return;}
-  }
-  if(cloudReady&&cloudUser)await pollCloudChanges();
-  else refreshAll();
-  refreshAppBtn.textContent='✓ تم التحديث';
-  setTimeout(()=>{refreshAppBtn.textContent=original},1400);
- }catch(err){alert('تعذر تحديث البيانات: '+(err.message||err));}
- finally{refreshAppBtn.disabled=false;if(refreshAppBtn.textContent==='↻ جارٍ التحديث...')refreshAppBtn.textContent=original;}
-});
+$('invDate').value=today();$('expDate').value=today();$('payDate').value=today();$('cashDate').value=today();$('bankTransferDate').value=today();clearInvoice();refreshAll();
+initializeCloud();
 </script>
 
 <script>
