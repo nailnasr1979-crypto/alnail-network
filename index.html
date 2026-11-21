@@ -413,8 +413,8 @@ function printInvoice(id){
  let w=window.open('','_blank');if(!w){alert('اسمح بفتح النوافذ المنبثقة لطباعة الفاتورة');return}
  const ledger=x.pay==='credit'?customerLedger(x.customer||'').invoices.find(z=>z.invoice.id===x.id):null;
  const status=x.pay==='credit'?(ledger?(ledger.due<=0.001?'مسددة':ledger.paid>0?'مسددة جزئياً':'مستحقة'):'مستحقة'):'مدفوعة';
- // اسم ملف PDF المقترح: اسم البقالة ثم تاريخ الفاتورة.
- const invoiceFileName=('فاتورة-'+String(x.customer||'عميل').trim()+'-'+String(x.date||today())).replace(/[\\/:*?"<>|]+/g,'-').replace(/\s+/g,'-');
+ // اسم ملف PDF المقترح: اسم العميل ثم رقم الفاتورة ثم تاريخها.
+ const invoiceFileName=('فاتورة-'+String(x.customer||'عميل').trim()+'-'+String(x.no||'بدون-رقم')+'-'+String(x.date||today())).replace(/[\\/:*?"<>|]+/g,'-').replace(/\s+/g,'-');
  w.document.write(`<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(invoiceFileName)}</title><style>
 *{box-sizing:border-box;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
 @page{size:A4;margin:10mm}
