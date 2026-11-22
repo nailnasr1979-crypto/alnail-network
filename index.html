@@ -433,7 +433,7 @@ function printInvoice(id){
  let w=window.open('','_blank');if(!w){alert('اسمح بفتح النوافذ المنبثقة لطباعة الفاتورة');return}
  const ledger=x.pay==='credit'?customerLedger(x.customer||'').invoices.find(z=>z.invoice.id===x.id):null;
  const status=x.pay==='credit'?(ledger?(ledger.due<=0.001?'مسددة':ledger.paid>0?'مسددة جزئياً':'مستحقة'):'مستحقة'):'مدفوعة';
- w.document.write(`<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc((`فاتورة_${x.customer||"عميل"}_رقم_${x.no||"بدون_رقم"}_${String(x.date||new Date().toISOString().slice(0,10)).slice(0,10)}`).replace(/[\\/:*?"<>|]/g,"_").replace(/\s+/g,"_"))}</title><style>
+ w.document.write(`<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc((`فاتورة_${x.customer||"عميل"}_رقم_${x.no||"بدون_رقم"}_${(function(v){v=String(v||"").trim();if(/^\d{4}-\d{2}-\d{2}$/.test(v))return v;if(/^\d{2}\/\d{2}\/\d{4}$/.test(v)){const a=v.split("/");return a[2]+"-"+a[1]+"-"+a[0]}const d=new Date(v);return isNaN(d)?new Date().toISOString().slice(0,10):d.toISOString().slice(0,10)})(x.date)}`).replace(/[\\/:*?"<>|]/g,"_").replace(/\s+/g,"_"))}</title><style>
 *{box-sizing:border-box;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
 @page{size:A4;margin:10mm}
 :root{--navy:#102a43;--blue:#1769aa;--teal:#087e83;--gold:#d5a84b;--ink:#182b3a;--muted:#617486;--line:#d8e4eb}
