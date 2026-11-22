@@ -448,7 +448,39 @@ table{width:100%;border-collapse:separate;border-spacing:0;margin:8px 0 17px;ove
 .support-title{margin:18px 0 8px;padding:11px 14px;border-radius:11px;background:#fff4df;color:#8a5b11;border:1px solid #f0d8a7;font-size:13px;font-weight:800}.support-table th{background:linear-gradient(110deg,#9a6a20,#c08a36)}
 .bottom-layout{display:grid;grid-template-columns:1fr minmax(270px,360px);gap:14px;align-items:stretch;margin-top:8px}.thank-card{padding:17px;border-radius:14px;background:linear-gradient(145deg,#e5f3f4,#f5faf9);border:1px solid #cce2e1;display:flex;flex-direction:column;justify-content:center}.thank-card strong{font-size:15px;color:#145e68;margin-bottom:7px}.thank-card p{font-size:11px;line-height:1.9;color:#58727a;margin:0}.print-total{padding:15px 17px;border-radius:15px;background:linear-gradient(145deg,#102f49,#174e6b);color:#edf7fa;box-shadow:0 8px 18px #12364d22;line-height:2;font-size:12px}.total-row{display:flex;justify-content:space-between;gap:12px;padding:3px 0;border-bottom:1px solid #ffffff20}.total-row b{color:#fff}.total-row.rate{color:#c7dce5}.print-total .final{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:11px;padding:13px 14px;border-radius:11px;background:linear-gradient(110deg,#e4bd65,#f2d99c);color:#24394a;font-size:15px;font-weight:900}.print-foot{margin-top:20px;padding:12px 5px 0;border-top:1px dashed #b9cbd4;text-align:center;color:#6c8290;font-size:10px}.print-foot b{color:#176477}
 @media(max-width:600px){body{padding:7px}.invoice-sheet{padding:13px;border-radius:14px}.print-head{padding:16px;gap:8px}.brand-symbol{width:46px;height:46px;flex-basis:46px;border-radius:13px;font-size:23px}.print-head h2{font-size:18px}.print-head p{font-size:10px}.invoice-stamp{min-width:83px;padding:8px}.invoice-stamp strong{font-size:16px}.print-meta{grid-template-columns:1fr 1fr;gap:7px}.print-meta div{padding:9px;font-size:11px}.bottom-layout{grid-template-columns:1fr}td,th{padding:8px 5px;font-size:10px}}
-@media print{html,body{background:#eaf1f5!important;padding:0!important;margin:0!important}.invoice-sheet{max-width:none;width:100%;min-height:0;margin:0;border-radius:0;box-shadow:none;break-inside:avoid}.print-head,th,.print-total,.print-total .final,.invoice-sheet:before{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}.print-meta div,tbody tr:nth-child(even) td,.thank-card,.support-title{ -webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}table{break-inside:auto}tr{break-inside:avoid;break-after:auto}.print-foot{break-inside:avoid}}
+@media print{
+@page{size:A4 portrait;margin:6mm}
+html,body{background:#fff!important;padding:0!important;margin:0!important}
+body{zoom:.82}
+.invoice-sheet{max-width:none;width:100%;min-height:0;margin:0;padding:16px 18px;border:0;border-radius:0;box-shadow:none;break-inside:avoid}
+.print-head{padding:15px 18px;margin-bottom:11px;border-radius:12px;box-shadow:none}
+.brand-symbol{width:48px;height:48px;flex-basis:48px;font-size:25px;border-radius:13px}
+.print-head h2{font-size:21px;margin-bottom:4px}
+.print-head p{font-size:10px}
+.invoice-stamp{padding:8px 10px}
+.invoice-stamp strong{font-size:17px}
+.section-label{margin:11px 0 6px;font-size:12px}
+.print-meta{gap:6px;margin-bottom:10px}
+.print-meta div{min-height:48px;padding:7px 9px;font-size:11px;border-radius:8px;box-shadow:none}
+.print-meta b{font-size:9px;margin-bottom:4px}
+table{margin:5px 0 10px;border-radius:8px}
+th{font-size:10px;padding:8px 7px}
+td{font-size:10px;padding:7px 7px}
+.support-title{margin:10px 0 5px;padding:7px 10px;font-size:11px}
+.bottom-layout{gap:9px;margin-top:5px;grid-template-columns:1fr minmax(245px,320px)}
+.thank-card{padding:11px;border-radius:10px}
+.thank-card strong{font-size:12px;margin-bottom:4px}
+.thank-card p{font-size:9px;line-height:1.6}
+.print-total{padding:10px 12px;border-radius:10px;box-shadow:none;font-size:10px;line-height:1.55}
+.total-row{padding:2px 0}
+.print-total .final{margin-top:7px;padding:8px 10px;border-radius:8px;font-size:12px}
+.print-foot{margin-top:11px;padding-top:7px;font-size:9px}
+.print-head,th,.print-total,.print-total .final,.invoice-sheet:before{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+.print-meta div,tbody tr:nth-child(even) td,.thank-card,.support-title{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+table{break-inside:auto}
+tr{break-inside:avoid;break-after:auto}
+.print-foot{break-inside:avoid}
+}
 </style></head><body><main class="invoice-sheet">
 <header class="print-head"><div class="brand-side"><div class="brand-symbol">✦</div><div><h2>${esc(db.settings.name)}</h2><p>نظام المبيعات وإدارة الشبكة • فاتورة مبيعات رسمية</p></div></div><div class="invoice-stamp"><b>رقم الفاتورة</b><strong>${esc(x.no)}</strong></div></header>
 <div class="section-label">بيانات الفاتورة والعميل</div><div class="print-meta"><div><b>تاريخ الإصدار</b><span>${esc(x.date)}</span></div><div><b>العميل / البقالة</b><span>${esc(String(x.customer||'').trim())}</span></div><div><b>طريقة الدفع</b><span class="pay-chip ${x.pay==='credit'?'credit':''}">${x.pay==='credit'?'آجل':'نقدي'}</span></div><div><b>حالة الحساب</b><span>${status}</span></div><div><b>نسبة العمولة</b><span>${x.ratePercent??(x.pay==='credit'?db.settings.credit:db.settings.cash)}%</span></div><div><b>ملاحظات</b><span>${esc(x.notes||'لا توجد ملاحظات')}</span></div></div>
@@ -488,7 +520,8 @@ if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('cont
 
 </body></html>`);
  w.document.close();
- const pdfName=(`فاتورة_${x.customer||'عميل'}_رقم_${x.no||'بدون_رقم'}`).replace(/[\\/:*?"<>|]/g,'_').replace(/\s+/g,'_');
+ const invoiceDate=(function(v){v=String(v||'').trim();if(/^\d{4}-\d{2}-\d{2}$/.test(v))return v;if(/^\d{2}\/\d{2}\/\d{4}$/.test(v)){const a=v.split('/');return a[2]+'-'+a[1]+'-'+a[0]}const d=new Date(v);return isNaN(d.getTime())?new Date().toISOString().slice(0,10):d.toISOString().slice(0,10)})(x.date);
+ const pdfName=(`فاتورة_${x.customer||'عميل'}_رقم_${x.no||'بدون_رقم'}_${invoiceDate}`).replace(/[\\/:*?"<>|]/g,'_').replace(/\s+/g,'_');
  w.document.title=pdfName;
 }
 function resetItem(){$('itemId').value='';$('itemCode').value='';$('itemName').value='';$('itemCost').value='';$('itemPrice').value='';$('itemCommissionRate').value='';$('itemCommissionMode').value='percent';$('itemStock').value=0;$('itemStock').disabled=false}
