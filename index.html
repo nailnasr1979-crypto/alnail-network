@@ -220,7 +220,7 @@ th{background:#e7f4f2;color:#155b58}td,th{border-bottom-color:#e5edef}.tablewrap
 <div class="panel">
 <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap"><h2 style="margin:0">أصناف الفاتورة</h2><button class="btn green no-print" id="addLine">+ إضافة صنف</button></div>
 <div class="muted" style="margin:8px 0 12px">اختر الصنف الأول، ثم أضف أي عدد من الأصناف الأخرى في نفس الفاتورة. يمكنك تعديل السعر والكمية لكل صنف.</div>
-<div class="tablewrap"><table><thead><tr><th>الصنف</th><th>الكمية</th><th>سعر الوحدة</th><th>الإجمالي</th><th>حذف</th></tr></thead><tbody id="lines"></tbody></table></div>
+<div class="tablewrap"><table><thead><tr><th>الصنف</th><th>الكمية</th><th>سعر الوحدة</th><th>عمولة %</th><th>الإجمالي</th><th>حذف</th></tr></thead><tbody id="lines"></tbody></table></div>
 <div class="panel" style="margin-top:14px;border:1px dashed #2563eb;background:#f8fbff">
 <h3 style="margin-top:0">دعم مجاني للزبون (يُخصم من المخزون دون احتساب مبلغ)</h3>
 <div class="muted" style="margin-bottom:10px">أضف الكروت أو الورق الذي تمنحه للزبون مجاناً. لن يدخل في قيمة الفاتورة أو العمولة، وسيُخصم من المخزون تلقائياً.</div>
@@ -243,7 +243,7 @@ th{background:#e7f4f2;color:#155b58}td,th{border-bottom-color:#e5edef}.tablewrap
 <div class="field"><label>كود الصنف</label><input id="itemCode" placeholder="مثال: C12"></div>
 <div class="field"><label>اسم الصنف</label><input id="itemName" placeholder="مثال: كرت 12 جيجا"></div>
 <div class="field"><label>سعر التكلفة</label><input id="itemCost" type="number" min="0"></div>
-<div class="field"><label>سعر البيع</label><input id="itemPrice" type="number" min="0"></div>
+<div class="field"><label>سعر البيع</label><input id="itemPrice" type="number" min="0"></div><div class="field"><label>عمولة الصنف % (اختياري)</label><input id="itemCommissionRate" type="number" min="0" max="100" step="0.01" placeholder="فارغ = حسب طريقة الدفع"></div>
 <div class="field"><label>كمية لإضافتها للمخزون</label><input id="itemStock" type="number" min="0" step="any" value="0"></div>
 </div><div class="actions"><button type="button" class="btn green" id="saveItem" onclick="saveItemRecord()">حفظ الصنف</button><button class="btn secondary" id="resetItem">تفريغ</button></div></div>
 <div class="panel">
@@ -315,7 +315,7 @@ th{background:#e7f4f2;color:#155b58}td,th{border-bottom-color:#e5edef}.tablewrap
 <div class="field"><label>رصيد الصندوق الافتتاحي</label><input id="openingCash" type="number" step="any"></div><div class="field"><label>اسم النشاط</label><input id="businessName"></div>
 <div class="field"><label>العملة</label><input id="currency"></div>
 </div><div class="actions"><button class="btn green" id="saveSettings">حفظ الإعدادات</button><button class="btn secondary" id="exportData">تنزيل نسخة احتياطية</button><label class="btn secondary" for="importFile" style="cursor:pointer">استعادة نسخة</label><input id="importFile" type="file" accept="application/json" class="hidden"></div></div>
-<div class="panel"><h2>معلومات</h2><p class="muted">التطبيق متصل بسحابة شبكة النائل. بعد تسجيل الدخول بالبيانات نفسها تتم مزامنة الفواتير والمخزون والحسابات بين الأجهزة عبر الإنترنت. احتفظ بنسخة احتياطية دورية.</p></div>
+<div class="panel"><h2>النسخ الاحتياطي اليومي التلقائي</h2><p class="muted">يحفظ النظام نسخة تلقائياً عند فتح التطبيق كل يوم، ويحدّث نسخة اليوم بعد كل عملية حفظ. يحتفظ بآخر 30 يوماً على هذا الجهاز.</p><div id="dailyBackupStatus" class="notice">جارٍ تجهيز النسخة اليومية...</div><div class="actions"><button class="btn green" id="downloadDailyBackup">تنزيل آخر نسخة يومية</button><button class="btn secondary" id="restoreDailyBackup">استعادة آخر نسخة يومية</button></div><p class="muted">النسخة اليومية محلية على كل جهاز، ولا يمكن للمتصفح إنشاؤها إذا كان التطبيق مغلقاً طوال اليوم. احتفظ أيضاً بالنسخ اليدوية والسحابية.</p></div><div class="panel"><h2>معلومات</h2><p class="muted">التطبيق متصل بسحابة شبكة النائل. بعد تسجيل الدخول بالبيانات نفسها تتم مزامنة الفواتير والمخزون والحسابات بين الأجهزة عبر الإنترنت. احتفظ بنسخة احتياطية دورية.</p></div>
 </section>
 </div></div></div>
 
@@ -347,12 +347,12 @@ const SUPABASE_PUBLISHABLE_KEY='sb_publishable_Q7Tvf2zcq7iy_xrMQy3MLA_kkvTgj_u';
 function cloudMessage(msg,isError=false){const el=$('cloudAuthMsg');if(el){el.style.color=isError?'#b91c1c':'#047857';el.textContent=msg}}
 function showCloudLogin(show=true){$('cloudAuth').style.display=show?'flex':'none'}
 function hasLocalBusinessData(d){return !!(d&&(d.items?.length||d.invoices?.length||d.grocers?.length||d.expenses?.length||d.payments?.length||d.stockMovements?.length))}
-function saveDB(){localStorage.setItem(KEY,JSON.stringify(db));refreshAll();if(cloudReady&&cloudUser){cloudDirty=true;scheduleCloudSave()}}
+function saveDB(){localStorage.setItem(KEY,JSON.stringify(db));refreshAll();saveDailyBackup();if(cloudReady&&cloudUser){cloudDirty=true;scheduleCloudSave()}}
 function scheduleCloudSave(){clearTimeout(cloudSaveTimer);cloudSaveTimer=setTimeout(pushCloudData,900)}
 function setCloudConflict(message='يوجد تعديل أحدث من الجهاز الآخر. أوقفنا الحفظ حتى لا نفقد أي بيانات.') {cloudConflict=true;cloudReady=false;clearTimeout(cloudSaveTimer);const status=$('cloudSyncStatus');if(status){status.textContent='تعارض مزامنة · الحفظ متوقف';status.style.background='#991b1b';status.style.borderRadius='12px';status.style.maxWidth='min(360px,calc(100% - 24px))';status.style.whiteSpace='normal';status.style.lineHeight='1.7';status.innerHTML='⚠️ '+message+'<br><button id="cloudConflictReload" style="margin-top:7px;border:0;border-radius:8px;padding:7px 10px;background:#fff;color:#991b1b;font-weight:bold">تحميل آخر نسخة سحابية</button> <button id="cloudConflictBackup" style="margin-top:7px;border:0;border-radius:8px;padding:7px 10px;background:#fee2e2;color:#7f1d1d;font-weight:bold">تنزيل نسخة من تعديلاتي</button>';document.getElementById('cloudConflictReload').onclick=async()=>{if(!confirm('سيتم استبدال البيانات الظاهرة بآخر نسخة سحابية. نزّل نسخة من تعديلاتك أولاً إذا كنت تحتاجها. متابعة؟'))return;try{const {data,error}=await cloudClient.from('nail_accounting_data').select('data,updated_at').eq('user_id',cloudUser.id).maybeSingle();if(error)throw error;if(!data?.data)throw new Error('لم نعثر على نسخة سحابية');localStorage.setItem(KEY+'_precloud_backup',localStorage.getItem(KEY)||'{}');db=data.data;localStorage.setItem(KEY,JSON.stringify(db));cloudLastUpdated=data.updated_at;cloudDirty=false;cloudConflict=false;cloudReady=true;refreshAll();status.textContent='متصل · تمت المزامنة';status.style.background='#065f46'}catch(e){alert('تعذر تحميل النسخة: '+(e.message||e))}};document.getElementById('cloudConflictBackup').onclick=()=>{const blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='نسخة-تعديلات-محلية-شبكة-النائل.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}}}
 async function pushCloudData(){if(!cloudReady||!cloudUser||cloudSaving||cloudConflict)return;cloudSaving=true;try{const nextUpdated=new Date().toISOString();let query=cloudClient.from('nail_accounting_data').update({data:db,updated_at:nextUpdated}).eq('user_id',cloudUser.id);if(cloudLastUpdated)query=query.eq('updated_at',cloudLastUpdated);const {data,error}=await query.select('updated_at').maybeSingle();if(error)throw error;if(!data){setCloudConflict();return}cloudLastUpdated=data.updated_at;cloudDirty=false;const status=$('cloudSyncStatus');if(status)status.textContent='متصل · تمت المزامنة'}catch(e){const status=$('cloudSyncStatus');if(status)status.textContent='تعذرت المزامنة';console.error('Cloud sync error',e)}finally{cloudSaving=false}}
 async function initializeCloud(){try{if(!window.supabase?.createClient)throw new Error('تعذر تحميل مكتبة الاتصال. تحقق من الإنترنت ثم أعد فتح التطبيق.');cloudClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);const {data:{session},error}=await cloudClient.auth.getSession();if(error)throw error;if(session){await finishCloudLogin(session.user);return}showCloudLogin(true)}catch(e){showCloudLogin(true);cloudMessage(e.message||'تعذر الاتصال بالخدمة السحابية.',true)}}
-async function finishCloudLogin(user){cloudUser=user;cloudMessage('جارٍ تحميل بياناتك...');try{const {data,error}=await cloudClient.from('nail_accounting_data').select('data,updated_at').eq('user_id',user.id).maybeSingle();if(error)throw error;if(data?.data){cloudLastUpdated=data.updated_at;cloudDirty=false;cloudConflict=false;localStorage.setItem(KEY+'_precloud_backup',localStorage.getItem(KEY)||'{}');db=data.data;localStorage.setItem(KEY,JSON.stringify(db));db.grocers=db.grocers||[];db.payments=db.payments||[];db.cashMoves=db.cashMoves||[];db.stockMovements=db.stockMovements||[];db.grocerDebts=db.grocerDebts||[];db.grocerDebtPayments=db.grocerDebtPayments||[];db.bankAccounts=db.bankAccounts||[];db.bankTransfers=db.bankTransfers||[];refreshAll()}else{const firstPayload={user_id:user.id,data:db,updated_at:new Date().toISOString()};const {error:upErr}=await cloudClient.from('nail_accounting_data').upsert(firstPayload,{onConflict:'user_id'});if(upErr)throw upErr;cloudLastUpdated=firstPayload.updated_at}cloudReady=true;showCloudLogin(false);let pill=document.getElementById('cloudSyncStatus');if(!pill){pill=document.createElement('div');pill.id='cloudSyncStatus';pill.style.cssText='position:fixed;bottom:12px;left:12px;z-index:9998;background:#065f46;color:#fff;padding:7px 11px;border-radius:20px;font:12px Tahoma,Arial;box-shadow:0 3px 12px #0002';document.body.appendChild(pill)}pill.textContent='متصل · تمت المزامنة';refreshAll()}catch(e){cloudReady=false;cloudMessage('تعذر تحميل/حفظ البيانات: '+(e.message||'خطأ غير معروف'),true);showCloudLogin(true)}}
+async function finishCloudLogin(user){cloudUser=user;cloudMessage('جارٍ تحميل بياناتك...');try{const {data,error}=await cloudClient.from('nail_accounting_data').select('data,updated_at').eq('user_id',user.id).maybeSingle();if(error)throw error;if(data?.data){cloudLastUpdated=data.updated_at;cloudDirty=false;cloudConflict=false;localStorage.setItem(KEY+'_precloud_backup',localStorage.getItem(KEY)||'{}');db=data.data;localStorage.setItem(KEY,JSON.stringify(db));db.grocers=db.grocers||[];db.payments=db.payments||[];db.cashMoves=db.cashMoves||[];db.stockMovements=db.stockMovements||[];db.grocerDebts=db.grocerDebts||[];db.grocerDebtPayments=db.grocerDebtPayments||[];db.bankAccounts=db.bankAccounts||[];db.bankTransfers=db.bankTransfers||[];refreshAll()}else{const firstPayload={user_id:user.id,data:db,updated_at:new Date().toISOString()};const {error:upErr}=await cloudClient.from('nail_accounting_data').upsert(firstPayload,{onConflict:'user_id'});if(upErr)throw upErr;cloudLastUpdated=firstPayload.updated_at}cloudReady=true;saveDailyBackup();showCloudLogin(false);let pill=document.getElementById('cloudSyncStatus');if(!pill){pill=document.createElement('div');pill.id='cloudSyncStatus';pill.style.cssText='position:fixed;bottom:12px;left:12px;z-index:9998;background:#065f46;color:#fff;padding:7px 11px;border-radius:20px;font:12px Tahoma,Arial;box-shadow:0 3px 12px #0002';document.body.appendChild(pill)}pill.textContent='متصل · تمت المزامنة';refreshAll()}catch(e){cloudReady=false;cloudMessage('تعذر تحميل/حفظ البيانات: '+(e.message||'خطأ غير معروف'),true);showCloudLogin(true)}}
 async function pollCloudChanges(){if(!cloudReady||!cloudUser||cloudSaving||cloudPulling)return;try{const {data,error}=await cloudClient.from('nail_accounting_data').select('data,updated_at').eq('user_id',cloudUser.id).maybeSingle();if(error)throw error;if(data?.data&&data.updated_at&&data.updated_at!==cloudLastUpdated){if(cloudDirty){setCloudConflict('وجدنا تعديلًا من الجهاز الآخر بينما لديك تعديلات غير محفوظة. احتفظنا بتعديلاتك وأوقفنا المزامنة لتختار بأمان.');return}cloudPulling=true;localStorage.setItem(KEY+'_precloud_backup',localStorage.getItem(KEY)||'{}');db=data.data;cloudLastUpdated=data.updated_at;cloudDirty=false;localStorage.setItem(KEY,JSON.stringify(db));db.grocers=db.grocers||[];db.payments=db.payments||[];db.cashMoves=db.cashMoves||[];db.stockMovements=db.stockMovements||[];db.grocerDebts=db.grocerDebts||[];db.grocerDebtPayments=db.grocerDebtPayments||[];db.bankAccounts=db.bankAccounts||[];db.bankTransfers=db.bankTransfers||[];refreshAll();const status=$('cloudSyncStatus');if(status)status.textContent='تم تحديث البيانات من الجهاز الآخر'} }catch(e){console.warn('Cloud refresh error',e)}finally{cloudPulling=false}}
 setInterval(pollCloudChanges,6000);
 $('cloudImportBtn').addEventListener('click',async()=>{const f=$('cloudBackupImport').files[0];if(!f){cloudMessage('اختر ملف النسخة الاحتياطية أولاً.',true);return}try{const d=JSON.parse(await f.text());if(!d.items||!d.invoices)throw new Error('ملف النسخة لا يبدو نسخة شبكة النائل');localStorage.setItem(KEY+'_precloud_backup',localStorage.getItem(KEY)||'{}');db=d;localStorage.setItem(KEY,JSON.stringify(db));cloudMessage('تم استيراد النسخة محلياً. الآن سجّل الدخول لرفعها إلى السحابة.')}catch(err){cloudMessage(err.message||'تعذر قراءة النسخة الاحتياطية.',true)}});
@@ -362,18 +362,32 @@ function go(page){document.querySelectorAll('.page').forEach(x=>x.classList.togg
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>go(b.dataset.page));
 function itemOptions(selected=''){return '<option value="">اختر الصنف</option>'+db.items.map(i=>`<option value="${esc(i.id)}" ${i.id===selected?'selected':''}>${esc(i.name)} (${esc(i.code)})</option>`).join('')}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function addLine(data={}){lineCounter++;let tr=document.createElement('tr');tr.dataset.id=lineCounter;tr.innerHTML=`<td><select class="lineItem">${itemOptions(data.itemId||'')}</select></td><td><input class="lineQty" type="number" min="0" step="any" value="${data.qty??1}"></td><td><input class="linePrice" type="number" min="0" step="any" value="${data.price??''}"></td><td class="lineTotal">0</td><td><button class="btn red small removeLine">حذف</button></td>`;$('lines').appendChild(tr);
-let sel=tr.querySelector('.lineItem'),price=tr.querySelector('.linePrice');
-sel.onchange=()=>{let it=db.items.find(x=>x.id===sel.value);if(it&&!price.value)price.value=it.price;calcInvoice()};
-tr.querySelectorAll('input').forEach(x=>x.oninput=calcInvoice);tr.querySelector('.removeLine').onclick=()=>{tr.remove();calcInvoice()};if(data.itemId){let it=db.items.find(x=>x.id===data.itemId);if(it&&!data.price)price.value=it.price}calcInvoice()}
+function addLine(data={}){
+ lineCounter++;let tr=document.createElement('tr');tr.dataset.id=lineCounter;
+ tr.innerHTML=`<td><select class="lineItem">${itemOptions(data.itemId||'')}</select></td><td><input class="lineQty" type="number" min="0" step="any" value="${data.qty??1}"></td><td><input class="linePrice" type="number" min="0" step="any" value="${data.price??''}"></td><td><input class="lineRate" type="number" min="0" max="100" step="0.01" style="min-width:75px" value="${data.commissionRate??''}" placeholder="%"></td><td class="lineTotal">0</td><td><button class="btn red small removeLine">حذف</button></td>`;
+ $('lines').appendChild(tr);let sel=tr.querySelector('.lineItem'),price=tr.querySelector('.linePrice'),rate=tr.querySelector('.lineRate');
+ const setDefaultRate=()=>{let it=db.items.find(x=>String(x.id)===String(sel.value));rate.value=(it&&it.commissionRate!==undefined&&it.commissionRate!==null&&it.commissionRate!=='')?it.commissionRate:invoiceRate()};
+ sel.onchange=()=>{let it=db.items.find(x=>String(x.id)===String(sel.value));if(it&&!price.value)price.value=it.price;setDefaultRate();calcInvoice()};
+ rate.oninput=()=>{tr.dataset.rateManual='1';calcInvoice()};tr.querySelectorAll('input').forEach(x=>{if(x!==rate)x.oninput=calcInvoice});
+ tr.querySelector('.removeLine').onclick=()=>{tr.remove();calcInvoice()};
+ if(data.itemId){let it=db.items.find(x=>String(x.id)===String(data.itemId));if(it&&!data.price)price.value=it.price;if(data.commissionRate===undefined||data.commissionRate===null||data.commissionRate==='')setDefaultRate()}
+ calcInvoice();
+}
 function addSupportLine(data={}){let tr=document.createElement('tr');tr.innerHTML=`<td><select class="supportItem">${itemOptions(data.itemId||'')}</select></td><td><input class="supportQty" type="number" min="0" step="any" value="${data.qty??1}"></td><td><button type="button" class="btn red small removeSupportLine">حذف</button></td>`;$('supportLines').appendChild(tr);tr.querySelector('.supportItem').onchange=calcInvoice;tr.querySelector('.supportQty').oninput=calcInvoice;tr.querySelector('.removeSupportLine').onclick=()=>{tr.remove();calcInvoice()};calcInvoice()}
 function getSupportRows(){return [...document.querySelectorAll('#supportLines tr')].map(tr=>({itemId:tr.querySelector('.supportItem').value,qty:+tr.querySelector('.supportQty').value||0})).filter(x=>x.itemId&&x.qty>0)}
-function calcInvoice(){let sub=0;document.querySelectorAll('#lines tr').forEach(tr=>{let q=+tr.querySelector('.lineQty').value||0,p=+tr.querySelector('.linePrice').value||0,t=q*p;sub+=t;tr.querySelector('.lineTotal').textContent=money(t)});let discount=+ $('invDiscount').value||0;let rate=invoiceRate()/100;let comm=Math.max(0,sub-discount)*rate;$('subTotal').textContent=money(sub);$('commission').textContent=money(comm);$('grandTotal').textContent=money(Math.max(0,Math.max(0,sub-discount)-comm));let support=getSupportRows();$('supportStockHint').textContent=support.length?'دعم مجاني: '+support.reduce((a,r)=>a+r.qty,0)+' وحدة — لا يُحتسب ضمن قيمة الفاتورة.':'الدعم المجاني لا يضاف إلى إجمالي الفاتورة.'}
+function calcInvoice(){
+ let sub=0,commission=0;const rows=[...document.querySelectorAll('#lines tr')];
+ rows.forEach(tr=>{let q=+tr.querySelector('.lineQty').value||0,p=+tr.querySelector('.linePrice').value||0,t=q*p;sub+=t;tr.querySelector('.lineTotal').textContent=money(t)});
+ let discount=Math.max(0,+$('invDiscount').value||0),ratio=sub>0?Math.min(1,discount/sub):0;
+ rows.forEach(tr=>{let q=+tr.querySelector('.lineQty').value||0,p=+tr.querySelector('.linePrice').value||0,el=tr.querySelector('.lineRate'),rate=el.value===''?invoiceRate():(+el.value||0);commission+=q*p*(1-ratio)*(rate/100)});
+ $('subTotal').textContent=money(sub);$('commission').textContent=money(commission);$('grandTotal').textContent=money(Math.max(0,sub-discount-commission));
+ let support=getSupportRows();$('supportStockHint').textContent=support.length?'دعم مجاني: '+support.reduce((a,r)=>a+r.qty,0)+' وحدة — لا يُحتسب ضمن قيمة الفاتورة.':'الدعم المجاني لا يضاف إلى إجمالي الفاتورة.';
+}
 $('addLine').onclick=()=>addLine();$('addSupportLine').onclick=()=>addSupportLine();$('invDiscount').oninput=calcInvoice;$('invPay').onchange=calcInvoice;$('invRateMode').onchange=()=>{$('customRateWrap').style.display=$('invRateMode').value==='custom'?'block':'none';calcInvoice()};$('invCustomRate').oninput=calcInvoice;
 function clearInvoice(){editingId=null;$('invoiceTitle').textContent='إنشاء فاتورة جديدة';$('invNo').value=nextInvoiceNo();$('invDate').value=today();$('invCustomer').value='';$('invPay').value='cash';$('invDiscount').value=0;$('invRateMode').value='auto';$('invCustomRate').value=0;$('customRateWrap').style.display='none';$('invNotes').value='';$('lines').innerHTML='';$('supportLines').innerHTML='';addLine();$('cancelEdit').classList.add('hidden')}
 $('clearInvoice').onclick=clearInvoice;$('cancelEdit').onclick=()=>{clearInvoice();go('invoices')};
 $('saveInvoice').onclick=()=>{
-let no=$('invNo').value.trim(),rows=[...document.querySelectorAll('#lines tr')].map(tr=>({itemId:tr.querySelector('.lineItem').value,qty:+tr.querySelector('.lineQty').value||0,price:+tr.querySelector('.linePrice').value||0})).filter(x=>x.itemId&&x.qty>0),supportRows=getSupportRows();
+let no=$('invNo').value.trim(),rows=[...document.querySelectorAll('#lines tr')].map(tr=>({itemId:tr.querySelector('.lineItem').value,qty:+tr.querySelector('.lineQty').value||0,price:+tr.querySelector('.linePrice').value||0,commissionRate:tr.querySelector('.lineRate').value===''?invoiceRate():(+tr.querySelector('.lineRate').value||0)})).filter(x=>x.itemId&&x.qty>0),supportRows=getSupportRows();
 if(!no){alert('أدخل رقم الفاتورة');return}if(!$('invCustomer').value.trim()){alert('أدخل اسم العميل أو البقالة قبل حفظ الفاتورة حتى يظهر الاسم في الطباعة');$('invCustomer').focus();return}if(!rows.length&&!supportRows.length){alert('أضف صنفاً للبيع أو كمية دعم مجانية');return}
 if(db.invoices.some(x=>x.no===no&&x.id!==editingId)){alert('رقم الفاتورة مستخدم مسبقاً');return}
 let old=db.invoices.find(x=>x.id===editingId);
@@ -382,7 +396,7 @@ let available={};db.items.forEach(i=>available[i.id]=+i.stock||0);
 if(old&&old.stockApplied){old.rows.forEach(r=>{available[r.itemId]=(available[r.itemId]||0)+(+r.qty||0)});(old.supportRows||[]).forEach(r=>{available[r.itemId]=(available[r.itemId]||0)+(+r.qty||0)})}
 let requested={};rows.concat(supportRows).forEach(r=>requested[r.itemId]=(requested[r.itemId]||0)+r.qty);
 for(let [id,qty] of Object.entries(requested)){let it=db.items.find(i=>i.id===id);if(!it){alert('يوجد صنف محذوف في الفاتورة');return}if(qty>(available[id]||0)){alert('الكمية المطلوبة من '+it.name+' أكبر من المخزون المتاح ('+(available[id]||0)+')');return}}
-let sub=rows.reduce((a,x)=>a+x.qty*x.price,0),discount=+ $('invDiscount').value||0,rate=invoiceRate(),commission=Math.max(0,sub-discount)*(rate/100);
+let sub=rows.reduce((a,x)=>a+x.qty*x.price,0),discount=Math.max(0,+ $('invDiscount').value||0),rate=invoiceRate(),ratio=sub>0?Math.min(1,discount/sub):0,commission=rows.reduce((a,x)=>a+x.qty*x.price*(1-ratio)*(Math.max(0,+x.commissionRate||0)/100),0);
 rows=rows.map(r=>{let it=db.items.find(i=>i.id===r.itemId);return {...r,itemName:it.name,itemCode:it.code,costAtSale:+it.cost||0}});
 supportRows=supportRows.map(r=>{let it=db.items.find(i=>i.id===r.itemId);return {...r,itemName:it.name,itemCode:it.code,costAtSale:+it.cost||0}});
 let customer=$('invCustomer').value.trim(),grossTotal=Math.max(0,Math.max(0,sub-discount)-commission);
@@ -432,7 +446,7 @@ table{width:100%;border-collapse:separate;border-spacing:0;margin:8px 0 17px;ove
 </style></head><body><main class="invoice-sheet">
 <header class="print-head"><div class="brand-side"><div class="brand-symbol">✦</div><div><h2>${esc(db.settings.name)}</h2><p>نظام المبيعات وإدارة الشبكة • فاتورة مبيعات رسمية</p></div></div><div class="invoice-stamp"><b>رقم الفاتورة</b><strong>${esc(x.no)}</strong></div></header>
 <div class="section-label">بيانات الفاتورة والعميل</div><div class="print-meta"><div><b>تاريخ الإصدار</b><span>${esc(x.date)}</span></div><div><b>العميل / البقالة</b><span>${esc(String(x.customer||'').trim())}</span></div><div><b>طريقة الدفع</b><span class="pay-chip ${x.pay==='credit'?'credit':''}">${x.pay==='credit'?'آجل':'نقدي'}</span></div><div><b>حالة الحساب</b><span>${status}</span></div><div><b>نسبة العمولة</b><span>${x.ratePercent??(x.pay==='credit'?db.settings.credit:db.settings.cash)}%</span></div><div><b>ملاحظات</b><span>${esc(x.notes||'لا توجد ملاحظات')}</span></div></div>
-<div class="section-label">تفاصيل الأصناف</div><table><thead><tr><th>الصنف</th><th>الكمية</th><th>سعر الوحدة</th><th>الإجمالي</th></tr></thead><tbody>${x.rows.map(r=>{let it=db.items.find(i=>i.id===r.itemId);return `<tr><td>${esc(r.itemName||it?.name||'صنف محذوف')}</td><td>${r.qty}</td><td>${money(r.price)}</td><td><b>${money(r.qty*r.price)}</b></td></tr>`}).join('')}</tbody></table>
+<div class="section-label">تفاصيل الأصناف</div><table><thead><tr><th>الصنف</th><th>الكمية</th><th>سعر الوحدة</th><th>عمولة %</th><th>الإجمالي</th></tr></thead><tbody>${x.rows.map(r=>{let it=db.items.find(i=>i.id===r.itemId);return `<tr><td>${esc(r.itemName||it?.name||'صنف محذوف')}</td><td>${r.qty}</td><td>${money(r.price)}</td><td>${r.commissionRate??x.ratePercent??(x.pay==='credit'?db.settings.credit:db.settings.cash)}%</td><td><b>${money(r.qty*r.price)}</b></td></tr>`}).join('')}</tbody></table>
 ${(x.supportRows||[]).length?`<div class="support-title">✦ دعم مجاني للزبون — كميات مجانية غير داخلة في الحساب</div><table class="support-table"><thead><tr><th>الصنف</th><th>الكمية المجانية</th></tr></thead><tbody>${x.supportRows.map(r=>`<tr><td>${esc(r.itemName||'صنف')}</td><td>${r.qty}</td></tr>`).join('')}</tbody></table>`:''}
 <div class="bottom-layout"><aside class="thank-card"><strong>شكراً لاختياركم شبكة النائل</strong><p>نسعد بخدمتكم دائماً، ونتمنى لكم تجربة مميزة واتصالاً أسرع وأفضل.<br>يرجى الاحتفاظ بهذه الفاتورة للرجوع إليها عند الحاجة.</p></aside><section class="print-total"><div class="total-row"><span>إجمالي الأصناف</span><b>${money(x.sub)}</b></div><div class="total-row"><span>الخصم</span><b>${money(x.discount)}</b></div><div class="total-row rate"><span>نسبة العمولة</span><b>${x.ratePercent??(x.pay==='credit'?db.settings.credit:db.settings.cash)}%</b></div><div class="total-row"><span>العمولة</span><b>${money(x.commission)}</b></div><div class="final"><span>الإجمالي النهائي</span><span>${money(x.total)}</span></div></section></div>
 <footer class="print-foot"><b>شبكة النائل</b> • فاتورة إلكترونية صادرة من النظام المحاسبي • شكراً لثقتكم بنا</footer></main><script>window.onload=()=>{setTimeout(()=>window.print(),250)}<\/script>
@@ -469,13 +483,14 @@ if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('cont
 </body></html>`);
  w.document.close()
 }
-function resetItem(){$('itemId').value='';$('itemCode').value='';$('itemName').value='';$('itemCost').value='';$('itemPrice').value='';$('itemStock').value=0;$('itemStock').disabled=false}
+function resetItem(){$('itemId').value='';$('itemCode').value='';$('itemName').value='';$('itemCost').value='';$('itemPrice').value='';$('itemCommissionRate').value='';$('itemStock').value=0;$('itemStock').disabled=false}
 $('resetItem').onclick=resetItem;
 function saveItemRecord(){
  try{
 
  const id=$('itemId').value,code=$('itemCode').value.trim(),name=$('itemName').value.trim();
  const cost=Number($('itemCost').value),price=Number($('itemPrice').value),qty=Number($('itemStock').value)||0;
+ const rateRaw=$('itemCommissionRate').value.trim(),commissionRate=rateRaw===''?null:Number(rateRaw);if(commissionRate!==null&&(!Number.isFinite(commissionRate)||commissionRate<0||commissionRate>100)){alert('أدخل نسبة عمولة من 0 إلى 100 أو اتركها فارغة للتلقائي');return}
  if(!code||!name){alert('أدخل كود الصنف واسم الصنف');return}
  if($('itemCost').value===''||$('itemPrice').value===''||!Number.isFinite(cost)||!Number.isFinite(price)||cost<0||price<0){alert('أدخل التكلفة وسعر البيع بشكل صحيح');return}
  if(!Number.isFinite(qty)||qty<0){alert('أدخل كمية صحيحة');return}
@@ -483,10 +498,10 @@ function saveItemRecord(){
  if(duplicate){alert('كود الصنف مستخدم لصنف آخر، أدخل كودًا مختلفًا');return}
  if(id){
   const item=db.items.find(v=>v.id===id);if(!item){alert('لم يتم العثور على الصنف');return}
-  item.code=code;item.name=name;item.cost=cost;item.price=price;
+  item.code=code;item.name=name;item.cost=cost;item.price=price;item.commissionRate=commissionRate;
   if(qty>0){const before=Number(item.stock)||0;item.stock=before+qty;db.stockMovements.unshift({id:'ST'+Date.now(),itemId:item.id,itemName:item.name,itemCode:item.code,qty,before,after:item.stock,date:today(),note:'كمية مضافة أثناء تعديل الصنف',createdAt:new Date().toISOString()})}
  }else{
-  const item={id:'IT'+Date.now(),code,name,cost,price,stock:qty};
+  const item={id:'IT'+Date.now(),code,name,cost,price,commissionRate,stock:qty};
   db.items.push(item);
   if(qty>0)db.stockMovements.unshift({id:'ST'+Date.now(),itemId:item.id,itemName:name,itemCode:code,qty,before:0,after:qty,date:today(),note:'رصيد افتتاحي عند إضافة الصنف',createdAt:new Date().toISOString()});
  }
@@ -511,7 +526,7 @@ function viewItem(id){
 window.viewItem=viewItem;
 function closeItemView(){if($('itemViewModal'))$('itemViewModal').style.display='none'}
 window.closeItemView=closeItemView;
-function editItem(id){let x=db.items.find(v=>v.id===id);if(!x)return;$('itemId').value=id;$('itemCode').value=x.code;$('itemName').value=x.name;$('itemCost').value=x.cost;$('itemPrice').value=x.price;$('itemStock').value=0;$('itemStock').disabled=false}
+function editItem(id){let x=db.items.find(v=>v.id===id);if(!x)return;$('itemId').value=id;$('itemCode').value=x.code;$('itemName').value=x.name;$('itemCost').value=x.cost;$('itemPrice').value=x.price;$('itemCommissionRate').value=x.commissionRate??'';$('itemStock').value=0;$('itemStock').disabled=false}
 function deleteItem(id){let it=db.items.find(x=>x.id===id);if(!it||!confirm('حذف الصنف من القائمة؟ ستبقى تفاصيله محفوظة في الفواتير السابقة.'))return;db.invoices.forEach(inv=>inv.rows.forEach(r=>{if(r.itemId===id){r.itemName=r.itemName||it.name;r.itemCode=r.itemCode||it.code;if(r.costAtSale===undefined)r.costAtSale=+it.cost||0}}));db.items=db.items.filter(x=>x.id!==id);saveDB()}
 function refreshStockSelector(){let sel=$('stockItem');if(!sel)return;let keep=sel.value;sel.innerHTML=itemOptions(keep);if(!db.items.some(x=>x.id===keep))sel.value='';updateStockCurrent()}
 function updateStockCurrent(){let it=db.items.find(x=>x.id===$('stockItem')?.value);if($('stockCurrent'))$('stockCurrent').value=it?(+it.stock||0):0}
@@ -681,6 +696,15 @@ $('exportData').onclick=()=>{let blob=new Blob([JSON.stringify(db,null,2)],{type
 $('importFile').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{let d=JSON.parse(await f.text());if(!d.items||!d.invoices)throw 0;if(confirm('سيتم استبدال البيانات الحالية بالنسخة المختارة. متابعة؟')){db=d;saveDB();refreshSettings();alert('تمت استعادة النسخة')}}catch{alert('ملف النسخة الاحتياطية غير صالح')}e.target.value=''};
 function refreshAll(){refreshHome();renderInvoices();renderItems();renderExpenses();renderReports();refreshSettings();refreshGrocerOptions();if($('grocerList'))renderGrocers();if($('cashLedger'))renderCashbox();if($('grocerDebtSummary'))renderGrocerDebts();if($('statementCustomer')&&$('statementCustomer').value)renderCustomerStatement($('statementCustomer').value.trim())}
 $('invDate').value=today();$('expDate').value=today();$('payDate').value=today();$('cashDate').value=today();$('bankTransferDate').value=today();clearInvoice();refreshAll();
+const DAILY_BACKUP_DB='nail_network_daily_backups_v1',DAILY_BACKUP_STORE='snapshots';
+function openDailyBackupDB(){return new Promise((resolve,reject)=>{if(!('indexedDB' in window)){reject(new Error('المتصفح لا يدعم النسخ المحلية'));return}let r=indexedDB.open(DAILY_BACKUP_DB,1);r.onupgradeneeded=()=>{if(!r.result.objectStoreNames.contains(DAILY_BACKUP_STORE))r.result.createObjectStore(DAILY_BACKUP_STORE,{keyPath:'date'})};r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)})}
+async function saveDailyBackup(){try{let d=await openDailyBackupDB(),date=today(),tx=d.transaction(DAILY_BACKUP_STORE,'readwrite'),st=tx.objectStore(DAILY_BACKUP_STORE);st.put({date,createdAt:new Date().toISOString(),data:JSON.parse(JSON.stringify(db))});let all=await new Promise((res,rej)=>{let r=st.getAll();r.onsuccess=()=>res(r.result||[]);r.onerror=()=>rej(r.error)});all.sort((a,b)=>b.date.localeCompare(a.date));all.slice(30).forEach(x=>st.delete(x.date));await new Promise((res,rej)=>{tx.oncomplete=res;tx.onerror=()=>rej(tx.error);tx.onabort=()=>rej(tx.error)});d.close();let el=$('dailyBackupStatus');if(el)el.textContent='آخر نسخة يومية: '+date+' — محفوظة على هذا الجهاز'}catch(e){console.warn('Daily backup:',e);let el=$('dailyBackupStatus');if(el)el.textContent='تعذر إنشاء النسخة اليومية: '+(e.message||e)}}
+async function getLatestDailyBackup(){let d=await openDailyBackupDB(),tx=d.transaction(DAILY_BACKUP_STORE,'readonly'),r=tx.objectStore(DAILY_BACKUP_STORE).getAll(),all=await new Promise((res,rej)=>{r.onsuccess=()=>res(r.result||[]);r.onerror=()=>rej(r.error)});d.close();all.sort((a,b)=>b.date.localeCompare(a.date));return all[0]||null}
+async function downloadLatestDailyBackup(){try{let x=await getLatestDailyBackup();if(!x){alert('لا توجد نسخة يومية بعد');return}let blob=new Blob([JSON.stringify(x.data,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='نسخة-شبكة-النائل-'+x.date+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1200)}catch(e){alert('تعذر تنزيل النسخة: '+(e.message||e))}}
+async function restoreLatestDailyBackup(){try{let x=await getLatestDailyBackup();if(!x){alert('لا توجد نسخة يومية بعد');return}if(!confirm('استعادة بيانات '+x.date+'؟ سيتم حفظ البيانات الحالية احتياطياً أولاً.'))return;localStorage.setItem(KEY+'_before_daily_restore',JSON.stringify(db));db=x.data;localStorage.setItem(KEY,JSON.stringify(db));refreshAll();if(cloudReady&&cloudUser){cloudDirty=true;scheduleCloudSave()}alert('تمت استعادة النسخة اليومية بتاريخ '+x.date)}catch(e){alert('تعذرت الاستعادة: '+(e.message||e))}}
+$('downloadDailyBackup').onclick=downloadLatestDailyBackup;$('restoreDailyBackup').onclick=restoreLatestDailyBackup;
+
+saveDailyBackup();
 initializeCloud();
 </script>
 
@@ -712,35 +736,6 @@ function showPwaUpdate(registration) {
 if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('controllerchange',()=>location.reload());
 </script>
 <script>
-/* ربط مستقل لزر حفظ الصنف */
-(function(){
- function bindItemSave(){
-  var btn=document.getElementById('saveItem');
-  if(!btn)return;
-  btn.type='button';
-  btn.onclick=function(ev){
-   if(ev)ev.preventDefault();
-   try{
-    if(typeof window.saveItemRecord==='function'){window.saveItemRecord();return}
-    if(typeof db==='undefined'||typeof saveDB!=='function'){alert('تعذر تشغيل وظيفة الحفظ. أعد تحميل الصفحة.');return}
-    var el=function(id){return document.getElementById(id)};
-    var code=el('itemCode').value.trim(),name=el('itemName').value.trim();
-    var cr=el('itemCost').value,pr=el('itemPrice').value,qr=el('itemStock').value;
-    var cost=Number(cr),price=Number(pr),qty=Number(qr||0);
-    if(!code||!name){alert('أدخل كود الصنف واسم الصنف');return}
-    if(cr===''||pr===''||!Number.isFinite(cost)||!Number.isFinite(price)||cost<0||price<0||!Number.isFinite(qty)||qty<0){alert('راجع التكلفة وسعر البيع والكمية');return}
-    if(db.items.some(function(x){return x.code===code})){alert('كود الصنف مستخدم مسبقاً');return}
-    var item={id:'IT'+Date.now(),code:code,name:name,cost:cost,price:price,stock:qty};
-    db.items.push(item);
-    if(qty>0&&Array.isArray(db.stockMovements))db.stockMovements.unshift({id:'ST'+Date.now(),itemId:item.id,itemName:name,itemCode:code,qty:qty,before:0,after:qty,date:new Date().toISOString().slice(0,10),note:'رصيد افتتاحي عند إضافة الصنف'});
-    saveDB();
-    ['itemCode','itemName','itemCost','itemPrice'].forEach(function(id){el(id).value=''});
-    el('itemStock').value=0;
-    alert('تمت إضافة الصنف بنجاح');
-   }catch(err){console.error(err);alert('حدث خطأ أثناء الحفظ: '+(err.message||err))}
-  };
- }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bindItemSave);else bindItemSave();
-})();
+/* ربط زر حفظ الصنف بالدالة الموحدة */(function(){const btn=document.getElementById('saveItem');if(btn){btn.type='button';btn.onclick=function(ev){if(ev)ev.preventDefault();if(typeof window.saveItemRecord==='function')window.saveItemRecord();};}})();
 </script>
 </body></html>
