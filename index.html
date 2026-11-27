@@ -206,6 +206,47 @@ th{background:#eff6ff;color:#1e3a8a}td,th{border-bottom-color:#e5e7eb}.tablewrap
 .period-tile small{display:block;color:var(--muted);margin-bottom:7px}.period-tile strong{font-size:18px;color:var(--blue)}
 @media(max-width:720px){.period-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.eq-actions .btn{flex:1}}
 
+
+/* استعادة الهوية اللونية الزرقاء الأصلية */
+.topHeader{
+  background:linear-gradient(115deg,#102b67 0%,#1747a5 58%,#1D4ED8 100%) !important;
+  box-shadow:0 4px 18px #102b6720 !important;border:0 !important;
+}
+.topHeader:after{border-color:#ffffff18 !important;box-shadow:0 0 0 24px #ffffff08,0 0 0 50px #ffffff06 !important}
+.brandCopy .sub{color:#dbeafe !important}
+nav.no-print{
+  background:#fff !important;border:1px solid #e5e7eb !important;
+  box-shadow:0 3px 12px #0f172a12 !important;
+}
+nav.no-print:before{color:#1e40af !important;border-bottom-color:#e5e7eb !important}
+nav button{color:#334155 !important}
+nav button:hover{background:#eff6ff !important;color:#1d4ed8 !important}
+nav button.active{
+  background:#eff6ff !important;color:#1d4ed8 !important;
+  border:1px solid #bfdbfe !important;box-shadow:none !important;
+}
+.homeWelcome{
+  background:radial-gradient(circle at 80% 20%,#60a5fa55,transparent 28%),linear-gradient(110deg,#0a2c64,#1456a5 68%,#1D4ED8) !important;
+  color:#fff !important;box-shadow:0 8px 22px #123b8020 !important;
+}
+.homeWelcome .welcomeEyebrow{color:#bfdbfe !important}
+.homeWelcome p{color:#e0edff !important}
+.dashboardGrid .metric{
+  background:#fff !important;color:#111827 !important;border:1px solid #e5e7eb !important;
+  border-radius:13px !important;box-shadow:0 3px 12px #0f172a08 !important;
+}
+.dashboardGrid .metric strong{color:#111827 !important}
+.dashboardGrid .metric small{color:#64748b !important}
+.dashboardGrid .metric .muted{color:#94a3b8 !important}
+.panel,.card{background:#fff !important;border-color:#e5e7eb !important}
+.btn{background:#1D4ED8 !important}
+.btn:hover{background:#1E40AF !important}
+input:focus,select:focus,textarea:focus{outline:3px solid #dbeafe !important;border-color:#1D4ED8 !important}
+th{background:#eff6ff !important;color:#1e3a8a !important}
+.totalbar{background:#eff6ff !important;border-color:#dbeafe !important}
+.totalbar strong{color:#1D4ED8 !important}
+.pill{background:#dbeafe !important;color:#1e40af !important}
+
 </style>
 </head>
 <body>
@@ -372,6 +413,19 @@ th{background:#eff6ff;color:#1e3a8a}td,th{border-bottom-color:#e5e7eb}.tablewrap
     <div class="card metric"><small>إجمالي المشتريات</small><strong id="eqPurchases">0</strong><div class="muted">قيمة الشراء المسجلة</div></div>
     <div class="card metric"><small>إجمالي المدفوع</small><strong id="eqPaid">0</strong><div class="muted">ما تم دفعه للمحلات</div></div>
     <div class="card metric"><small>المتبقي للمحلات</small><strong id="eqDue">0</strong><div class="muted">ديون مشتريات الأجهزة</div></div>
+  </div>
+  <div class="panel" id="adenExchangePanel">
+    <div class="row" style="align-items:center;justify-content:space-between">
+      <div><h2 style="margin:0 0 5px">سعر الصرف في سوق عدن</h2><div class="muted">الدولار الأمريكي مقابل الريال اليمني — السعر الذي تعتمد عليه عند شراء القطع بالدولار</div></div>
+      <a class="btn secondary" href="https://ye-rial.com/currencies/aden/usd/" target="_blank" rel="noopener">فتح سعر السوق المباشر</a>
+    </div>
+    <div class="row" style="margin-top:12px">
+      <div class="field"><label>سعر شراء الدولار</label><input id="adenUsdBuy" type="number" min="0" step="0.01" placeholder="أدخل سعر الشراء"></div>
+      <div class="field"><label>سعر بيع الدولار</label><input id="adenUsdSell" type="number" min="0" step="0.01" placeholder="أدخل سعر البيع"></div>
+      <div class="field"><label>آخر تحديث للسعر</label><input id="adenRateUpdated" readonly placeholder="لم يتم تحديد السعر"></div>
+      <div class="field" style="flex:0 0 auto;min-width:150px"><label>&nbsp;</label><button class="btn" type="button" id="adenRateSave">حفظ سعر الصرف</button></div>
+    </div>
+    <p class="muted" id="adenRateHint" style="margin:8px 0 0">افتح مصدر السعر ثم أدخل سعر السوق الحالي واحفظه. سيُحفظ السعر مع كل فاتورة شراء بالدولار حتى لا تتغير قيمة الفواتير القديمة عند تحديث السعر.</p>
   </div>
   <div class="panel">
     <h2>فاتورة شراء جديدة</h2>
@@ -926,20 +980,35 @@ if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('cont
   db.equipmentInvoices = Array.isArray(db.equipmentInvoices) ? db.equipmentInvoices : [];
   db.equipmentPayments = Array.isArray(db.equipmentPayments) ? db.equipmentPayments : [];
   const payDate=document.getElementById('eqPaymentDate'); if(payDate&&!payDate.value)payDate.value=todayISO;
+  db.exchangeRateAdenUsd = db.exchangeRateAdenUsd || {buy:0,sell:0,updatedAt:''};
+  function renderAdenRate(){
+    document.getElementById('adenUsdBuy').value=db.exchangeRateAdenUsd.buy||'';
+    document.getElementById('adenUsdSell').value=db.exchangeRateAdenUsd.sell||'';
+    document.getElementById('adenRateUpdated').value=db.exchangeRateAdenUsd.updatedAt?new Date(db.exchangeRateAdenUsd.updatedAt).toLocaleString('ar-YE'):'لم يتم تحديد السعر';
+  }
+  document.getElementById('adenRateSave')?.addEventListener('click',()=>{
+    const buy=safeNum(document.getElementById('adenUsdBuy').value),sell=safeNum(document.getElementById('adenUsdSell').value);
+    if(buy<=0||sell<=0){alert('أدخل سعر شراء وبيع الدولار بشكل صحيح');return}
+    db.exchangeRateAdenUsd={buy,sell,updatedAt:new Date().toISOString()};
+    saveDB();renderAdenRate();calcPurchaseTotal();
+    alert('تم حفظ سعر صرف عدن. ستستخدم الفواتير الجديدة السعر المحفوظ وقت تسجيلها.');
+  });
+  renderAdenRate();
+
   function safeNum(v){const n=Number(v);return Number.isFinite(n)?n:0}
   function moneyEq(v){return typeof money==='function'?money(safeNum(v)):safeNum(v).toLocaleString('en-US');}
   function addPurchaseRow(){
     const host=document.getElementById('eqPurchaseRows'); if(!host)return;
     const row=document.createElement('div'); row.className='row eq-purchase-row'; row.style.cssText='padding:10px;border:1px solid var(--line,#ddd);border-radius:10px;margin-bottom:8px;align-items:end';
-    row.innerHTML=`<div class="field"><label>اسم الجهاز / المستلزم</label><input class="eq-r-name" placeholder="مثال: راوتر أو كيبل"></div><div class="field"><label>النوع / التصنيف</label><input class="eq-r-cat" placeholder="راوترات، كابلات..."></div><div class="field"><label>الموديل</label><input class="eq-r-model" placeholder="الموديل"></div><div class="field"><label>الكمية</label><input class="eq-r-qty" type="number" min="1" step="1" value="1"></div><div class="field"><label>سعر شراء الوحدة</label><input class="eq-r-cost" type="number" min="0" step="any" value="0"></div><div class="field"><label>إجمالي الصنف</label><input class="eq-r-total" readonly value="0"></div><button class="btn danger eq-r-remove" type="button">حذف</button>`;
+    row.innerHTML=`<div class="field"><label>اسم الجهاز / المستلزم</label><input class="eq-r-name" placeholder="مثال: راوتر أو كيبل"></div><div class="field"><label>النوع / التصنيف</label><input class="eq-r-cat" placeholder="راوترات، كابلات..."></div><div class="field"><label>الموديل</label><input class="eq-r-model" placeholder="الموديل"></div><div class="field"><label>الكمية</label><input class="eq-r-qty" type="number" min="1" step="1" value="1"></div><div class="field"><label>العملة</label><select class="eq-r-currency"><option value="YER">ريال يمني</option><option value="USD">دولار</option></select></div><div class="field"><label>سعر شراء الوحدة</label><input class="eq-r-cost" type="number" min="0" step="any" value="0"></div><div class="field"><label>الإجمالي بالريال اليمني</label><input class="eq-r-total" readonly value="0"></div><button class="btn danger eq-r-remove" type="button">حذف</button>`;
     host.appendChild(row);
-    row.querySelectorAll('input').forEach(el=>el.addEventListener('input',calcPurchaseTotal));
+    row.querySelectorAll('input,select').forEach(el=>el.addEventListener('input',calcPurchaseTotal));row.querySelector('.eq-r-currency').addEventListener('change',calcPurchaseTotal);
     row.querySelector('.eq-r-remove').addEventListener('click',()=>{row.remove();calcPurchaseTotal();});
   }
-  function purchaseRows(){return [...document.querySelectorAll('.eq-purchase-row')].map(r=>({name:r.querySelector('.eq-r-name').value.trim(),category:r.querySelector('.eq-r-cat').value.trim()||'أخرى',model:r.querySelector('.eq-r-model').value.trim(),qty:Math.max(0,Math.floor(safeNum(r.querySelector('.eq-r-qty').value))),cost:Math.max(0,safeNum(r.querySelector('.eq-r-cost').value))})).filter(x=>x.name&&x.qty>0);}
+  function purchaseRows(){return [...document.querySelectorAll('.eq-purchase-row')].map(r=>{const currency=r.querySelector('.eq-r-currency').value,foreignCost=Math.max(0,safeNum(r.querySelector('.eq-r-cost').value)),exchangeRate=currency==='USD'?safeNum(db.exchangeRateAdenUsd?.sell):1;return {name:r.querySelector('.eq-r-name').value.trim(),category:r.querySelector('.eq-r-cat').value.trim()||'أخرى',model:r.querySelector('.eq-r-model').value.trim(),qty:Math.max(0,Math.floor(safeNum(r.querySelector('.eq-r-qty').value))),currency,foreignCost,exchangeRate,cost:foreignCost*exchangeRate}}).filter(x=>x.name&&x.qty>0);}
   function calcPurchaseTotal(){
     let total=0;
-    document.querySelectorAll('.eq-purchase-row').forEach(r=>{const q=Math.max(0,safeNum(r.querySelector('.eq-r-qty').value)),c=Math.max(0,safeNum(r.querySelector('.eq-r-cost').value)),v=q*c;r.querySelector('.eq-r-total').value=v.toLocaleString('en-US');total+=v;});
+    document.querySelectorAll('.eq-purchase-row').forEach(r=>{const q=Math.max(0,safeNum(r.querySelector('.eq-r-qty').value)),raw=Math.max(0,safeNum(r.querySelector('.eq-r-cost').value)),usd=r.querySelector('.eq-r-currency').value==='USD',rate=usd?safeNum(db.exchangeRateAdenUsd?.sell):1,c=raw*rate,v=q*c;r.querySelector('.eq-r-total').value=v.toLocaleString('en-US')+(usd&&rate?` (بسعر ${rate})`:usd?' — حدّث سعر الدولار':'');total+=v;});
     const paid=Math.max(0,safeNum(document.getElementById('eqPaidInput')?.value));
     document.getElementById('eqTotal').value=total.toLocaleString('en-US');
     document.getElementById('eqRemaining').value=Math.max(0,total-paid).toLocaleString('en-US');
@@ -986,7 +1055,7 @@ if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('cont
     document.getElementById('eqPaidInput').value=safeNum(x.paid);
     document.getElementById('eqNotes').value=x.notes||'';
     document.getElementById('eqPurchaseRows').innerHTML='';
-    (x.items||[]).forEach(it=>{addPurchaseRow();const r=document.querySelectorAll('.eq-purchase-row');const row=r[r.length-1];row.querySelector('.eq-r-name').value=it.name;row.querySelector('.eq-r-cat').value=it.category||'أخرى';row.querySelector('.eq-r-model').value=it.model||'';row.querySelector('.eq-r-qty').value=it.qty;row.querySelector('.eq-r-cost').value=it.cost;});
+    (x.items||[]).forEach(it=>{addPurchaseRow();const r=document.querySelectorAll('.eq-purchase-row');const row=r[r.length-1];row.querySelector('.eq-r-name').value=it.name;row.querySelector('.eq-r-cat').value=it.category||'أخرى';row.querySelector('.eq-r-model').value=it.model||'';row.querySelector('.eq-r-qty').value=it.qty;row.querySelector('.eq-r-currency').value=it.currency||'YER';row.querySelector('.eq-r-cost').value=it.foreignCost??it.cost;});
     calcPurchaseTotal();
     document.getElementById('eqSave').textContent='حفظ تعديل الفاتورة';
     document.getElementById('eqSupplier').scrollIntoView({behavior:'smooth',block:'center'});
@@ -1041,9 +1110,10 @@ if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('cont
     const supplier=document.getElementById('eqSupplier').value.trim(), items=purchaseRows(), total=items.reduce((a,x)=>a+x.qty*x.cost,0), paid=Math.min(total,Math.max(0,safeNum(document.getElementById('eqPaidInput').value)));
     if(!supplier){alert('أدخل اسم المحل أو المورد أولاً');return}
     if(!items.length){alert('أضف صنفاً واحداً على الأقل مع الكمية');return}
+    if(items.some(x=>x.currency==='USD'&&x.exchangeRate<=0)){alert('حدّث سعر بيع الدولار في لوحة سعر الصرف قبل تسجيل شراء بالدولار');return}
     if(paid>total){alert('المبلغ المدفوع لا يمكن أن يكون أكبر من إجمالي الفاتورة');return}
     const date=document.getElementById('eqDate').value||todayISO;
-    const invoice={id:editingEquipmentInvoiceId||'EQI'+Date.now(),supplier,invoiceNo:document.getElementById('eqInvoiceNo').value.trim(),date,items,total,paid,payType:paid===0?'credit':paid===total?'cash':'partial',notes:document.getElementById('eqNotes').value.trim(),createdAt:new Date().toISOString()};
+    const invoice={id:editingEquipmentInvoiceId||'EQI'+Date.now(),supplier,invoiceNo:document.getElementById('eqInvoiceNo').value.trim(),date,items,total,paid,exchangeRateSnapshot:db.exchangeRateAdenUsd?.sell||0,payType:paid===0?'credit':paid===total?'cash':'partial',notes:document.getElementById('eqNotes').value.trim(),createdAt:new Date().toISOString()};
     if(editingEquipmentInvoiceId){
       const old=db.equipmentInvoices.find(x=>x.id===editingEquipmentInvoiceId);
       if(!old||!reverseEquipmentInvoice(old))return;
@@ -1054,7 +1124,7 @@ if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('cont
       let asset=db.networkAssets.find(x=>String(x.name).toLowerCase()===it.name.toLowerCase()&&(x.category||'أخرى')===it.category&&(x.model||'')===it.model);
       if(!asset){asset={id:'NA'+Date.now()+Math.random().toString(16).slice(2,6),name:it.name,category:it.category,model:it.model,stock:0,cost:0};db.networkAssets.push(asset);}
       const old=safeNum(asset.stock), next=old+it.qty;asset.cost=next?((old*safeNum(asset.cost)+it.qty*it.cost)/next):it.cost;asset.stock=next;
-      db.assetPurchases.push({id:'AP'+Date.now()+Math.random().toString(16).slice(2,6),invoiceId:invoice.id,name:it.name,category:it.category,model:it.model,qty:it.qty,cost:it.cost,total:it.qty*it.cost,supplier,date,notes:invoice.notes});
+      db.assetPurchases.push({id:'AP'+Date.now()+Math.random().toString(16).slice(2,6),invoiceId:invoice.id,name:it.name,category:it.category,model:it.model,qty:it.qty,cost:it.cost,total:it.qty*it.cost,currency:it.currency||'YER',foreignCost:it.foreignCost??it.cost,exchangeRate:it.exchangeRate||1,supplier,date,notes:invoice.notes});
     });
     // Cash outflow is recorded only for the amount actually paid; credit remains a supplier payable.
     if(paid>0){db.equipmentPayments.push({id:'EQP'+Date.now(),supplier,invoiceId:invoice.id,amount:paid,date,note:'دفعة عند تسجيل فاتورة الشراء',includedInInvoice:true});}
