@@ -163,6 +163,49 @@ th{background:#e7f4f2;color:#155b58}td,th{border-bottom-color:#e5edef}.tablewrap
 #cloudAuth button{width:100%;padding:13px;border:0;border-radius:11px;background:#1d4ed8;color:white;font-weight:bold;font-size:15px;margin-top:10px}
 #cloudAuth button:disabled{opacity:.6}#cloudStatus{display:inline-flex;align-items:center;gap:7px;border-radius:20px;padding:6px 10px;background:#ffffff20;color:white;font-size:11px}
 
+
+/* Al-Nail ADEX-inspired professional accounting skin — UI only. */
+:root{--blue:#1D4ED8;--blue2:#1E40AF;--bg:#F3F4F6;--card:#FFFFFF;--text:#111827;--muted:#6B7280;--line:#E5E7EB;--green:#059669;--red:#DC2626;--amber:#D97706}
+html{scroll-behavior:smooth}body{background:var(--bg);color:var(--text);font-family:Tahoma,Arial,sans-serif}
+.topHeader{min-height:104px;padding:17px 26px;background:linear-gradient(115deg,#102b67 0%,#1747a5 58%,#1D4ED8 100%);box-shadow:0 4px 18px #102b6720;border:0}
+.topHeader:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.12;background-image:radial-gradient(circle at 18% 25%,#fff 0 2px,transparent 3px),radial-gradient(circle at 76% 65%,#fff 0 2px,transparent 3px);background-size:170px 110px,230px 140px}
+.topHeader:after{border-color:#ffffff20;box-shadow:0 0 0 24px #ffffff08,0 0 0 50px #ffffff05}
+.head{max-width:1800px;margin:auto}.brand{gap:14px}.brandMark{width:64px;height:64px;flex-basis:64px;border-radius:18px;background:#ffffff18;border:1px solid #ffffff40;box-shadow:0 7px 18px #061a4433}.brandMark:before{display:none}.brandMark svg{width:46px;height:46px}.brandCopy h1{font-size:26px;font-weight:900}.brandCopy .sub{font-size:11px;color:#dbeafe;letter-spacing:.35px}.brandTag{margin-top:6px;background:#ffffff14;border:1px solid #ffffff2e;color:#eff6ff}.brandTag b{color:#bfdbfe}.headStatus{background:#ffffff16!important;border:1px solid #ffffff35!important;border-radius:10px!important;color:#eff6ff!important;padding:9px 13px!important}
+.wrap{width:100%;max-width:1900px;margin:0 auto;padding:18px 20px 32px;min-height:calc(100vh - 104px)}
+.appShell{display:grid;grid-template-columns:250px minmax(0,1fr);gap:18px;direction:rtl;align-items:start;width:100%}
+nav.no-print{grid-column:1;grid-row:1;position:sticky;top:16px;width:250px;min-width:0;max-height:calc(100vh - 32px);overflow-y:auto;display:flex;flex-direction:column;align-items:stretch;gap:5px;padding:12px;background:#fff;border:1px solid #e2e8f0;border-radius:16px;box-shadow:0 5px 18px #0f172a0b}
+nav.no-print:before{content:"القائمة الرئيسية";display:block;color:#64748b;font-size:11px;font-weight:900;padding:9px 12px 13px;border-bottom:1px solid #edf0f4;margin-bottom:5px;letter-spacing:.2px}
+nav button{width:100%;text-align:right;white-space:normal;border:1px solid transparent;background:transparent;color:#334155;border-radius:10px;padding:12px 13px;font-size:13px;font-weight:700;display:flex;align-items:center;gap:10px;transition:background .16s,border-color .16s,color .16s}
+nav button:before{content:"";width:7px;height:7px;border-radius:50%;background:#94a3b8;box-shadow:none;flex:0 0 7px}
+nav button:hover:not(.active){background:#f1f5f9;color:#1e40af;border-color:#e2e8f0;transform:none}
+nav button.active{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;box-shadow:none}
+nav button.active:before{background:#1d4ed8;box-shadow:0 0 0 3px #dbeafe}
+.mainContent{grid-column:2;grid-row:1;width:100%;min-width:0;max-width:none}.page{width:100%;max-width:none;min-width:0;animation:pageIn .16s ease}@keyframes pageIn{from{opacity:.75;transform:translateY(3px)}to{opacity:1;transform:none}}
+.homeWelcome{min-height:112px;padding:21px 24px;margin:0 0 14px;border-radius:15px;background:linear-gradient(110deg,#102f70,#1D4ED8);box-shadow:0 7px 20px #1d4ed81a}.homeWelcome h2{font-size:22px}.homeWelcome p{font-size:12px}.welcomeEyebrow{color:#bfdbfe}.welcomeMark{color:#ffffff35}
+.homeNote{background:#fff;border:1px solid #e2e8f0;border-right:4px solid #1D4ED8;border-radius:10px;color:#1e3a8a;padding:11px 14px;margin-bottom:12px}
+.dashboardGrid{width:100%;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:0}
+.dashboardGrid .metric{min-width:0;min-height:116px;padding:15px;background:#fff!important;color:#111827!important;border:1px solid #e5e7eb!important;border-radius:13px;box-shadow:0 3px 12px #0f172a08!important}
+.dashboardGrid .metric:after{display:block!important;height:3px;background:#1D4ED8!important}.dashboardGrid .metric:nth-child(2):after{background:#059669!important}.dashboardGrid .metric:nth-child(3):after{background:#0d9488!important}.dashboardGrid .metric:nth-child(4):after{background:#d97706!important}
+.dashboardGrid .metric small{display:block;color:#64748b!important;font-size:11px;font-weight:700;margin:2px 0 10px}.dashboardGrid .metric strong{display:block;color:#111827!important;font-size:clamp(18px,1.5vw,24px);line-height:1.35;overflow-wrap:anywhere}.dashboardGrid .metric .muted{color:#94a3b8!important;font-size:10px;margin-top:8px;line-height:1.5}
+.card,.panel{background:#fff;border:1px solid #e5e7eb;border-radius:13px;box-shadow:0 3px 12px #0f172a08;padding:16px}.panel{margin-bottom:13px}.panel h2{font-size:16px;color:#1e293b;font-weight:900;padding-bottom:10px;border-bottom:1px solid #eef2f7}
+.btn{background:#1D4ED8;border-radius:9px;box-shadow:none;padding:10px 14px}.btn:hover{background:#1E40AF}.btn.secondary{background:#f1f5f9;color:#334155;border:1px solid #e2e8f0}.btn.green{background:#059669}.btn.red{background:#dc2626}.btn.amber{background:#d97706}
+input,select,textarea{border:1px solid #d1d5db;border-radius:9px;background:#fff;color:#111827}input:focus,select:focus,textarea:focus{outline:3px solid #dbeafe;border-color:#1D4ED8}label{color:#475569}
+th{background:#eff6ff;color:#1e3a8a}td,th{border-bottom-color:#e5e7eb}.tablewrap{border:1px solid #e5e7eb;border-radius:10px}.totalbar{background:#eff6ff;border:1px solid #dbeafe}.totalbar strong{color:#1D4ED8}.pill{background:#dbeafe;color:#1e40af}
+.summaryTile{border-color:#e5e7eb;border-radius:12px;box-shadow:0 3px 12px #0f172a08}.summaryTile strong{color:#111827}.summaryTile.blue{border-top-color:#1D4ED8}.summaryTile.green{border-top-color:#059669}.summaryTile.amber{border-top-color:#d97706}.summaryTile.purple{border-top-color:#7c3aed}.summaryTile.red{border-top-color:#dc2626}
+.status{background:#dcfce7;color:#166534}.status.partial{background:#dbeafe;color:#1e40af}.status.due{background:#fef3c7;color:#92400e}.recentInvoice{border-color:#e5e7eb}.modalBox{border-radius:15px}
+@media(max-width:1100px) and (min-width:701px){.appShell{grid-template-columns:220px minmax(0,1fr);gap:13px}nav.no-print{width:220px}.dashboardGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.topHeader{min-height:88px;padding:12px}.brandMark{width:52px;height:52px;flex-basis:52px;border-radius:15px}.brandMark svg{width:39px;height:39px}.brandCopy h1{font-size:20px}.brandCopy .sub{font-size:9px}.brandTag,.headStatus{display:none}.wrap{width:100%;margin:0;padding:10px 9px 24px;min-height:0}.appShell{display:flex;flex-direction:column;gap:10px;width:100%}.mainContent{width:100%;min-width:0;order:2}nav.no-print{position:sticky;top:0;z-index:30;width:100%;min-width:0;max-height:none;min-height:0;order:1;flex-direction:row;overflow-x:auto;overflow-y:hidden;padding:7px;margin:0;border-radius:11px;gap:5px;box-shadow:0 3px 12px #0f172a12}nav.no-print:before{display:none}nav button{width:auto;min-width:max-content;white-space:nowrap;text-align:center;padding:9px 11px;font-size:11px;border-radius:9px}nav button:before{display:none}.homeWelcome{min-height:98px;padding:15px 16px}.homeWelcome h2{font-size:18px}.homeWelcome p{font-size:11px}.dashboardGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.dashboardGrid .metric{min-height:105px;padding:12px}.dashboardGrid .metric strong{font-size:18px}.dashboardGrid .metric small{font-size:10px}.dashboardGrid .metric .muted{font-size:9px}.panel,.card{padding:12px}}
+@media(max-width:360px){.dashboardGrid{grid-template-columns:1fr}.dashboardGrid .metric{min-height:88px}}
+@media print{.appShell{display:block}.topHeader,nav.no-print{display:none!important}.wrap{margin:0!important;padding:0!important}.mainContent{display:block}.page{display:none!important}#invoicePrint{display:block!important}}
+
+
+.eq-low{color:#b45309;font-weight:bold}.eq-actions{display:flex;gap:6px;flex-wrap:wrap}
+.eq-stat{font-variant-numeric:tabular-nums}.period-heading{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:4px 0 12px}
+.period-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.period-tile{border:1px solid var(--line);border-radius:12px;padding:12px;background:#f8fafc}
+.period-tile small{display:block;color:var(--muted);margin-bottom:7px}.period-tile strong{font-size:18px;color:var(--blue)}
+@media(max-width:720px){.period-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.eq-actions .btn{flex:1}}
+
 </style>
 </head>
 <body>
@@ -176,6 +219,7 @@ th{background:#e7f4f2;color:#155b58}td,th{border-bottom-color:#e5edef}.tablewrap
 <button data-page="grocers">إدارة البقالات</button>
 <button data-page="cashbox">الصندوق والتحصيل</button>
 <button data-page="expenses">المصروفات</button>
+<button data-page="equipment">الأجهزة والمستلزمات</button>
 <button data-page="reports">التقارير</button>
 <button data-page="settings">الإعدادات</button>
 </nav>
@@ -306,6 +350,60 @@ th{background:#e7f4f2;color:#155b58}td,th{border-bottom-color:#e5edef}.tablewrap
 <section id="reports" class="page">
 <div class="panel"><h2>ملخص الحسابات</h2><div id="reportSummary"></div></div>
 <div class="panel"><h2>حركة المخزون</h2><div id="stockReport"></div></div>
+
+<div class="panel">
+  <h2>التقرير الشهري والسنوي</h2>
+  <div class="row">
+    <div class="field"><label>نوع التقرير</label><select id="periodType"><option value="month">شهري</option><option value="year">سنوي</option></select></div>
+    <div class="field" id="periodMonthWrap"><label>الشهر</label><input id="periodMonth" type="month"></div>
+    <div class="field" id="periodYearWrap" style="display:none"><label>السنة</label><input id="periodYear" type="number" min="2000" max="2100" step="1"></div>
+    <div class="field" style="flex:0 0 auto;min-width:140px"><label>&nbsp;</label><button class="btn" id="periodRun">عرض التقرير</button></div>
+    <div class="field" style="flex:0 0 auto;min-width:140px"><label>&nbsp;</label><button class="btn secondary" id="periodPrint">طباعة التقرير</button></div>
+  </div>
+  <div id="periodReport" style="margin-top:14px"></div>
+</div>
+</section>
+
+
+<section id="equipment" class="page">
+  <div class="homeWelcome"><div><span class="welcomeEyebrow">مشتريات الشبكة من المحلات</span><h2>الأجهزة والمستلزمات</h2><p>تسجيل فواتير الشراء ومتابعة المبالغ المدفوعة والمتبقية لكل محل</p></div><div class="welcomeMark" aria-hidden="true">⌁</div></div>
+  <div class="grid dashboardGrid" style="margin-bottom:14px">
+    <div class="card metric"><small>عدد فواتير الشراء</small><strong id="eqCount">0</strong><div class="muted">فواتير الأجهزة والمستلزمات</div></div>
+    <div class="card metric"><small>إجمالي المشتريات</small><strong id="eqPurchases">0</strong><div class="muted">قيمة الشراء المسجلة</div></div>
+    <div class="card metric"><small>إجمالي المدفوع</small><strong id="eqPaid">0</strong><div class="muted">ما تم دفعه للمحلات</div></div>
+    <div class="card metric"><small>المتبقي للمحلات</small><strong id="eqDue">0</strong><div class="muted">ديون مشتريات الأجهزة</div></div>
+  </div>
+  <div class="panel">
+    <h2>فاتورة شراء جديدة</h2>
+    <div class="row">
+      <div class="field"><label>اسم المحل / المورد</label><input id="eqSupplier" placeholder="اسم المحل الذي اشتريت منه"></div>
+      <div class="field"><label>رقم فاتورة المحل</label><input id="eqInvoiceNo" placeholder="اختياري"></div>
+      <div class="field"><label>تاريخ الشراء</label><input id="eqDate" type="date"></div>
+      <div class="field"><label>طريقة الدفع</label><select id="eqPayType"><option value="cash">نقداً</option><option value="credit">آجل</option><option value="partial">دفع جزئي</option></select></div>
+    </div>
+    <div class="row" style="align-items:center;justify-content:space-between;margin-top:14px"><h3 style="margin:0">الأصناف المشتراة</h3><button class="btn secondary" type="button" id="eqAddRow">+ إضافة صنف</button></div>
+    <div id="eqPurchaseRows" style="margin-top:10px"></div>
+    <div class="row" style="margin-top:12px">
+      <div class="field"><label>إجمالي الفاتورة</label><input id="eqTotal" readonly value="0"></div>
+      <div class="field"><label>المبلغ المدفوع الآن</label><input id="eqPaidInput" type="number" min="0" step="any" value="0"></div>
+      <div class="field"><label>المتبقي للمحل</label><input id="eqRemaining" readonly value="0"></div>
+      <div class="field"><label>ملاحظات</label><input id="eqNotes" placeholder="ملاحظات على فاتورة الشراء"></div>
+      <div class="field" style="flex:0 0 auto;min-width:150px"><label>&nbsp;</label><button class="btn green" id="eqSave" type="button">حفظ فاتورة الشراء</button></div>
+    </div>
+    <p class="muted">هذا القسم للمشتريات التي تشتريها الشبكة من المحلات فقط. لا يوجد بيع للزبائن ولا سعر بيع. مشتريات الآجل لا تخصم من الصندوق إلا عند تسجيل الدفع.</p>
+  </div>
+  <div class="panel"><h2>كشف حساب المحلات / الموردين</h2><div id="eqSupplierList"></div></div>
+  <div class="panel"><h2>تسجيل دفعة لمحل</h2>
+    <div class="row">
+      <div class="field"><label>المحل / المورد</label><select id="eqPaymentSupplier"><option value="">اختر المحل</option></select></div>
+      <div class="field"><label>المبلغ المدفوع</label><input id="eqPaymentAmount" type="number" min="0.01" step="any" placeholder="0"></div>
+      <div class="field"><label>تاريخ الدفع</label><input id="eqPaymentDate" type="date"></div>
+      <div class="field"><label>ملاحظات</label><input id="eqPaymentNote" placeholder="رقم سند أو ملاحظة"></div>
+      <div class="field" style="flex:0 0 auto;min-width:130px"><label>&nbsp;</label><button class="btn" id="eqPaymentSave" type="button">تسجيل الدفعة</button></div>
+    </div>
+  </div>
+  <div class="panel"><h2>سجل فواتير مشتريات الأجهزة والمستلزمات</h2><div id="eqPurchaseList"></div></div>
+  <div class="panel"><h2>سجل الدفعات للمحلات</h2><div id="eqPaymentsList"></div></div>
 </section>
 
 <section id="settings" class="page">
@@ -518,6 +616,9 @@ if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('cont
 
 
 
+
+
+
 </body></html>`);
  w.document.close();
  const invoiceDate=(function(v){v=String(v||'').trim();if(/^\d{4}-\d{2}-\d{2}$/.test(v))return v;if(/^\d{2}\/\d{2}\/\d{4}$/.test(v)){const a=v.split('/');return a[2]+'-'+a[1]+'-'+a[0]}const d=new Date(v);return isNaN(d.getTime())?new Date().toISOString().slice(0,10):d.toISOString().slice(0,10)})(x.date);
@@ -595,7 +696,7 @@ function renderCustomerStatement(name){let box=$('customerStatement');if(!box)re
 $('payCustomer').oninput=()=>{let n=$('payCustomer').value.trim();$('customerDueHint').textContent=n?'الدين المتبقي على '+n+': '+money(customerDue(n)):'';$('statementCustomer').value=n;renderCustomerStatement(n)};
 $('statementCustomer').oninput=()=>renderCustomerStatement($('statementCustomer').value.trim());
 $('saveCashMove').onclick=()=>{let amount=+$('cashAmount').value||0;if(amount<=0){alert('أدخل مبلغاً صحيحاً');return}db.cashMoves.unshift({id:'M'+Date.now(),type:$('cashType').value,date:$('cashDate').value||today(),desc:$('cashDesc').value.trim(),amount});saveDB();$('cashDesc').value='';$('cashAmount').value=''};
-function cashTotals(){let cashSales=db.invoices.filter(x=>x.pay==='cash'||(+x.payableOffset||0)>0).reduce((a,x)=>a+(x.cashReceived!==undefined?+x.cashReceived:Math.max(0,(+x.total||0)-(+x.payableOffset||0))),0),collected=db.payments.reduce((a,x)=>a+(+x.amount||0),0),expenses=db.expenses.reduce((a,x)=>a+(+x.amount||0),0),ins=db.cashMoves.filter(x=>x.type==='in').reduce((a,x)=>a+x.amount,0),outs=db.cashMoves.filter(x=>x.type==='out').reduce((a,x)=>a+x.amount,0),grocerDebtPaid=(db.grocerDebtPayments||[]).reduce((a,x)=>a+(+x.amount||0),0),bankOut=db.bankTransfers.filter(x=>x.direction==='toBank').reduce((a,x)=>a+(+x.amount||0),0),bankIn=db.bankTransfers.filter(x=>x.direction==='toCash').reduce((a,x)=>a+(+x.amount||0),0);return {balance:(+db.settings.openingCash||0)+cashSales+collected+ins+bankIn-expenses-outs-grocerDebtPaid-bankOut,collected,manual:ins-outs-grocerDebtPaid+bankIn-bankOut}}
+function cashTotals(){let cashSales=db.invoices.filter(x=>x.pay==='cash'||(+x.payableOffset||0)>0).reduce((a,x)=>a+(x.cashReceived!==undefined?+x.cashReceived:Math.max(0,(+x.total||0)-(+x.payableOffset||0))),0),collected=db.payments.reduce((a,x)=>a+(+x.amount||0),0),expenses=db.expenses.reduce((a,x)=>a+(+x.amount||0),0),ins=db.cashMoves.filter(x=>x.type==='in').reduce((a,x)=>a+x.amount,0),outs=db.cashMoves.filter(x=>x.type==='out').reduce((a,x)=>a+x.amount,0),grocerDebtPaid=(db.grocerDebtPayments||[]).reduce((a,x)=>a+(+x.amount||0),0),equipmentPaid=(db.equipmentPayments||[]).reduce((a,x)=>a+(+x.amount||0),0),bankOut=db.bankTransfers.filter(x=>x.direction==='toBank').reduce((a,x)=>a+(+x.amount||0),0),bankIn=db.bankTransfers.filter(x=>x.direction==='toCash').reduce((a,x)=>a+(+x.amount||0),0);return {balance:(+db.settings.openingCash||0)+cashSales+collected+ins+bankIn-expenses-outs-grocerDebtPaid-equipmentPaid-bankOut,collected,manual:ins-outs-grocerDebtPaid+bankIn-bankOut}}
 function bankAccountBalance(id){const a=db.bankAccounts.find(x=>x.id===id);if(!a)return 0;return (+a.opening||0)+db.bankTransfers.filter(x=>x.accountId===id&&x.direction==='toBank').reduce((v,x)=>v+(+x.amount||0),0)-db.bankTransfers.filter(x=>x.accountId===id&&x.direction==='toCash').reduce((v,x)=>v+(+x.amount||0),0)}
 function bankTotals(){return {balance:db.bankAccounts.reduce((v,a)=>v+bankAccountBalance(a.id),0),transferred:db.bankTransfers.filter(x=>x.direction==='toBank').reduce((v,x)=>v+(+x.amount||0),0)}}
 function renderBanking(){const totals=bankTotals();$('bankTotalBalance').textContent=money(totals.balance);$('bankTotalTransferred').textContent=money(totals.transferred);$('bankAccountCount').textContent=db.bankAccounts.length;$('bankAccountList').innerHTML=db.bankAccounts.length?`<div class="tablewrap"><table><tr><th>البنك</th><th>صاحب الحساب</th><th>رقم الحساب</th><th>الرصيد الحالي</th><th>إجراء</th></tr>${db.bankAccounts.map(a=>`<tr><td>${esc(a.name)}</td><td>${esc(a.owner||'-')}</td><td>${esc(a.number||'-')}</td><td><b>${money(bankAccountBalance(a.id))}</b></td><td><button class="btn red small" onclick="deleteBankAccount('${a.id}')">حذف</button></td></tr>`).join('')}</table></div>`:'<div class="empty">لم تتم إضافة حسابات بنكية بعد</div>';$('bankTransferAccount').innerHTML='<option value="">اختر الحساب</option>'+db.bankAccounts.map(a=>`<option value="${esc(a.id)}">${esc(a.name)} — ${esc(a.number||'')}</option>`).join('');$('bankTransferList').innerHTML=db.bankTransfers.length?`<div class="tablewrap"><table><tr><th>التاريخ</th><th>الحساب</th><th>نوع الحركة</th><th>المبلغ</th><th>البيان</th><th>إجراء</th></tr>${[...db.bankTransfers].sort((a,b)=>(b.date||'').localeCompare(a.date||'')).map(x=>{let a=db.bankAccounts.find(z=>z.id===x.accountId);return `<tr><td>${esc(x.date||'')}</td><td>${esc(a?.name||'حساب محذوف')}</td><td>${x.direction==='toBank'?'ترحيل من الصندوق للبنك':'سحب من البنك للصندوق'}</td><td>${money(x.amount)}</td><td>${esc(x.note||'-')}</td><td><button class="btn red small" onclick="deleteBankTransfer('${x.id}')">حذف / عكس</button></td></tr>`}).join('')}</table></div>`:'<div class="empty">لا توجد تحويلات بنكية مسجلة</div>'}
@@ -603,7 +704,7 @@ $('saveBankAccount').onclick=()=>{let name=$('bankName').value.trim();if(!name){
 $('saveBankTransfer').onclick=()=>{let accountId=$('bankTransferAccount').value,amount=+$('bankTransferAmount').value||0,direction=$('bankTransferDirection').value;if(!accountId){alert('اختر الحساب البنكي');return}if(amount<=0){alert('أدخل مبلغاً صحيحاً');return}if(direction==='toBank'&&amount>cashTotals().balance){alert('رصيد الصندوق لا يكفي لهذا التحويل');return}if(direction==='toCash'&&amount>bankAccountBalance(accountId)){alert('رصيد الحساب البنكي لا يكفي لهذا السحب');return}db.bankTransfers.unshift({id:'BT'+Date.now(),accountId,direction,amount,date:$('bankTransferDate').value||today(),note:$('bankTransferNote').value.trim()});$('bankTransferAmount').value='';$('bankTransferNote').value='';saveDB();alert('تم تسجيل التحويل وتحديث رصيد الصندوق والحساب البنكي')};
 function deleteBankTransfer(id){const x=db.bankTransfers.find(z=>z.id===id);if(!x)return;if(!confirm('حذف التحويل وعكس أثره على رصيد الصندوق والبنك؟'))return;db.bankTransfers=db.bankTransfers.filter(z=>z.id!==id);saveDB()}
 function deleteBankAccount(id){if(db.bankTransfers.some(x=>x.accountId===id)){alert('لا يمكن حذف حساب له تحويلات مسجلة. احذف أو عكس تحويلاته أولاً للمحافظة على السجل.');return}if(!confirm('حذف الحساب البنكي؟'))return;db.bankAccounts=db.bankAccounts.filter(x=>x.id!==id);saveDB()}
-function renderCashbox(){let t=cashTotals(),debt=allCustomerNames().reduce((a,n)=>a+customerDue(n),0);renderBanking();$('cashBalance').textContent=money(t.balance);$('debtBalance').textContent=money(debt);$('collectedTotal').textContent=money(t.collected);$('manualCashTotal').textContent=money(t.manual);let rows=[...db.invoices.filter(x=>(x.pay==='cash'||(+x.payableOffset||0)>0)&&((x.cashReceived!==undefined?+x.cashReceived:Math.max(0,(+x.total||0)-(+x.payableOffset||0)))>0)).map(x=>({...x,amount:x.cashReceived!==undefined?+x.cashReceived:Math.max(0,(+x.total||0)-(+x.payableOffset||0)),kind:(+x.payableOffset||0)>0?'باقي فاتورة بعد مقاصة الدين':'مبيعات فاتورة',flow:'in',desc:(x.customer||'')+' — فاتورة رقم '+x.no})),...db.payments.map(x=>({...x,kind:'تحصيل من بقالة',flow:'in',desc:x.customer})),...(db.grocerDebtPayments||[]).map(x=>({...x,kind:'سداد دين لصاحب بقالة',flow:'out',desc:x.grocer})),...db.cashMoves.map(x=>({...x,kind:x.type==='in'?'إيداع نقدي':'سحب نقدي',flow:x.type,desc:x.desc})),...db.bankTransfers.map(x=>({...x,kind:x.direction==='toBank'?'تحويل من الصندوق للبنك':'سحب من البنك للصندوق',flow:x.direction==='toBank'?'out':'in',desc:(db.bankAccounts.find(a=>a.id===x.accountId)?.name||'حساب بنكي')+' '+(x.note||''),id:x.id})),...db.expenses.map(x=>({...x,kind:'مصروف',flow:'out',desc:x.type+' '+(x.desc||'')}))].sort((a,b)=>(b.date||'').localeCompare(a.date||''));$('cashLedger').innerHTML=rows.length?`<div class="tablewrap"><table><tr><th>التاريخ</th><th>النوع</th><th>البيان</th><th>وارد</th><th>صادر</th><th>إجراء</th></tr>${rows.map(x=>`<tr><td>${esc(x.date)}</td><td>${x.kind}</td><td>${esc(x.desc||'')}</td><td>${x.flow==='in'?money(x.amount):'-'}</td><td>${x.flow==='out'?money(x.amount):'-'}</td><td>${x.id&&x.id[0]==='R'?`<button class="btn red small" onclick="deletePayment('${x.id}')">حذف</button>`:x.id&&x.id.startsWith('GP')?`<button class="btn red small" onclick="deleteGrocerDebtEntry('${x.id}','payment')">حذف</button>`:x.id&&x.id[0]==='M'?`<button class="btn red small" onclick="deleteCashMove('${x.id}')">حذف</button>`:x.id&&x.id.startsWith('BT')?`<button class="btn red small" onclick="deleteBankTransfer('${x.id}')">حذف / عكس</button>`:'-'}</td></tr>`).join('')}</table></div>`:'<div class="empty">لا توجد حركات نقدية</div>'}
+function renderCashbox(){let t=cashTotals(),debt=allCustomerNames().reduce((a,n)=>a+customerDue(n),0);renderBanking();$('cashBalance').textContent=money(t.balance);$('debtBalance').textContent=money(debt);$('collectedTotal').textContent=money(t.collected);$('manualCashTotal').textContent=money(t.manual);let rows=[...db.invoices.filter(x=>(x.pay==='cash'||(+x.payableOffset||0)>0)&&((x.cashReceived!==undefined?+x.cashReceived:Math.max(0,(+x.total||0)-(+x.payableOffset||0)))>0)).map(x=>({...x,amount:x.cashReceived!==undefined?+x.cashReceived:Math.max(0,(+x.total||0)-(+x.payableOffset||0)),kind:(+x.payableOffset||0)>0?'باقي فاتورة بعد مقاصة الدين':'مبيعات فاتورة',flow:'in',desc:(x.customer||'')+' — فاتورة رقم '+x.no})),...db.payments.map(x=>({...x,kind:'تحصيل من بقالة',flow:'in',desc:x.customer})),...(db.grocerDebtPayments||[]).map(x=>({...x,kind:'سداد دين لصاحب بقالة',flow:'out',desc:x.grocer})),...(db.equipmentPayments||[]).map(x=>({...x,kind:'سداد مشتريات أجهزة ومستلزمات',flow:'out',desc:x.supplier+' — '+(x.note||'')})),...db.cashMoves.map(x=>({...x,kind:x.type==='in'?'إيداع نقدي':'سحب نقدي',flow:x.type,desc:x.desc})),...db.bankTransfers.map(x=>({...x,kind:x.direction==='toBank'?'تحويل من الصندوق للبنك':'سحب من البنك للصندوق',flow:x.direction==='toBank'?'out':'in',desc:(db.bankAccounts.find(a=>a.id===x.accountId)?.name||'حساب بنكي')+' '+(x.note||''),id:x.id})),...db.expenses.map(x=>({...x,kind:'مصروف',flow:'out',desc:x.type+' '+(x.desc||'')}))].sort((a,b)=>(b.date||'').localeCompare(a.date||''));$('cashLedger').innerHTML=rows.length?`<div class="tablewrap"><table><tr><th>التاريخ</th><th>النوع</th><th>البيان</th><th>وارد</th><th>صادر</th><th>إجراء</th></tr>${rows.map(x=>`<tr><td>${esc(x.date)}</td><td>${x.kind}</td><td>${esc(x.desc||'')}</td><td>${x.flow==='in'?money(x.amount):'-'}</td><td>${x.flow==='out'?money(x.amount):'-'}</td><td>${x.id&&x.id[0]==='R'?`<button class="btn red small" onclick="deletePayment('${x.id}')">حذف</button>`:x.id&&x.id.startsWith('GP')?`<button class="btn red small" onclick="deleteGrocerDebtEntry('${x.id}','payment')">حذف</button>`:x.id&&x.id[0]==='M'?`<button class="btn red small" onclick="deleteCashMove('${x.id}')">حذف</button>`:x.id&&x.id.startsWith('BT')?`<button class="btn red small" onclick="deleteBankTransfer('${x.id}')">حذف / عكس</button>`:'-'}</td></tr>`).join('')}</table></div>`:'<div class="empty">لا توجد حركات نقدية</div>'}
 function deletePayment(id){if(confirm('حذف التحصيل؟ سيعاد احتساب الدين والصندوق تلقائياً.')){db.payments=db.payments.filter(x=>x.id!==id);saveDB()}}
 function deleteCashMove(id){if(confirm('حذف الحركة النقدية؟')){db.cashMoves=db.cashMoves.filter(x=>x.id!==id);saveDB()}}
 $('saveExpense').onclick=()=>{let amount=+$('expAmount').value||0;if(amount<=0){alert('أدخل مبلغاً صحيحاً');return}db.expenses.unshift({id:'E'+Date.now(),date:$('expDate').value||today(),type:$('expType').value,desc:$('expDesc').value,amount});saveDB();$('expType').value='';$('expDesc').value='';$('expAmount').value=''};
@@ -802,5 +903,305 @@ if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('cont
 </script>
 <script>
 /* ربط زر حفظ الصنف بالدالة الموحدة */(function(){const btn=document.getElementById('saveItem');if(btn){btn.type='button';btn.onclick=function(ev){if(ev)ev.preventDefault();if(typeof window.saveItemRecord==='function')window.saveItemRecord();};}})();
+</script>
+<script>
+(function(){
+  // New data collections are additive: no existing accounting records are rewritten.
+  db.networkAssets = Array.isArray(db.networkAssets) ? db.networkAssets : [];
+  db.assetPurchases = Array.isArray(db.assetPurchases) ? db.assetPurchases : [];
+  const originalSaveDB = saveDB;
+  saveDB = function(){ originalSaveDB(); renderEquipment(); };
+  const todayISO = new Date().toISOString().slice(0,10);
+  const dateInput = document.getElementById('eqDate');
+  if(dateInput && !dateInput.value) dateInput.value = todayISO;
+  const monthInput = document.getElementById('periodMonth');
+  const yearInput = document.getElementById('periodYear');
+  if(monthInput && !monthInput.value) monthInput.value = todayISO.slice(0,7);
+  if(yearInput && !yearInput.value) yearInput.value = String(new Date().getFullYear());
+
+  function safeNum(v){const n=Number(v);return Number.isFinite(n)?n:0}
+  function escEq(v){return typeof esc==='function'?esc(String(v??'')):String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  db.networkAssets = Array.isArray(db.networkAssets) ? db.networkAssets : [];
+  db.assetPurchases = Array.isArray(db.assetPurchases) ? db.assetPurchases : [];
+  db.equipmentInvoices = Array.isArray(db.equipmentInvoices) ? db.equipmentInvoices : [];
+  db.equipmentPayments = Array.isArray(db.equipmentPayments) ? db.equipmentPayments : [];
+  const payDate=document.getElementById('eqPaymentDate'); if(payDate&&!payDate.value)payDate.value=todayISO;
+  function safeNum(v){const n=Number(v);return Number.isFinite(n)?n:0}
+  function moneyEq(v){return typeof money==='function'?money(safeNum(v)):safeNum(v).toLocaleString('en-US');}
+  function addPurchaseRow(){
+    const host=document.getElementById('eqPurchaseRows'); if(!host)return;
+    const row=document.createElement('div'); row.className='row eq-purchase-row'; row.style.cssText='padding:10px;border:1px solid var(--line,#ddd);border-radius:10px;margin-bottom:8px;align-items:end';
+    row.innerHTML=`<div class="field"><label>اسم الجهاز / المستلزم</label><input class="eq-r-name" placeholder="مثال: راوتر أو كيبل"></div><div class="field"><label>النوع / التصنيف</label><input class="eq-r-cat" placeholder="راوترات، كابلات..."></div><div class="field"><label>الموديل</label><input class="eq-r-model" placeholder="الموديل"></div><div class="field"><label>الكمية</label><input class="eq-r-qty" type="number" min="1" step="1" value="1"></div><div class="field"><label>سعر شراء الوحدة</label><input class="eq-r-cost" type="number" min="0" step="any" value="0"></div><div class="field"><label>إجمالي الصنف</label><input class="eq-r-total" readonly value="0"></div><button class="btn danger eq-r-remove" type="button">حذف</button>`;
+    host.appendChild(row);
+    row.querySelectorAll('input').forEach(el=>el.addEventListener('input',calcPurchaseTotal));
+    row.querySelector('.eq-r-remove').addEventListener('click',()=>{row.remove();calcPurchaseTotal();});
+  }
+  function purchaseRows(){return [...document.querySelectorAll('.eq-purchase-row')].map(r=>({name:r.querySelector('.eq-r-name').value.trim(),category:r.querySelector('.eq-r-cat').value.trim()||'أخرى',model:r.querySelector('.eq-r-model').value.trim(),qty:Math.max(0,Math.floor(safeNum(r.querySelector('.eq-r-qty').value))),cost:Math.max(0,safeNum(r.querySelector('.eq-r-cost').value))})).filter(x=>x.name&&x.qty>0);}
+  function calcPurchaseTotal(){
+    let total=0;
+    document.querySelectorAll('.eq-purchase-row').forEach(r=>{const q=Math.max(0,safeNum(r.querySelector('.eq-r-qty').value)),c=Math.max(0,safeNum(r.querySelector('.eq-r-cost').value)),v=q*c;r.querySelector('.eq-r-total').value=v.toLocaleString('en-US');total+=v;});
+    const paid=Math.max(0,safeNum(document.getElementById('eqPaidInput')?.value));
+    document.getElementById('eqTotal').value=total.toLocaleString('en-US');
+    document.getElementById('eqRemaining').value=Math.max(0,total-paid).toLocaleString('en-US');
+  }
+  function supplierBalances(){
+    const names=new Set();
+    (db.equipmentInvoices||[]).forEach(x=>names.add(x.supplier));
+    (db.assetPurchases||[]).forEach(x=>{if(x.supplier)names.add(x.supplier)});
+    return [...names].filter(Boolean).map(name=>{
+      const invoices=(db.equipmentInvoices||[]).filter(x=>x.supplier===name);
+      const legacy=(db.assetPurchases||[]).filter(x=>x.supplier===name);
+      const total=invoices.reduce((a,x)=>a+safeNum(x.total),0)+legacy.reduce((a,x)=>a+safeNum(x.total),0);
+      const paid=invoices.reduce((a,x)=>a+safeNum(x.paid),0)+(db.equipmentPayments||[]).filter(x=>x.supplier===name&&!x.includedInInvoice).reduce((a,x)=>a+safeNum(x.amount),0);
+      return {name,total,paid,due:Math.max(0,total-paid)};
+    });
+  }
+  let editingEquipmentInvoiceId=null, editingEquipmentPaymentId=null;
+  function equipmentAssetFor(it){return db.networkAssets.find(x=>String(x.name).toLowerCase()===it.name.toLowerCase()&&(x.category||'أخرى')===it.category&&(x.model||'')===it.model);}
+  function reverseEquipmentInvoice(invoice){
+    for(const it of (invoice.items||[])){
+      const asset=equipmentAssetFor(it);
+      if(asset && safeNum(asset.stock)<safeNum(it.qty)){
+        alert('لا يمكن تعديل أو حذف هذه الفاتورة لأن بعض الكميات المشتراة صُرفت أو استُخدمت من المخزون. راجع المخزون أولاً.');
+        return false;
+      }
+    }
+    (invoice.items||[]).forEach(it=>{const asset=equipmentAssetFor(it);if(asset)asset.stock=Math.max(0,safeNum(asset.stock)-safeNum(it.qty));});
+    db.assetPurchases=(db.assetPurchases||[]).filter(x=>x.invoiceId!==invoice.id);
+    db.equipmentPayments=(db.equipmentPayments||[]).filter(x=>x.invoiceId!==invoice.id);
+    return true;
+  }
+  function viewEquipmentInvoice(id){
+    const x=db.equipmentInvoices.find(v=>v.id===id);if(!x)return;
+    const lines=(x.items||[]).map(i=>`${i.name} / ${i.category||''} / ${i.model||''} — ${i.qty} × ${moneyEq(i.cost)} = ${moneyEq(i.qty*i.cost)}`).join('\\n');
+    alert(`فاتورة شراء رقم: ${x.invoiceNo||'-'}\\nالمحل: ${x.supplier}\\nالتاريخ: ${x.date}\\n\\n${lines}\\n\\nالإجمالي: ${moneyEq(x.total)}\\nالمدفوع: ${moneyEq(x.paid)}\\nالمتبقي: ${moneyEq(Math.max(0,x.total-x.paid))}\\nملاحظات: ${x.notes||'-'}`);
+  }
+  function editEquipmentInvoice(id){
+    const x=db.equipmentInvoices.find(v=>v.id===id);if(!x)return;
+    editingEquipmentInvoiceId=id;
+    document.getElementById('eqSupplier').value=x.supplier||'';
+    document.getElementById('eqInvoiceNo').value=x.invoiceNo||'';
+    document.getElementById('eqDate').value=x.date||todayISO;
+    document.getElementById('eqPayType').value=x.payType||'credit';
+    document.getElementById('eqPaidInput').value=safeNum(x.paid);
+    document.getElementById('eqNotes').value=x.notes||'';
+    document.getElementById('eqPurchaseRows').innerHTML='';
+    (x.items||[]).forEach(it=>{addPurchaseRow();const r=document.querySelectorAll('.eq-purchase-row');const row=r[r.length-1];row.querySelector('.eq-r-name').value=it.name;row.querySelector('.eq-r-cat').value=it.category||'أخرى';row.querySelector('.eq-r-model').value=it.model||'';row.querySelector('.eq-r-qty').value=it.qty;row.querySelector('.eq-r-cost').value=it.cost;});
+    calcPurchaseTotal();
+    document.getElementById('eqSave').textContent='حفظ تعديل الفاتورة';
+    document.getElementById('eqSupplier').scrollIntoView({behavior:'smooth',block:'center'});
+  }
+  function deleteEquipmentInvoice(id){
+    const x=db.equipmentInvoices.find(v=>v.id===id);if(!x)return;
+    if(!confirm('هل تريد حذف فاتورة الشراء؟ سيتم عكس الكميات وحذف الدفعة المسجلة معها وتحديث حساب المحل والصندوق.'))return;
+    if(!reverseEquipmentInvoice(x))return;
+    db.equipmentInvoices=db.equipmentInvoices.filter(v=>v.id!==id);
+    saveDB();
+  }
+  function viewEquipmentPayment(id){
+    const x=db.equipmentPayments.find(v=>v.id===id);if(!x)return;
+    alert(`دفعة للمحل: ${x.supplier}\\nالتاريخ: ${x.date||'-'}\\nالمبلغ: ${moneyEq(x.amount)}\\nالبيان: ${x.note||'-'}`);
+  }
+  function editEquipmentPayment(id){
+    const x=db.equipmentPayments.find(v=>v.id===id);if(!x||x.includedInInvoice){alert('هذه الدفعة جزء من فاتورة الشراء؛ عدّل الفاتورة نفسها.');return;}
+    editingEquipmentPaymentId=id;
+    document.getElementById('eqPaymentSupplier').value=x.supplier;
+    document.getElementById('eqPaymentAmount').value=x.amount;
+    document.getElementById('eqPaymentDate').value=x.date||todayISO;
+    document.getElementById('eqPaymentNote').value=x.note||'';
+    document.getElementById('eqPaymentSave').textContent='حفظ تعديل الدفعة';
+  }
+  function deleteEquipmentPayment(id){
+    const x=db.equipmentPayments.find(v=>v.id===id);if(!x)return;
+    if(x.includedInInvoice){alert('هذه الدفعة مرتبطة بفاتورة الشراء؛ احذف أو عدّل الفاتورة نفسها.');return;}
+    if(!confirm('حذف هذه الدفعة وعكس أثرها على الصندوق ورصيد المحل؟'))return;
+    db.equipmentPayments=db.equipmentPayments.filter(v=>v.id!==id);saveDB();
+  }
+  function renderEquipment(){
+    if(!document.getElementById('eqPurchaseList'))return;
+    const invoices=db.equipmentInvoices||[], payments=db.equipmentPayments||[];
+    const total=invoices.reduce((a,x)=>a+safeNum(x.total),0)+(db.assetPurchases||[]).reduce((a,x)=>a+safeNum(x.total),0);
+    const paid=invoices.reduce((a,x)=>a+safeNum(x.paid),0)+payments.filter(x=>!x.includedInInvoice).reduce((a,x)=>a+safeNum(x.amount),0);
+    document.getElementById('eqCount').textContent=invoices.length+(db.assetPurchases||[]).length;
+    document.getElementById('eqPurchases').textContent=moneyEq(total);
+    document.getElementById('eqPaid').textContent=moneyEq(paid);
+    document.getElementById('eqDue').textContent=moneyEq(Math.max(0,total-paid));
+    const balances=supplierBalances();
+    document.getElementById('eqSupplierList').innerHTML=balances.length?`<div class="tablewrap"><table><thead><tr><th>المحل / المورد</th><th>إجمالي المشتريات</th><th>المدفوع</th><th>المتبقي</th></tr></thead><tbody>${balances.map(x=>`<tr><td><b>${escEq(x.name)}</b></td><td>${moneyEq(x.total)}</td><td>${moneyEq(x.paid)}</td><td><b>${moneyEq(x.due)}</b></td></tr>`).join('')}</tbody></table></div>`:'<div class="empty">لا توجد حسابات محلات مسجلة بعد</div>';
+    const sel=document.getElementById('eqPaymentSupplier'), old=sel.value;
+    sel.innerHTML='<option value="">اختر المحل</option>'+balances.filter(x=>x.due>0).map(x=>`<option value="${escEq(x.name)}">${escEq(x.name)} — متبقي ${moneyEq(x.due)}</option>`).join('');
+    if([...sel.options].some(o=>o.value===old))sel.value=old;
+    document.getElementById('eqPurchaseList').innerHTML=invoices.length?`<div class="tablewrap"><table><thead><tr><th>التاريخ</th><th>رقم الفاتورة</th><th>المحل</th><th>الأصناف</th><th>الإجمالي</th><th>المدفوع</th><th>المتبقي</th><th>طريقة الدفع</th><th>إجراءات</th></tr></thead><tbody>${invoices.slice().reverse().map(x=>`<tr><td>${escEq(x.date)}</td><td>${escEq(x.invoiceNo||'-')}</td><td>${escEq(x.supplier)}</td><td>${(x.items||[]).map(i=>escEq(i.name)+' × '+safeNum(i.qty)).join('<br>')}</td><td>${moneyEq(x.total)}</td><td>${moneyEq(x.paid)}</td><td>${moneyEq(Math.max(0,safeNum(x.total)-safeNum(x.paid)))}</td><td>${x.payType==='cash'?'نقداً':x.payType==='partial'?'جزئي':'آجل'}</td><td><button class="btn small" onclick="viewEquipmentInvoice('${x.id}')">عرض</button> <button class="btn small" onclick="editEquipmentInvoice('${x.id}')">تعديل</button> <button class="btn red small" onclick="deleteEquipmentInvoice('${x.id}')">حذف</button></td></tr>`).join('')}</tbody></table></div>`:'<div class="empty">لا توجد فواتير شراء مسجلة</div>';
+    document.getElementById('eqPaymentsList').innerHTML=payments.length?`<div class="tablewrap"><table><thead><tr><th>التاريخ</th><th>المحل</th><th>المبلغ</th><th>ملاحظات</th><th>إجراءات</th></tr></thead><tbody>${payments.slice().reverse().map(x=>`<tr><td>${escEq(x.date)}</td><td>${escEq(x.supplier)}</td><td>${moneyEq(x.amount)}</td><td>${escEq(x.note||'-')}</td><td><button class="btn small" onclick="viewEquipmentPayment('${x.id}')">عرض</button> <button class="btn small" onclick="editEquipmentPayment('${x.id}')" ${x.includedInInvoice?'disabled':''}>تعديل</button> <button class="btn red small" onclick="deleteEquipmentPayment('${x.id}')" ${x.includedInInvoice?'disabled':''}>حذف</button></td></tr>`).join('')}</tbody></table></div>`:'<div class="empty">لا توجد دفعات مسجلة</div>';
+  }
+  document.getElementById('eqAddRow')?.addEventListener('click',addPurchaseRow);
+  document.getElementById('eqPaidInput')?.addEventListener('input',calcPurchaseTotal);
+  document.getElementById('eqPayType')?.addEventListener('change',()=>{const t=document.getElementById('eqPayType').value;if(t==='cash'){document.getElementById('eqPaidInput').value=document.getElementById('eqTotal').value.replace(/,/g,'');}else if(t==='credit')document.getElementById('eqPaidInput').value='0';calcPurchaseTotal();});
+  document.getElementById('eqSave')?.addEventListener('click',()=>{
+    const supplier=document.getElementById('eqSupplier').value.trim(), items=purchaseRows(), total=items.reduce((a,x)=>a+x.qty*x.cost,0), paid=Math.min(total,Math.max(0,safeNum(document.getElementById('eqPaidInput').value)));
+    if(!supplier){alert('أدخل اسم المحل أو المورد أولاً');return}
+    if(!items.length){alert('أضف صنفاً واحداً على الأقل مع الكمية');return}
+    if(paid>total){alert('المبلغ المدفوع لا يمكن أن يكون أكبر من إجمالي الفاتورة');return}
+    const date=document.getElementById('eqDate').value||todayISO;
+    const invoice={id:editingEquipmentInvoiceId||'EQI'+Date.now(),supplier,invoiceNo:document.getElementById('eqInvoiceNo').value.trim(),date,items,total,paid,payType:paid===0?'credit':paid===total?'cash':'partial',notes:document.getElementById('eqNotes').value.trim(),createdAt:new Date().toISOString()};
+    if(editingEquipmentInvoiceId){
+      const old=db.equipmentInvoices.find(x=>x.id===editingEquipmentInvoiceId);
+      if(!old||!reverseEquipmentInvoice(old))return;
+      const idx=db.equipmentInvoices.findIndex(x=>x.id===editingEquipmentInvoiceId);
+      db.equipmentInvoices[idx]=invoice;
+    }else db.equipmentInvoices.push(invoice);
+    items.forEach(it=>{
+      let asset=db.networkAssets.find(x=>String(x.name).toLowerCase()===it.name.toLowerCase()&&(x.category||'أخرى')===it.category&&(x.model||'')===it.model);
+      if(!asset){asset={id:'NA'+Date.now()+Math.random().toString(16).slice(2,6),name:it.name,category:it.category,model:it.model,stock:0,cost:0};db.networkAssets.push(asset);}
+      const old=safeNum(asset.stock), next=old+it.qty;asset.cost=next?((old*safeNum(asset.cost)+it.qty*it.cost)/next):it.cost;asset.stock=next;
+      db.assetPurchases.push({id:'AP'+Date.now()+Math.random().toString(16).slice(2,6),invoiceId:invoice.id,name:it.name,category:it.category,model:it.model,qty:it.qty,cost:it.cost,total:it.qty*it.cost,supplier,date,notes:invoice.notes});
+    });
+    // Cash outflow is recorded only for the amount actually paid; credit remains a supplier payable.
+    if(paid>0){db.equipmentPayments.push({id:'EQP'+Date.now(),supplier,invoiceId:invoice.id,amount:paid,date,note:'دفعة عند تسجيل فاتورة الشراء',includedInInvoice:true});}
+    editingEquipmentInvoiceId=null;
+    saveDB();
+    document.getElementById('eqSave').textContent='حفظ فاتورة الشراء';
+    document.getElementById('eqSupplier').value='';document.getElementById('eqInvoiceNo').value='';document.getElementById('eqNotes').value='';document.getElementById('eqPaidInput').value='0';document.getElementById('eqPayType').value='credit';document.getElementById('eqPurchaseRows').innerHTML='';addPurchaseRow();calcPurchaseTotal();
+    alert('تم حفظ فاتورة الشراء وتحديث رصيد الأصناف وحساب المحل.');
+  });
+  document.getElementById('eqPaymentSave')?.addEventListener('click',()=>{
+    const supplier=document.getElementById('eqPaymentSupplier').value,amount=safeNum(document.getElementById('eqPaymentAmount').value),date=document.getElementById('eqPaymentDate').value||todayISO;
+    if(!supplier||amount<=0){alert('اختر المحل وأدخل مبلغاً صحيحاً');return}
+    const balance=supplierBalances().find(x=>x.name===supplier);
+    if(!balance){alert('لم يتم العثور على حساب المحل');return}
+    const old=editingEquipmentPaymentId?db.equipmentPayments.find(x=>x.id===editingEquipmentPaymentId):null;
+    const available=balance.due+(old?safeNum(old.amount):0);
+    if(amount>available){alert('المبلغ أكبر من الرصيد المتبقي للمحل');return}
+    if(old){old.supplier=supplier;old.amount=amount;old.date=date;old.note=document.getElementById('eqPaymentNote').value.trim();editingEquipmentPaymentId=null;document.getElementById('eqPaymentSave').textContent='تسجيل الدفعة';}
+    else db.equipmentPayments.push({id:'EQP'+Date.now(),supplier,amount,date,note:document.getElementById('eqPaymentNote').value.trim()});
+    saveDB();document.getElementById('eqPaymentAmount').value='';document.getElementById('eqPaymentNote').value='';
+    alert('تم حفظ الدفعة وتحديث حساب المحل والصندوق.');
+  });
+  window.viewEquipmentInvoice=viewEquipmentInvoice;
+  window.editEquipmentInvoice=editEquipmentInvoice;
+  window.deleteEquipmentInvoice=deleteEquipmentInvoice;
+  window.viewEquipmentPayment=viewEquipmentPayment;
+  window.editEquipmentPayment=editEquipmentPayment;
+  window.deleteEquipmentPayment=deleteEquipmentPayment;
+  addPurchaseRow();calcPurchaseTotal();renderEquipment();
+
+  const periodMonthInput=document.getElementById('periodMonth'), periodYearInput=document.getElementById('periodYear');
+  if(periodMonthInput&&!periodMonthInput.value)periodMonthInput.value=todayISO.slice(0,7);
+  if(periodYearInput&&!periodYearInput.value)periodYearInput.value=String(new Date().getFullYear());
+  function periodBounds(){
+    const type=document.getElementById('periodType').value;
+    if(type==='year'){
+      const y=Math.max(2000,Math.min(2100,parseInt(periodYearInput.value,10)||new Date().getFullYear()));
+      return {start:`${y}-01-01`,end:`${y+1}-01-01`,label:`السنة ${y}`};
+    }
+    const m=periodMonthInput.value||todayISO.slice(0,7), [y,mo]=m.split('-').map(Number);
+    const d=new Date(y,mo,1);
+    return {start:`${m}-01`,end:`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-01`,label:`شهر ${m}`};
+  }
+  function inPeriod(date,b){const d=String(date||'').slice(0,10);return d>=b.start&&d<b.end}
+  function renderPeriod(){
+    const b=periodBounds();
+    const invoices=db.invoices.filter(x=>inPeriod(x.date,b));
+    const expenses=(db.expenses||[]).filter(x=>inPeriod(x.date,b));
+    const payments=(db.payments||[]).filter(x=>inPeriod(x.date,b));
+    const purchases=(db.assetPurchases||[]).filter(x=>inPeriod(x.date,b));
+    const supplierPayments=(db.equipmentPayments||[]).filter(x=>inPeriod(x.date,b));
+    const sales=invoices.reduce((a,x)=>a+safeNum(x.sub),0);
+    const commissions=invoices.reduce((a,x)=>a+safeNum(x.commission),0);
+    const collected=invoices.reduce((a,x)=>a+(x.pay==='cash'||safeNum(x.payableOffset)>0?(x.cashReceived!==undefined?safeNum(x.cashReceived):Math.max(0,safeNum(x.total)-safeNum(x.payableOffset))):0),0)+payments.reduce((a,x)=>a+safeNum(x.amount),0);
+    const expenseTotal=expenses.reduce((a,x)=>a+safeNum(x.amount),0);
+    const equipmentTotal=(db.equipmentInvoices||[]).filter(x=>inPeriod(x.date,b)).reduce((a,x)=>a+safeNum(x.total),0)+purchases.filter(x=>!x.invoiceId).reduce((a,x)=>a+safeNum(x.total),0);
+    const equipmentPaid=supplierPayments.reduce((a,x)=>a+safeNum(x.amount),0);
+    const cost=invoices.reduce((a,x)=>a+(x.rows||[]).reduce((z,r)=>z+safeNum(r.qty)*safeNum(r.costAtSale),0),0);
+    const net=sales-commissions-cost-expenseTotal;
+    const due=invoices.filter(x=>x.pay==='credit').reduce((a,x)=>a+safeNum(x.total),0);
+    document.getElementById('periodReport').innerHTML=`<div class="period-heading"><b>${b.label}</b><span class="muted">${invoices.length} فاتورة · ${expenses.length} مصروف · ${purchases.length} عملية شراء أجهزة</span></div>
+      <div class="period-grid">
+        <div class="period-tile"><small>إجمالي المبيعات</small><strong>${money(sales)}</strong></div>
+        <div class="period-tile"><small>العمولات</small><strong>${money(commissions)}</strong></div>
+        <div class="period-tile"><small>تكلفة البضاعة المباعة</small><strong>${money(cost)}</strong></div>
+        <div class="period-tile"><small>المصروفات المسجلة</small><strong>${money(expenseTotal)}</strong></div>
+        <div class="period-tile"><small>صافي الربح التقديري</small><strong>${money(net)}</strong></div>
+        <div class="period-tile"><small>المبالغ المحصلة خلال الفترة</small><strong>${money(collected)}</strong></div>
+        <div class="period-tile"><small>قيمة الفواتير الآجلة الصادرة</small><strong>${money(due)}</strong></div>
+        <div class="period-tile"><small>مشتريات الأجهزة والمستلزمات</small><strong>${money(equipmentTotal)}</strong></div>
+        <div class="period-tile"><small>المدفوع للمحلات</small><strong>${money(equipmentPaid)}</strong></div>
+        <div class="period-tile"><small>المتبقي للمحلات (إجمالي)</small><strong>${money((db.equipmentInvoices||[]).reduce((a,x)=>a+Math.max(0,safeNum(x.total)-safeNum(x.paid)),0)+(db.assetPurchases||[]).filter(x=>!x.invoiceId).reduce((a,x)=>a+safeNum(x.total),0)-(db.equipmentPayments||[]).filter(x=>!x.includedInInvoice).reduce((a,x)=>a+safeNum(x.amount),0))}</strong></div>
+      </div>
+      <p class="muted" style="margin-top:10px">صافي الربح تقديري وفق تكلفة الأصناف والعمولات والمصروفات المسجلة. مشتريات الأجهزة والمدفوع للمحلات والرصيد المتبقي تظهر منفصلة. الدفع النقدي ينعكس على الصندوق، والآجل يبقى التزاماً على الشبكة.</p>`;
+    window.__nailPeriodPrintTitle=b.label;
+  }
+  document.getElementById('periodType')?.addEventListener('change',()=>{
+    const y=document.getElementById('periodType').value==='year';
+    document.getElementById('periodMonthWrap').style.display=y?'none':'';
+    document.getElementById('periodYearWrap').style.display=y?'':'none';
+    renderPeriod();
+  });
+  document.getElementById('periodRun')?.addEventListener('click',renderPeriod);
+  document.getElementById('periodPrint')?.addEventListener('click',()=>{
+    renderPeriod();
+    const content=document.getElementById('periodReport').innerHTML;
+    const w=window.open('','_blank'); if(!w){alert('اسمح بفتح النوافذ المنبثقة لطباعة التقرير');return}
+    w.document.write(`<!doctype html><html lang="ar" dir="rtl"><meta charset="utf-8"><title>تقرير ${esc(window.__nailPeriodPrintTitle||'')}</title><style>body{font-family:Tahoma,Arial;padding:24px;color:#111}h2{margin-top:0}.period-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.period-tile{border:1px solid #ddd;border-radius:10px;padding:12px}.period-tile small{display:block;color:#666;margin-bottom:6px}.period-tile strong{font-size:18px}p{line-height:1.8}</style><h2>شبكة النائل — ${esc(window.__nailPeriodPrintTitle||'التقرير')}</h2>${content}<script>window.onload=()=>window.print()<\/script></html>`);
+    w.document.close();
+  });
+
+  // Attach a PDF-sharing action to invoice history. The user must approve each send.
+  const originalRenderInvoices=renderInvoices;
+  renderInvoices=function(){
+    originalRenderInvoices();
+    document.querySelectorAll('#invoiceList tbody tr').forEach(tr=>{
+      const buttons=tr.querySelectorAll('button');
+      const printBtn=[...buttons].find(b=>(b.textContent||'').includes('طباعة'));
+      if(!printBtn || tr.querySelector('.waPdfBtn'))return;
+      const idMatch=(printBtn.getAttribute('onclick')||'').match(/printInvoice\('([^']+)'\)/);
+      if(!idMatch)return;
+      const btn=document.createElement('button');btn.className='btn small waPdfBtn';btn.style.background='#128c7e';btn.textContent='PDF واتساب';
+      btn.onclick=()=>shareInvoicePdf(idMatch[1]); printBtn.after(btn);
+    });
+  };
+  async function loadPdfLib(){
+    if(window.html2pdf)return;
+    await new Promise((resolve,reject)=>{
+      const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+      s.onload=resolve;s.onerror=()=>reject(new Error('تعذر تحميل مكتبة إنشاء PDF. تحقق من اتصال الإنترنت.'));document.head.appendChild(s);
+    });
+  }
+  async function shareInvoicePdf(id){
+    const x=db.invoices.find(v=>v.id===id);if(!x)return;
+    const grocer=db.grocers.find(g=>g.name===x.customer);
+    const phone=(grocer?.phone||'').replace(/[^\d]/g,'');
+    if(!confirm(`هل تريد إنشاء ملف PDF للفاتورة رقم ${x.no} ومشاركته عبر واتساب؟`))return;
+    try{
+      await loadPdfLib();
+      const lines=(x.rows||[]).map(r=>`<tr><td>${esc(r.itemName||db.items.find(i=>i.id===r.itemId)?.name||'صنف')}</td><td>${safeNum(r.qty)}</td><td>${money(r.price)}</td><td>${money(safeNum(r.qty)*safeNum(r.price))}</td></tr>`).join('');
+      const node=document.createElement('div');
+      node.dir='rtl';node.style.cssText='width:760px;padding:28px;background:#fff;color:#111;font-family:Tahoma,Arial;line-height:1.7';
+      node.innerHTML=`<div style="border-bottom:3px solid #1d4ed8;padding-bottom:14px;margin-bottom:18px"><h1 style="margin:0;color:#1d4ed8">${esc(db.settings.name||'شبكة النائل')}</h1><b>فاتورة مبيعات</b></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px"><div>رقم الفاتورة: <b>${esc(x.no)}</b></div><div>التاريخ: <b>${esc(x.date)}</b></div><div>البقالة: <b>${esc(x.customer||'-')}</b></div><div>طريقة الدفع: <b>${x.pay==='credit'?'آجل':'نقدي'}</b></div></div><table style="width:100%;border-collapse:collapse"><thead><tr style="background:#eff6ff"><th>الصنف</th><th>الكمية</th><th>سعر الوحدة</th><th>الإجمالي</th></tr></thead><tbody>${lines}</tbody></table><div style="margin-top:18px;border-top:1px solid #ddd;padding-top:12px"><div>الإجمالي قبل العمولة: <b>${money(x.sub)}</b></div><div>العمولة: <b>${money(x.commission)}</b></div><div style="font-size:20px;color:#1d4ed8">المطلوب: <b>${money(x.total)}</b></div></div><p style="margin-top:26px;color:#555">شكراً لتعاملكم مع ${esc(db.settings.name||'شبكة النائل')}</p>`;
+      document.body.appendChild(node);
+      const blob=await window.html2pdf().set({margin:8,filename:`فاتورة_${x.no}.pdf`,image:{type:'jpeg',quality:.96},html2canvas:{scale:2,useCORS:true},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}}).from(node).outputPdf('blob');
+      node.remove();
+      const file=new File([blob],`فاتورة_${x.no}.pdf`,{type:'application/pdf'});
+      const message=`فاتورة رقم ${x.no} من ${db.settings.name||'شبكة النائل'} — ${x.date}`;
+      if(navigator.share && navigator.canShare && navigator.canShare({files:[file]})){
+        await navigator.share({title:`فاتورة ${x.no}`,text:message,files:[file]});
+      }else{
+        const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=file.name;a.click();setTimeout(()=>URL.revokeObjectURL(url),30000);
+        const wa=phone?`https://wa.me/${phone}?text=${encodeURIComponent(message+'\\nتم تنزيل ملف PDF؛ أرفقه من المحادثة.')}`:`https://wa.me/?text=${encodeURIComponent(message+'\\nأرفق ملف PDF الذي تم تنزيله.')}`;
+        window.open(wa,'_blank');
+        alert('تم تنزيل ملف PDF وفتح واتساب. أرفق الملف الذي تم تنزيله داخل المحادثة ثم أرسله.');
+      }
+    }catch(e){console.error(e);alert('تعذر تجهيز PDF: '+(e.message||'خطأ غير معروف'))}
+  }
+  window.shareInvoicePdf=shareInvoicePdf;
+
+  // Include the added page in existing navigation and refresh cycle.
+  const originalGo=go;
+  go=function(page){originalGo(page);if(page==='equipment')renderEquipment();if(page==='reports')renderPeriod()};
+  const originalRefreshAll=refreshAll;
+  refreshAll=function(){originalRefreshAll();renderEquipment();if(document.getElementById('periodReport'))renderPeriod()};
+  renderEquipment();
+  renderPeriod();
+})();
 </script>
 </body></html>
