@@ -379,13 +379,39 @@ th{background:#eff6ff !important;color:#1e3a8a !important}
 <div class="panel"><h2>سجل التحصيلات والحركات النقدية</h2><div id="cashLedger"></div></div>
 </section>
 <section id="expenses" class="page">
-<div class="panel"><h2>تسجيل مصروف</h2><div class="row">
-<div class="field"><label>التاريخ</label><input id="expDate" type="date"></div>
-<div class="field"><label>نوع المصروف</label><input id="expType" placeholder="كهرباء، إنترنت، نقل..."></div>
-<div class="field"><label>البيان</label><input id="expDesc" placeholder="تفاصيل المصروف"></div>
-<div class="field"><label>المبلغ</label><input id="expAmount" type="number" min="0"></div>
-</div><div class="actions"><button class="btn green" id="saveExpense">حفظ المصروف</button></div></div>
-<div class="panel"><h2>سجل المصروفات</h2><div id="expenseList"></div></div>
+  <div class="homeWelcome">
+    <div><span class="welcomeEyebrow">إدارة المصروفات</span><h2>المصروفات والتكاليف</h2><p>سجل كل مصروف مع الجهة المستفيدة ورقم السند والتفاصيل، وراجع حركة المصروفات بسهولة</p></div>
+    <div class="welcomeMark" aria-hidden="true">ر.ي</div>
+  </div>
+  <div class="grid dashboardGrid" style="margin-bottom:14px">
+    <div class="card metric"><small>إجمالي المصروفات</small><strong id="expAllTotal">0</strong><div class="muted">من بداية السجل</div></div>
+    <div class="card metric"><small>مصروفات هذا الشهر</small><strong id="expMonthTotal">0</strong><div class="muted">حسب تاريخ المصروف</div></div>
+    <div class="card metric"><small>عدد العمليات</small><strong id="expCount">0</strong><div class="muted">عدد المصروفات المسجلة</div></div>
+  </div>
+  <div class="panel">
+    <div class="row" style="justify-content:space-between;align-items:center"><h2 id="expenseFormTitle">تسجيل مصروف جديد</h2><span class="pill">العملة: ريال يمني</span></div>
+    <div class="row">
+      <div class="field"><label>تاريخ المصروف</label><input id="expDate" type="date"></div>
+      <div class="field"><label>نوع المصروف</label><input id="expType" list="expenseTypes" placeholder="اختر أو اكتب نوع المصروف"></div>
+      <datalist id="expenseTypes"><option value="كهرباء"><option value="إنترنت"><option value="نقل ومواصلات"><option value="صيانة"><option value="إيجار"><option value="مشتريات تشغيلية"><option value="رواتب وأجور"><option value="ضيافة"><option value="أخرى"></datalist>
+      <div class="field"><label>الجهة المستفيدة / المحل</label><input id="expPayee" placeholder="اسم الشخص أو المحل"></div>
+      <div class="field"><label>المبلغ بالريال اليمني</label><input id="expAmount" type="number" min="0" step="any" placeholder="أدخل المبلغ"></div>
+    </div>
+    <div class="row">
+      <div class="field"><label>البيان / تفاصيل المصروف</label><input id="expDesc" placeholder="ما الذي تم دفعه؟"></div>
+      <div class="field"><label>رقم الفاتورة أو السند</label><input id="expRef" placeholder="اختياري"></div>
+      <div class="field"><label>ملاحظات إضافية</label><input id="expNotes" placeholder="ملاحظات"></div>
+    </div>
+    <div class="actions">
+      <button class="btn green" id="saveExpense" type="button">حفظ المصروف</button>
+      <button class="btn secondary" id="cancelExpenseEdit" type="button" style="display:none">إلغاء التعديل</button>
+    </div>
+    <p class="muted">تُسجل هذه العملية كمصروف على النشاط وتظهر في ملخص المصروفات والتقارير.</p>
+  </div>
+  <div class="panel">
+    <div class="row" style="justify-content:space-between;align-items:center"><h2>سجل المصروفات</h2><input id="expenseSearch" placeholder="بحث بالنوع أو البيان أو المحل أو رقم السند" style="max-width:360px"></div>
+    <div id="expenseList"></div>
+  </div>
 </section>
 
 <section id="reports" class="page">
@@ -761,9 +787,62 @@ function deleteBankAccount(id){if(db.bankTransfers.some(x=>x.accountId===id)){al
 function renderCashbox(){let t=cashTotals(),debt=allCustomerNames().reduce((a,n)=>a+customerDue(n),0);renderBanking();$('cashBalance').textContent=money(t.balance);$('debtBalance').textContent=money(debt);$('collectedTotal').textContent=money(t.collected);$('manualCashTotal').textContent=money(t.manual);let rows=[...db.invoices.filter(x=>(x.pay==='cash'||(+x.payableOffset||0)>0)&&((x.cashReceived!==undefined?+x.cashReceived:Math.max(0,(+x.total||0)-(+x.payableOffset||0)))>0)).map(x=>({...x,amount:x.cashReceived!==undefined?+x.cashReceived:Math.max(0,(+x.total||0)-(+x.payableOffset||0)),kind:(+x.payableOffset||0)>0?'باقي فاتورة بعد مقاصة الدين':'مبيعات فاتورة',flow:'in',desc:(x.customer||'')+' — فاتورة رقم '+x.no})),...db.payments.map(x=>({...x,kind:'تحصيل من بقالة',flow:'in',desc:x.customer})),...(db.grocerDebtPayments||[]).map(x=>({...x,kind:'سداد دين لصاحب بقالة',flow:'out',desc:x.grocer})),...(db.equipmentPayments||[]).map(x=>({...x,kind:'سداد مشتريات أجهزة ومستلزمات',flow:'out',desc:x.supplier+' — '+(x.note||'')})),...db.cashMoves.map(x=>({...x,kind:x.type==='in'?'إيداع نقدي':'سحب نقدي',flow:x.type,desc:x.desc})),...db.bankTransfers.map(x=>({...x,kind:x.direction==='toBank'?'تحويل من الصندوق للبنك':'سحب من البنك للصندوق',flow:x.direction==='toBank'?'out':'in',desc:(db.bankAccounts.find(a=>a.id===x.accountId)?.name||'حساب بنكي')+' '+(x.note||''),id:x.id})),...db.expenses.map(x=>({...x,kind:'مصروف',flow:'out',desc:x.type+' '+(x.desc||'')}))].sort((a,b)=>(b.date||'').localeCompare(a.date||''));$('cashLedger').innerHTML=rows.length?`<div class="tablewrap"><table><tr><th>التاريخ</th><th>النوع</th><th>البيان</th><th>وارد</th><th>صادر</th><th>إجراء</th></tr>${rows.map(x=>`<tr><td>${esc(x.date)}</td><td>${x.kind}</td><td>${esc(x.desc||'')}</td><td>${x.flow==='in'?money(x.amount):'-'}</td><td>${x.flow==='out'?money(x.amount):'-'}</td><td>${x.id&&x.id[0]==='R'?`<button class="btn red small" onclick="deletePayment('${x.id}')">حذف</button>`:x.id&&x.id.startsWith('GP')?`<button class="btn red small" onclick="deleteGrocerDebtEntry('${x.id}','payment')">حذف</button>`:x.id&&x.id[0]==='M'?`<button class="btn red small" onclick="deleteCashMove('${x.id}')">حذف</button>`:x.id&&x.id.startsWith('BT')?`<button class="btn red small" onclick="deleteBankTransfer('${x.id}')">حذف / عكس</button>`:'-'}</td></tr>`).join('')}</table></div>`:'<div class="empty">لا توجد حركات نقدية</div>'}
 function deletePayment(id){if(confirm('حذف التحصيل؟ سيعاد احتساب الدين والصندوق تلقائياً.')){db.payments=db.payments.filter(x=>x.id!==id);saveDB()}}
 function deleteCashMove(id){if(confirm('حذف الحركة النقدية؟')){db.cashMoves=db.cashMoves.filter(x=>x.id!==id);saveDB()}}
-$('saveExpense').onclick=()=>{let amount=+$('expAmount').value||0;if(amount<=0){alert('أدخل مبلغاً صحيحاً');return}db.expenses.unshift({id:'E'+Date.now(),date:$('expDate').value||today(),type:$('expType').value,desc:$('expDesc').value,amount});saveDB();$('expType').value='';$('expDesc').value='';$('expAmount').value=''};
-function deleteExpense(id){if(confirm('حذف المصروف؟')){db.expenses=db.expenses.filter(x=>x.id!==id);saveDB()}}
-function renderExpenses(){$('expenseList').innerHTML=db.expenses.length?`<div class="tablewrap"><table><tr><th>التاريخ</th><th>النوع</th><th>البيان</th><th>المبلغ</th><th>حذف</th></tr>${db.expenses.map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${money(x.amount)}</td><td><button class="btn red small" onclick="deleteExpense('${x.id}')">حذف</button></td></tr>`).join('')}</table></div>`:'<div class="empty">لا توجد مصروفات</div>'}
+let editingExpenseId=null;
+function expenseMoney(n){return money(+n||0)}
+function clearExpenseForm(){
+  editingExpenseId=null;
+  ['expType','expDesc','expAmount','expPayee','expRef','expNotes'].forEach(id=>$(id).value='');
+  $('expDate').value=today();
+  $('saveExpense').textContent='حفظ المصروف';
+  $('expenseFormTitle').textContent='تسجيل مصروف جديد';
+  $('cancelExpenseEdit').style.display='none';
+}
+function viewExpense(id){
+  const x=db.expenses.find(v=>v.id===id);if(!x)return;
+  alert(`تفاصيل المصروف\\nالتاريخ: ${x.date||'-'}\\nالنوع: ${x.type||'-'}\\nالجهة المستفيدة: ${x.payee||'-'}\\nالبيان: ${x.desc||'-'}\\nرقم الفاتورة/السند: ${x.ref||'-'}\\nالمبلغ: ${expenseMoney(x.amount)}\\nملاحظات: ${x.notes||'-'}`);
+}
+function editExpense(id){
+  const x=db.expenses.find(v=>v.id===id);if(!x)return;
+  editingExpenseId=id;
+  $('expDate').value=x.date||today();$('expType').value=x.type||'';
+  $('expDesc').value=x.desc||'';$('expAmount').value=x.amount||0;
+  $('expPayee').value=x.payee||'';$('expRef').value=x.ref||'';$('expNotes').value=x.notes||'';
+  $('saveExpense').textContent='حفظ التعديل';$('expenseFormTitle').textContent='تعديل المصروف';
+  $('cancelExpenseEdit').style.display='inline-flex';
+  $('expDate').scrollIntoView({behavior:'smooth',block:'center'});
+}
+function deleteExpense(id){
+  const x=db.expenses.find(v=>v.id===id);if(!x)return;
+  if(confirm('هل تريد حذف هذا المصروف؟ سيتم تحديث إجمالي المصروفات والتقارير.')){
+    db.expenses=db.expenses.filter(v=>v.id!==id);saveDB();
+  }
+}
+function saveExpenseRecord(){
+  const amount=+$('expAmount').value||0;
+  if(amount<=0){alert('أدخل مبلغاً صحيحاً أكبر من صفر');return}
+  if(!$('expType').value.trim()){alert('حدد نوع المصروف');return}
+  if(!$('expDesc').value.trim()){alert('اكتب بيان المصروف');return}
+  const record={id:editingExpenseId||'E'+Date.now(),date:$('expDate').value||today(),type:$('expType').value.trim(),desc:$('expDesc').value.trim(),amount,payee:$('expPayee').value.trim(),ref:$('expRef').value.trim(),notes:$('expNotes').value.trim()};
+  if(editingExpenseId){
+    const idx=db.expenses.findIndex(x=>x.id===editingExpenseId);if(idx<0){alert('تعذر العثور على المصروف');return}
+    db.expenses[idx]=record;
+  }else db.expenses.unshift(record);
+  saveDB();clearExpenseForm();alert('تم حفظ المصروف وتحديث الحسابات.');
+}
+$('saveExpense').onclick=saveExpenseRecord;
+$('cancelExpenseEdit').onclick=clearExpenseForm;
+$('expenseSearch').addEventListener('input',renderExpenses);
+function renderExpenses(){
+  const list=db.expenses||[],month=today().slice(0,7);
+  const total=list.reduce((a,x)=>a+(+x.amount||0),0);
+  const monthTotal=list.filter(x=>(x.date||'').slice(0,7)===month).reduce((a,x)=>a+(+x.amount||0),0);
+  $('expAllTotal').textContent=expenseMoney(total);$('expMonthTotal').textContent=expenseMoney(monthTotal);$('expCount').textContent=list.length;
+  const q=($('expenseSearch')?.value||'').trim().toLowerCase();
+  const filtered=list.filter(x=>[x.type,x.desc,x.payee,x.ref,x.notes].join(' ').toLowerCase().includes(q));
+  $('expenseList').innerHTML=filtered.length?`<div class="tablewrap"><table><thead><tr><th>التاريخ</th><th>نوع المصروف</th><th>الجهة المستفيدة</th><th>البيان</th><th>رقم السند</th><th>المبلغ</th><th>الإجراءات</th></tr></thead><tbody>${filtered.map(x=>`<tr><td>${esc(x.date||'-')}</td><td>${esc(x.type||'-')}</td><td>${esc(x.payee||'-')}</td><td>${esc(x.desc||'-')}</td><td>${esc(x.ref||'-')}</td><td><b>${expenseMoney(x.amount)}</b></td><td><button class="btn small" onclick="viewExpense('${x.id}')">عرض</button> <button class="btn small" onclick="editExpense('${x.id}')">تعديل</button> <button class="btn red small" onclick="deleteExpense('${x.id}')">حذف</button></td></tr>`).join('')}</tbody></table></div>`:'<div class="empty">لا توجد مصروفات مطابقة</div>';
+}
+window.viewExpense=viewExpense;window.editExpense=editExpense;window.deleteExpense=deleteExpense;
+if($('expDate')&&!$('expDate').value)$('expDate').value=today();
 function renderReports(){let sales=db.invoices.reduce((a,x)=>a+x.sub,0),profit=db.invoices.reduce((a,x)=>a+x.rows.reduce((b,r)=>{let it=db.items.find(i=>i.id===r.itemId);return b+r.qty*(r.price-(r.costAtSale??it?.cost??0))},0),0),exp=db.expenses.reduce((a,x)=>a+x.amount,0);let cashSales=db.invoices.filter(x=>x.pay==='cash'||(+x.payableOffset||0)>0).reduce((a,x)=>a+(x.cashReceived!==undefined?+x.cashReceived:Math.max(0,(+x.total||0)-(+x.payableOffset||0))),0),creditSales=db.invoices.filter(x=>x.pay==='credit'&&!(+x.payableOffset>0)).reduce((a,x)=>a+x.total,0),net=profit-db.invoices.reduce((a,x)=>a+x.commission,0)-exp,ct=cashTotals(),debt=allCustomerNames().reduce((a,n)=>a+customerDue(n),0);$('reportSummary').innerHTML=`<div class="summaryTiles"><div class="summaryTile blue"><small>إجمالي قيمة الأصناف المباعة</small><strong>${money(sales)}</strong></div><div class="summaryTile green"><small>الربح قبل المصروفات والعمولات</small><strong>${money(profit)}</strong></div><div class="summaryTile red"><small>إجمالي المصروفات</small><strong>${money(exp)}</strong></div><div class="summaryTile blue"><small>المبيعات النقدية</small><strong>${money(cashSales)}</strong></div><div class="summaryTile amber"><small>إجمالي الفواتير الآجلة</small><strong>${money(creditSales)}</strong></div><div class="summaryTile purple"><small>صافي الربح التقديري</small><strong>${money(net)}</strong></div><div class="summaryTile green"><small>رصيد الصندوق الحالي</small><strong>${money(ct.balance)}</strong></div><div class="summaryTile amber"><small>الديون المتبقية</small><strong>${money(debt)}</strong></div><div class="summaryTile blue"><small>إجمالي التحصيلات</small><strong>${money(ct.collected)}</strong></div></div>`;$('stockReport').innerHTML=db.items.length?`<div class="tablewrap"><table><tr><th>الصنف</th><th>المخزون المتبقي</th><th>الكمية المباعة</th><th>قيمة المبيعات</th></tr>${db.items.map(it=>{let rows=db.invoices.flatMap(x=>x.rows).filter(r=>r.itemId===it.id);return `<tr><td>${esc(it.name)}</td><td>${+it.stock||0}</td><td>${rows.reduce((a,r)=>a+r.qty,0)}</td><td>${money(rows.reduce((a,r)=>a+r.qty*r.price,0))}</td></tr>`}).join('')}</table></div>`:'لا توجد أصناف'}
 // الربح المحقّق يعتمد على التحصيل الفعلي، وليس على تسجيل الدين.
 // توزع التحصيلات على الفواتير الآجلة حسب كشف حساب كل بقالة، وتُحتسب
