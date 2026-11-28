@@ -1106,34 +1106,54 @@ if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('cont
   document.getElementById('eqAddRow')?.addEventListener('click',addPurchaseRow);
   document.getElementById('eqPaidInput')?.addEventListener('input',calcPurchaseTotal);
   document.getElementById('eqPayType')?.addEventListener('change',()=>{const t=document.getElementById('eqPayType').value;if(t==='cash'){document.getElementById('eqPaidInput').value=document.getElementById('eqTotal').value.replace(/,/g,'');}else if(t==='credit')document.getElementById('eqPaidInput').value='0';calcPurchaseTotal();});
-  document.getElementById('eqSave')?.addEventListener('click',()=>{
-    const supplier=document.getElementById('eqSupplier').value.trim(), items=purchaseRows(), total=items.reduce((a,x)=>a+x.qty*x.cost,0), paid=Math.min(total,Math.max(0,safeNum(document.getElementById('eqPaidInput').value)));
-    if(!supplier){alert('أدخل اسم المحل أو المورد أولاً');return}
-    if(!items.length){alert('أضف صنفاً واحداً على الأقل مع الكمية');return}
-    if(items.some(x=>x.currency==='USD'&&x.exchangeRate<=0)){alert('حدّث سعر بيع الدولار في لوحة سعر الصرف قبل تسجيل شراء بالدولار');return}
-    if(paid>total){alert('المبلغ المدفوع لا يمكن أن يكون أكبر من إجمالي الفاتورة');return}
-    const date=document.getElementById('eqDate').value||todayISO;
-    const invoice={id:editingEquipmentInvoiceId||'EQI'+Date.now(),supplier,invoiceNo:document.getElementById('eqInvoiceNo').value.trim(),date,items,total,paid,exchangeRateSnapshot:db.exchangeRateAdenUsd?.sell||0,payType:paid===0?'credit':paid===total?'cash':'partial',notes:document.getElementById('eqNotes').value.trim(),createdAt:new Date().toISOString()};
-    if(editingEquipmentInvoiceId){
-      const old=db.equipmentInvoices.find(x=>x.id===editingEquipmentInvoiceId);
-      if(!old||!reverseEquipmentInvoice(old))return;
-      const idx=db.equipmentInvoices.findIndex(x=>x.id===editingEquipmentInvoiceId);
-      db.equipmentInvoices[idx]=invoice;
-    }else db.equipmentInvoices.push(invoice);
-    items.forEach(it=>{
-      let asset=db.networkAssets.find(x=>String(x.name).toLowerCase()===it.name.toLowerCase()&&(x.category||'أخرى')===it.category&&(x.model||'')===it.model);
-      if(!asset){asset={id:'NA'+Date.now()+Math.random().toString(16).slice(2,6),name:it.name,category:it.category,model:it.model,stock:0,cost:0};db.networkAssets.push(asset);}
-      const old=safeNum(asset.stock), next=old+it.qty;asset.cost=next?((old*safeNum(asset.cost)+it.qty*it.cost)/next):it.cost;asset.stock=next;
-      db.assetPurchases.push({id:'AP'+Date.now()+Math.random().toString(16).slice(2,6),invoiceId:invoice.id,name:it.name,category:it.category,model:it.model,qty:it.qty,cost:it.cost,total:it.qty*it.cost,currency:it.currency||'YER',foreignCost:it.foreignCost??it.cost,exchangeRate:it.exchangeRate||1,supplier,date,notes:invoice.notes});
-    });
-    // Cash outflow is recorded only for the amount actually paid; credit remains a supplier payable.
-    if(paid>0){db.equipmentPayments.push({id:'EQP'+Date.now(),supplier,invoiceId:invoice.id,amount:paid,date,note:'دفعة عند تسجيل فاتورة الشراء',includedInInvoice:true});}
-    editingEquipmentInvoiceId=null;
-    saveDB();
-    document.getElementById('eqSave').textContent='حفظ فاتورة الشراء';
-    document.getElementById('eqSupplier').value='';document.getElementById('eqInvoiceNo').value='';document.getElementById('eqNotes').value='';document.getElementById('eqPaidInput').value='0';document.getElementById('eqPayType').value='credit';document.getElementById('eqPurchaseRows').innerHTML='';addPurchaseRow();calcPurchaseTotal();
-    alert('تم حفظ فاتورة الشراء وتحديث رصيد الأصناف وحساب المحل.');
-  });
+  const equipmentSaveButton=document.getElementById('eqSave');
+  if(equipmentSaveButton){
+    equipmentSaveButton.type='button';
+    equipmentSaveButton.onclick=function(){
+      try{
+        const supplier=document.getElementById('eqSupplier').value.trim();
+        const items=purchaseRows();
+        const total=items.reduce((a,x)=>a+x.qty*x.cost,0);
+        const paid=Math.max(0,safeNum(document.getElementById('eqPaidInput').value));
+        if(!supplier){alert('أدخل اسم المحل أو المورد أولاً');return}
+        if(!items.length){alert('أدخل اسم صنف وكمية صحيحة وسعر شراء');return}
+        if(items.some(x=>x.currency==='USD'&&x.exchangeRate<=0)){alert('حدّث سعر بيع الدولار في لوحة سعر الصرف قبل تسجيل شراء بالدولار');return}
+        if(paid>total){alert('المبلغ المدفوع أكبر من إجمالي الفاتورة');return}
+        const date=document.getElementById('eqDate').value||todayISO;
+        const invoice={id:editingEquipmentInvoiceId||'EQI'+Date.now(),supplier,invoiceNo:document.getElementById('eqInvoiceNo').value.trim(),date,items,total,paid,exchangeRateSnapshot:db.exchangeRateAdenUsd?.sell||0,payType:paid===0?'credit':paid===total?'cash':'partial',notes:document.getElementById('eqNotes').value.trim(),createdAt:new Date().toISOString()};
+        if(editingEquipmentInvoiceId){
+          const old=db.equipmentInvoices.find(x=>x.id===editingEquipmentInvoiceId);
+          if(!old){alert('تعذر العثور على الفاتورة المراد تعديلها');return}
+          if(!reverseEquipmentInvoice(old))return;
+          const idx=db.equipmentInvoices.findIndex(x=>x.id===editingEquipmentInvoiceId);
+          db.equipmentInvoices[idx]=invoice;
+        }else db.equipmentInvoices.push(invoice);
+        items.forEach(it=>{
+          let asset=db.networkAssets.find(x=>String(x.name).toLowerCase()===it.name.toLowerCase()&&(x.category||'أخرى')===it.category&&(x.model||'')===it.model);
+          if(!asset){asset={id:'NA'+Date.now()+Math.random().toString(16).slice(2,6),name:it.name,category:it.category,model:it.model,stock:0,cost:0};db.networkAssets.push(asset);}
+          const oldQty=safeNum(asset.stock),next=oldQty+it.qty;
+          asset.cost=next?((oldQty*safeNum(asset.cost)+it.qty*it.cost)/next):it.cost;
+          asset.stock=next;
+          db.assetPurchases.push({id:'AP'+Date.now()+Math.random().toString(16).slice(2,6),invoiceId:invoice.id,name:it.name,category:it.category,model:it.model,qty:it.qty,cost:it.cost,total:it.qty*it.cost,currency:it.currency||'YER',foreignCost:it.foreignCost??it.cost,exchangeRate:it.exchangeRate||1,supplier,date,notes:invoice.notes});
+        });
+        if(paid>0)db.equipmentPayments.push({id:'EQP'+Date.now(),supplier,invoiceId:invoice.id,amount:paid,date,note:'دفعة عند تسجيل فاتورة الشراء',includedInInvoice:true});
+        editingEquipmentInvoiceId=null;
+        saveDB();
+        document.getElementById('eqSave').textContent='حفظ فاتورة الشراء';
+        document.getElementById('eqSupplier').value='';
+        document.getElementById('eqInvoiceNo').value='';
+        document.getElementById('eqNotes').value='';
+        document.getElementById('eqPaidInput').value='0';
+        document.getElementById('eqPayType').value='credit';
+        document.getElementById('eqPurchaseRows').innerHTML='';
+        addPurchaseRow();calcPurchaseTotal();
+        alert('تم حفظ فاتورة الشراء وتحديث المخزون وحساب المحل.');
+      }catch(err){
+        console.error('Equipment purchase save failed:',err);
+        alert('تعذر حفظ فاتورة الشراء بسبب خطأ: '+(err&&err.message?err.message:'خطأ غير معروف')+'، لم يتم تأكيد الحفظ. أرسل لي صورة الرسالة إذا تكررت.');
+      }
+    };
+  }
   document.getElementById('eqPaymentSave')?.addEventListener('click',()=>{
     const supplier=document.getElementById('eqPaymentSupplier').value,amount=safeNum(document.getElementById('eqPaymentAmount').value),date=document.getElementById('eqPaymentDate').value||todayISO;
     if(!supplier||amount<=0){alert('اختر المحل وأدخل مبلغاً صحيحاً');return}
